@@ -73,7 +73,15 @@ from itertools import permutations as p
 
 def main():
     
-    
+    gothec = {1:7, 3:3, 5:5, 7:7, 9:9}
+    M, D = i_map()
+    if M in gothec:
+        if gothec[M] == D:
+            print("Yes")
+        else:
+            print("No")
+    else:
+        print("No")
 
     return
 ######################################################

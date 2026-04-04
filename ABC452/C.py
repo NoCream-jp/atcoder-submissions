@@ -25,40 +25,6 @@ def i_list():
 def c_list():
     return list(input().split())
 
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
-
 from collections import defaultdict
 from sortedcontainers import SortedList
 from collections import deque
@@ -72,8 +38,53 @@ from itertools import permutations as p
 
 
 def main():
+
+    """
+    S_jの長さがNでなければアウト
+    2000万くらい
+    肋骨iの候補を置いといて，sjを抜いた肋骨i候補のうちBi文字目がヒットするものがあるか
+    順に見るだけ
+    毎回sjを戻す
+    """
     
-    
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+
+    M = int(input())
+    d = [set() for i in range(M)]
+    S  = []
+    for _ in range(M):
+        s = input()
+        d[len(s)].add(s)
+        S.append(s)
+    # print(d)
+
+    bone = []
+    for i in range(N):
+        length, idx = l[i][0], l[i][1]
+        # Bi文字目だけを入れる
+        tmp = defaultdict(int)
+        for c in d[length]:
+            if idx <= len(c):
+                tmp[c[idx-1]] += 1
+        bone.append(tmp)
+
+    for j in range(M):
+        sj = S[j]
+        if len(sj) != N:
+            print("No")
+            continue
+        flag = True
+        for i in range(len(sj)):
+            c = sj[i]
+            bone[i][c] -= 1
+            if bone[i][c] < 0:
+                flag = False
+            bone[i][c] += 1
+        if flag:
+            print("Yes")
+        else:
+            print("No")
 
     return
 ######################################################

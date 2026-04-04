@@ -73,18 +73,7 @@ from itertools import permutations as p
 
 def main():
     
-    N, M = i_map()
-
-    d_now = {i:0 for i in range(1, M+1)}
-    d_next = {i:0 for i in range(1, M+1)}
     
-    for _ in range(N):
-        a, b = i_map()
-        d_now[a] += 1
-        d_next[b] += 1
-
-    for i in range(1, M+1):
-        print(d_next[i] - d_now[i])
 
     return
 ######################################################

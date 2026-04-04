@@ -25,40 +25,6 @@ def i_list():
 def c_list():
     return list(input().split())
 
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
-
 from collections import defaultdict
 from sortedcontainers import SortedList
 from collections import deque
@@ -73,7 +39,11 @@ from itertools import permutations as p
 
 def main():
     
-    
+    """
+    各jについてかっこの中求めてlにメモ
+    """
+
+    l = []
 
     return
 ######################################################

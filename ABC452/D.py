@@ -25,40 +25,6 @@ def i_list():
 def c_list():
     return list(input().split())
 
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
-
 from collections import defaultdict
 from sortedcontainers import SortedList
 from collections import deque
@@ -73,8 +39,33 @@ from itertools import permutations as p
 
 def main():
     
-    
+    """
+    Tが内部にできた時点で，含まなくなるまで左を進める？
+    尺取り？
 
+    違って，
+    dpみたいに最後に完成したところを追う
+    5131
+    """
+
+    S, T = input(), input()
+
+    tmp = [-1] * len(T)
+    ans = 0
+    l = -1
+    
+    for r in range(len(S)):
+        for tidx in range(0, len(T))[::-1]:
+            if S[r] == T[tidx]:
+                tmp[tidx] = tmp[tidx - 1]
+        
+        if S[r] == T[0]:
+            tmp[0] = r
+            
+        l = tmp[-1]
+        ans += (r - l)
+        
+    print(ans)
     return
 ######################################################
 
