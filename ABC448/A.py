@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ <
+                    ████╝ < too hot
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -25,46 +25,12 @@ def i_list():
 def c_list():
     return list(input().split())
 
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
-
 from collections import defaultdict
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
 import math
-import bisect as bs
+import bisect
 
 from itertools import permutations as p
 
@@ -73,8 +39,15 @@ from itertools import permutations as p
 
 def main():
     
-    
-    
+    N, X = i_map()
+    A = i_list()
+
+    for i in range(N):
+        if A[i] < X:
+            X = A[i]
+            print(1)
+        else:
+            print(0)
     return
 ######################################################
 
@@ -113,7 +86,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -121,7 +94,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離

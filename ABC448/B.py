@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ <
+                    ████╝ < too hot
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -25,46 +25,12 @@ def i_list():
 def c_list():
     return list(input().split())
 
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
-
 from collections import defaultdict
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
 import math
-import bisect as bs
+import bisect
 
 from itertools import permutations as p
 
@@ -73,8 +39,17 @@ from itertools import permutations as p
 
 def main():
     
-    
-    
+    N, M = i_map()
+    C = i_list()
+
+    ans = 0
+    for _ in range(N):
+        a, b = i_map()
+        a -= 1
+        ans += min(b, C[a])
+        C[a] = max(0, C[a] - b)
+        # print(C)
+    print(ans)
     return
 ######################################################
 
