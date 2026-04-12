@@ -39,7 +39,19 @@ from itertools import permutations as p
 
 def main():
     
-    
+    T, X = i_map()
+    A = i_list()
+
+    value = 0
+    for t in range(T+1):
+        if t == 0:
+            value = A[0]
+            print(t, value)
+            continue
+        if X <= abs(A[t] - value):
+            value = A[t]
+            print(t, value)
+
 
     return
 ######################################################
@@ -79,7 +91,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -87,7 +99,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離

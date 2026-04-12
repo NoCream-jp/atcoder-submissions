@@ -11,7 +11,7 @@ Here is my coding space
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(0, 1), (1, 0), (0, -1), (-1, 0)] # RDLU
 
 
 def i_map():
@@ -39,7 +39,85 @@ from itertools import permutations as p
 
 def main():
     
+    H, W = i_map()
+    grid = [list(input()) for _ in range(H)]
+    start = 0, 0
+    goal = 0, 0
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "S":
+                start = i, j
+            if grid[i][j] == "G":
+                goal = i, j
+
+    """
+    visitedの扱いが分からない
+    設定すると同じマスを通るパターンで正解できない
+    gox
+    #o.
+    s..
+
+    設定しないと無限ループになるパターンで正解できない?
+    マスが小さいならグラフ化したりしたいけど無理
+    カウントがリミットになったら中断するBFSで行きたい
+    """
+
+    UDLR = ["R", "D", "L", "U"]
+    vector = [[[-2 for _ in range(4)] for _ in range(W)] for _ in range(H)] # Noneじゃだめなので-2とか入れとく
+
+    q = deque()
+    flag = False # 最後見つかったかどうか
+
+    # 最初
+    si, sj, gi, gj = start[0], start[1], goal[0], goal[1]
+
+    for v in range(4): # v方向インデックス
+        di, dj = drct[v]
+        ni, nj = si + di, sj + dj
+        if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] != "#":
+            vector[ni][nj][v] = -1
+            if grid[ni][nj] == "G":
+                flag = True
+                goali, goalj, goalv = ni, nj, v
+                break
+            q.append((ni, nj, v))
+
+    while q:
+        i, j, nowv = q.popleft()
+        for v in range(4):
+            if grid[i][j] == "o" and v != nowv: # 直進以外ダメ
+                continue
+            if grid[i][j] == "x" and v == nowv: # 直進がダメ
+                continue
+        
+            di, dj = drct[v]
+            ni, nj = i + di, j + dj
+            if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] != "#":
+                if vector[ni][nj][v] == -2:
+                    vector[ni][nj][v] = nowv
+                    if grid[ni][nj] == "G":
+                        goali, goalj, goalv = ni, nj, v # これを使って復元する
+                        flag = True
+                        break
+                    q.append((ni, nj, v))
+        if flag:
+            break
     
+    # できてたら復元する
+    if flag:
+        ans = []
+        nowi, nowj, nowv = goali, goalj, goalv
+        while nowv != -1:
+            ans.append(UDLR[nowv])
+            prev = vector[nowi][nowj][nowv]
+            di, dj = drct[nowv]
+            nowi = nowi - di
+            nowj = nowj - dj
+            nowv = prev
+        print("Yes")
+        print("".join(ans[::-1]))
+    else:
+        print("No")
 
     return
 ######################################################
@@ -79,7 +157,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -87,7 +165,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離

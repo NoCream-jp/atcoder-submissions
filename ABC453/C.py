@@ -39,7 +39,24 @@ from itertools import permutations as p
 
 def main():
     
-    
+    N = int(input())
+    L = i_list()
+
+    ans = -1
+    for i in range(2 ** N):
+        count = 0
+        now = 0.5
+        for j in range(N):
+            if (i >> j) & 1:
+                if now < 0 and 0 < now+L[j]:
+                    count += 1
+                now += L[j]
+            else:
+                if 0 < now and now-L[j] < 0:
+                    count += 1
+                now -= L[j]
+        ans = max(ans, count)
+    print(ans)
 
     return
 ######################################################
@@ -79,7 +96,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -87,7 +104,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離

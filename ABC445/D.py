@@ -90,13 +90,44 @@ def main():
     """
 
     H, W, N = i_map()
-    nowh, noww = H, W
-    
-    l = [tuple(i_map()) for _ in range(N)]
-    sl_h, sl_w = SortedList(l), SortedList(l, key=lambda x: x[-1])
-    print(sl_h, sl_w)
+    now_h = H
 
-    
+    sl_1, sl_2 = SortedList(), SortedList() # sl_1にはhをキーに，sl_2にはwをキーにして入れる
+
+    for i in range(N):
+        h, w = i_map()
+        sl_1.add((h, w, i))
+        sl_2.add((w, h, i))
+    ans = [(-1, -1) for _ in range(N)]
+
+    upper_left = [1, 1] # 左上から詰める
+
+    while sl_1 or sl_2:
+        h1, w1, number1 = -1, -1, -1
+        w2, w2, number2 = -1, -1, -1
+        if len(sl_1):
+            h1, w1, number1 = sl_1[-1] # h1がmax
+        if len(sl_2):
+            w2, h2, number2 = sl_2[-1] # w2がmax
+        if sl_1 and (now_h == h1): # 縦幅をそろえて設置する場合
+            ans[number1] = upper_left
+            upper_left[1] += w1
+            sl_1.remove((h1, w1, number1))
+            # now_w -= w1
+        elif sl_2: # ヨコ幅をそろえる場合
+            ans[number2] = upper_left
+            upper_left[0] += h2
+            sl_2.remove((w2, h2, number2))
+            now_h -= h2
+        else:
+            break
+        print(sl_1)
+        print(sl_2)
+        print()
+    for i, j in ans:
+        print(i, j)
+
+
 
     return
 ######################################################

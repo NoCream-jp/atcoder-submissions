@@ -39,17 +39,7 @@ from itertools import permutations as p
 
 def main():
     
-    N, Q = i_map()
-    A = i_list()
-    sl = SortedList(A)
-    for q in range(Q):
-        K = int(input())
-        B = i_list()
-        for b in B:
-            sl.discard(A[b-1])
-        print(sl[0])
-        for b in B:
-            sl.add(A[b-1])
+    
 
     return
 ######################################################
@@ -89,7 +79,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -97,7 +87,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離

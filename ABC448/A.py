@@ -39,15 +39,8 @@ from itertools import permutations as p
 
 def main():
     
-    N, X = i_map()
-    A = i_list()
+    
 
-    for i in range(N):
-        if A[i] < X:
-            X = A[i]
-            print(1)
-        else:
-            print(0)
     return
 ######################################################
 

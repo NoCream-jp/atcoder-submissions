@@ -7,6 +7,7 @@ Here is my coding space
                     ████╝ < too hot
 """
 ###################################################
+# sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
@@ -30,8 +31,6 @@ from collections import deque
 import heapq
 import math
 import bisect
-import sys
-sys.setrecursionlimit(10 ** 7)
 
 from itertools import permutations as p
 
@@ -40,38 +39,7 @@ from itertools import permutations as p
 
 def main():
     
-    N = int(input())
-    A = i_list()
-    graph = [[] for _ in range(N)]
-    for _ in range(N - 1):
-        u, v = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append(v)
-        graph[v].append(u)
-
-    ans = [False for _ in range(N)]
-    counts = defaultdict(int)
-
-    def dfs(now, parent, flag):
-        counts[A[now]] += 1
-        nowflag = flag or (1 < counts[A[now]])
-        ans[now] = nowflag
-
-        for nxt in graph[now]:
-            if nxt != parent:
-                dfs(nxt, now, nowflag)
-
-        counts[A[now]] -= 1 # 下を見て戻ってきたとき巻き戻す
-
-    dfs(0, -1, False)
-
-    for i in range(N):
-        if ans[i]:
-            print("Yes")
-        else:
-            print("No")
-
+    
 
     return
 ######################################################
@@ -111,7 +79,7 @@ def get_primes(left, right):
 
 
 # 最大公約数
-def getgcd(a, b):
+def get_gcd(a, b):
     while b:
         a, b = b, a % b
     return a
@@ -119,7 +87,7 @@ def getgcd(a, b):
 
 # 最小公倍数
 def get_lcm(a, b):
-    return a // getgcd(a, b) * b
+    return a // get_gcd(a, b) * b
 
 
 # ユークリッド距離
