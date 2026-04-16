@@ -4,11 +4,10 @@ setlocal enabledelayedexpansion
 :: ========================================
 :: 設定エリア：ここを書き換えるだけでOK
 :: ========================================
-set CONTEST_NO=454
+set TARGET_DIR=ICPC2025
 :: ========================================
 
 :: フォルダ名の設定 (例: ABC452)
-set TARGET_DIR=ABC!CONTEST_NO!
 set SOURCE_FILE=main.py
 
 :: main.pyが存在するかチェック
