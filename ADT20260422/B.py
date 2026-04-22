@@ -38,8 +38,9 @@ from itertools import permutations as p
 
 
 def main():
-
     
+    N, M, P = i_map()
+    print((N - M) // P + 1)
 
     return
 ######################################################

@@ -39,8 +39,23 @@ from itertools import permutations as p
 
 def main():
 
+    """
+    mnまではなぞる
+    mn更新すれば，全部でNしか触らなくていい
+    """
     
+    N, Q = i_map()
 
+    pc = [1 for i in range(N+1)]
+    mn = 1  
+    for q in range(Q):
+        x, y = i_map()
+        ans = 0
+        while mn <= x:
+            ans += pc[mn]
+            pc[y] += pc[mn]
+            mn += 1
+        print(ans)
     return
 ######################################################
 

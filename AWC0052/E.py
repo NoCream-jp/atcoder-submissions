@@ -38,8 +38,8 @@ from itertools import permutations as p
 
 
 def main():
-
     
+    print((9 << 4) & 1)
 
     return
 ######################################################

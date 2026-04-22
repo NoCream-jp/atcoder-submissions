@@ -38,8 +38,12 @@ from itertools import permutations as p
 
 
 def main():
-
     
+    N, K = i_map()
+
+    l = [i for i in range(1, N+1)]
+    for i in range(N):
+        print(l[(i - K)%N])
 
     return
 ######################################################

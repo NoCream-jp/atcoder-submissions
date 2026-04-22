@@ -38,8 +38,13 @@ from itertools import permutations as p
 
 
 def main():
-
     
+    n, p, q, r, s = i_map()
+    A = i_list()
+
+    a = (A[:p-1]+A[r-1:s]+A[q:r-1]+A[p-1:q]+A[s:n])
+
+    print(*a)
 
     return
 ######################################################

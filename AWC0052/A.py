@@ -38,8 +38,22 @@ from itertools import permutations as p
 
 
 def main():
-
     
+    N = int(input())
+    A = i_list()
+
+    c = 0
+    ans = 0
+    tmp = -1
+    for i in range(N):
+        if tmp < A[i]:
+            c += 1
+        else:
+            c = 1
+        tmp = A[i]
+        ans = max(ans, c)
+    print(ans)
+        
 
     return
 ######################################################

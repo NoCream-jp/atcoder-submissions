@@ -39,6 +39,24 @@ from itertools import permutations as p
 
 def main():
     
+    N, M = i_map()
+    w = [0 for _ in range(N+1)]
+    for _ in range(M):
+        l, r = i_map()
+        l -= 1
+        r -= 1
+        w[l] += 1
+        w[r+1] -= 1
+
+    wall = [0 for i in range(N)]
+    tmp = 0
+    for i in range(N):
+        wall[i] = tmp + w[i]
+        tmp = wall[i]
+
+    ans = min(wall)
+    print(ans)
+    
 
     return
 ######################################################

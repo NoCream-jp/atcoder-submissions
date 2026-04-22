@@ -38,7 +38,6 @@ from itertools import permutations as p
 
 
 def main():
-
     
 
     return
