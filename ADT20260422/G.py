@@ -34,11 +34,46 @@ import math
 import bisect
 from itertools import permutations as p
 
+from ABC454 import F
+
 ##################################################
 
 
 def main():
     
+    N, H, W = i_map()
+    
+    """
+    2**N * HW
+    """
+    
+    l = [list(i_map()) for i in range(N)]
+
+    def check(grid):
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    return False
+        return True
+
+    def write(grid, si, sj, tate, yoko):
+        for i in range(tate):
+            for j in range(yoko):
+                grid[si + tate][sj + yoko] = 1
+        return
+
+    grid = [[0 for _ in range(W)] for _ in range(H)]
+    for i in range(2<<N):
+
+        for j in range(N):
+            if (i >> j) & 1: # そのまま使う
+                tate, yoko = l[j][0], l[j][1]
+                for starti in range(H):
+                    for startj in range(W):
+            # else:
+            #     tate, yoko = l[j][1], l[j][0]
+
+                
 
     return
 ######################################################
