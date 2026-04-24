@@ -51,22 +51,44 @@ def main():
             break
         S = input()
 
-        max_bit = n.bit_length()
+        onumbers = [i for i in range(1, n + 1) if S[i] == 'o']
 
-        bit_index = [i for i in range(max_bit)] # つかうbit番目
-        for m in range(1, max_bit+1): # m個使う
-            cmb = itertools.combinations_with_replacement(bit_index, m)
-            print(cmb)
-            for c in cmb: # cには何ビット目を使うかが入っている
-                print(c)
-                # ナップザック
+        mxm = min(7, len(onumbers))
+        found = False
 
-        print()
-
-
-
-
-            
+        for m in range(1, mxm + 1):
+            for cmb in itertools.combinations_with_replacement(onumbers, m):
+                if sum(cmb) != n:
+                    continue
+                dp = [False for _ in range(n + 1)]
+                dp[0] = True
+                
+                is_valid = True
+                
+                for val in cmb:
+                    for j in range(val, n)[::-1]:
+                        if dp[j - val]:
+                            if S[j] == 'x':
+                                is_valid = False
+                                break
+                            dp[j] = True
+                            
+                    if not is_valid:
+                        break
+                        
+                if not is_valid:
+                    continue
+                if all(dp[i] for i in onumbers):
+                    ans.append(m)
+                    found = True
+                    break
+                    
+            if found:
+                break
+        if not found:
+            ans.append(7)
+    for a in ans:
+        print(a)
 
     return
 ######################################################
