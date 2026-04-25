@@ -39,7 +39,11 @@ from itertools import permutations as p
 
 def main():
 
-    
+    A, B, C = i_map()
+    if A != B and B == C:
+        print("Yes")
+    else:
+        print("No")
 
     return
 ######################################################

@@ -35,12 +35,43 @@ import bisect
 from itertools import permutations as p
 
 ##################################################
-
+def make_dictionary(lst):
+    d = {}
+    for n in lst:
+        if n in d:
+            d[n] += 1
+        else:
+            d[n] = 1
+    return d
 
 def main():
 
-    
+    N, K = i_map()
+    A = i_list()
+    A.sort()
 
+    if N == 1:
+        print(0)
+        return
+
+    l = []
+    tmp = A[0]
+    count = 1
+    for i in range(1, N):
+        if tmp != A[i]:
+            l.append(A[i-1] * count)
+            count = 1
+        else:
+            count += 1
+
+        tmp = A[i]
+    l.append(A[i] *  count)
+    l.sort()
+    while K and l:
+        l.pop()
+        K -= 1
+    
+    print(sum(l))
     return
 ######################################################
 
