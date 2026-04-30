@@ -27,6 +27,7 @@ def c_list():
     return list(input().split())
 
 from collections import defaultdict
+from re import A
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -39,7 +40,26 @@ from itertools import permutations as p
 
 def main():
 
-    
+    for _ in range(int(input())):
+
+        N, M, X, Y = i_map()
+        X -= 1
+        Y -= 1
+
+        graph = [[] for _ in range(N)]
+        for _ in range(M):
+            u, v = i_map()
+            u -= 1
+            v -= 1
+            graph[u].append(v)
+            graph[v].append(u)
+
+        # DFSで経路持ちながら探索する．graph内でソートできれば，
+        # 小さい順にstackに入れていけば最初に到達したものが回答
+
+        for g in graph:
+            g.sort()
+        
 
     return
 ######################################################

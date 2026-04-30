@@ -39,7 +39,7 @@ from itertools import permutations as p
 
 def main():
 
-    
+    print(["4", "4"] > ["4", "1", "6"])
 
     return
 ######################################################
