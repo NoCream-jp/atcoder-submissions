@@ -396,6 +396,43 @@ class SegmentTree:
             right >>= 1
         return self.answer
 
+class PrefixSum2D:
+    def __init__(self, grid):
+        """
+        二次元配列（グリッド）を受け取り、二次元累積和を構築する。
+        :param grid: 2次元リスト (H x W)
+        """
+        self.H = len(grid)
+        self.W = len(grid[0]) if self.H > 0 else 0
+        
+        # 1-indexedの累積和テーブル (H+1 x W+1) を0で初期化
+        self.S = [[0] * (self.W + 1) for _ in range(self.H + 1)]
+        
+        # 累積和の構築
+        for i in range(self.H):
+            for j in range(self.W):
+                self.S[i+1][j+1] = (grid[i][j] 
+                                  + self.S[i][j+1] 
+                                  + self.S[i+1][j] 
+                                  - self.S[i][j])
+
+    def query(self, r1, c1, r2, c2):
+        """
+        左上 (r1, c1) から 右下 (r2, c2) までの矩形領域の要素の和
+        """
+        # 無効な範囲が指定された場合は0を返す
+        if r1 > r2 or c1 > c2:
+            return 0
+        r1 = max(0, r1)
+        c1 = max(0, c1)
+        r2 = min(self.H - 1, r2)
+        c2 = min(self.W - 1, c2)
+
+        # 包除原理を用いてO(1)で和を計算
+        return (self.S[r2+1][c2+1]
+              - self.S[r1][c2+1]
+              - self.S[r2+1][c1]
+              + self.S[r1][c1])
 
 #########################################################################
 
