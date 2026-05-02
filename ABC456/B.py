@@ -39,7 +39,18 @@ from itertools import permutations as p
 
 def main():
 
+    A = i_list()
+    B = i_list()
+    C = i_list()
+    v = 6**3
+    count = 0
+    for a in A:
+        for b in B:
+            for c in C:
+                if set([a, b, c]) == set([4, 5, 6]):
+                    count += 1
     
+    print(count / v)
 
     return
 ######################################################
