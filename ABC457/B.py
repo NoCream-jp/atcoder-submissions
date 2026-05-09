@@ -39,7 +39,10 @@ from itertools import permutations as p
 
 def main():
 
-    
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+    X, Y = i_map()
+    print(l[X-1][Y])
 
     return
 ######################################################

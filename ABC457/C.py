@@ -39,7 +39,25 @@ from itertools import permutations as p
 
 def main():
 
+    N, K = i_map()
+    K -= 1
+    l = [i_list() for _ in range(N)]
+    C = i_list()
+    B = []
+
+    for i in range(N):
+        B.append(C[i] * l[i][0])
     
+    # print("B", B)
+    lstidx = 0 #　見るべきリスト
+    idx = 0    #　見るべきリストのインデックス（大きすぎれば％をとる）
+    for i in range(N):
+        if K - B[i] < 0:
+            idx = K
+            lstidx = i
+            break
+        K -= B[i]
+    print(l[lstidx][1:][idx % l[lstidx][0]])
 
     return
 ######################################################
