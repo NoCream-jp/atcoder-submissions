@@ -39,7 +39,25 @@ from itertools import permutations as p
 
 def main():
 
+    """
+    「0じゃないといけない桁」「1じゃないといけない桁」「そうじゃない桁」
+    「そうじゃない桁」だらけだと考えられないのでナシ
+
+    総当たりは2*10**4*100*2*100
+
+    桁ごとに
     
+    """
+
+    N, M = i_map()
+    l = [[0 for i in range(M)] for _ in range(N)]
+    for n in l:
+        print(n)
+    S = [input() for _ in range(N)]
+    S.sort()
+    for s in S:
+        print(s)
+
 
     return
 ######################################################
