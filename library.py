@@ -49,12 +49,12 @@ def main():
     ans = 0
     for i in range(0, 9):
         ans += L[i]
-    print(ans)
+    print("for文で求めた和:", ans)
 
     # 0~8の和(累積和)
     l = 0
     r = 8
-    print(lst[r+1] - lst[l])
+    print("累積和で求めた和:", lst[r+1] - lst[l])
 
     return
 ######################################################
