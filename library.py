@@ -38,25 +38,23 @@ from itertools import permutations as p
 
 
 def main():
-    
-    N = int(input())
-    L = i_list()
 
-    ans = -1
-    for i in range(2 ** N):
-        count = 0
-        now = 0.5
-        for j in range(N):
-            if (i >> j) & 1:
-                if now < 0 and 0 < now+L[j]:
-                    count += 1
-                now += L[j]
-            else:
-                if 0 < now and now-L[j] < 0:
-                    count += 1
-                now -= L[j]
-        ans = max(ans, count)
+    N = 10
+    L = [1 , 6 , 3 , 4 , 2 , 5 , 5 , 4 , 9 , 10]
+
+    lst = cum_sum(L)
+    print(lst)
+
+    # 0~8の和(for文)
+    ans = 0
+    for i in range(0, 9):
+        ans += L[i]
     print(ans)
+
+    # 0~8の和(累積和)
+    l = 0
+    r = 8
+    print(lst[r+1] - lst[l])
 
     return
 ######################################################
@@ -156,14 +154,14 @@ def z_algo(S):
     return A
 
 
-# 累積和
-def cum_sum(lst):
-    a = [0 for _ in range(len(lst) + 1)]
-    for i in range(len(lst)):
-        a[i + 1] = a[i] + lst[i]
+# 累積和 総和 = (r+1番目) - (l番目)
+def cum_sum(l):
+    a = [0 for _ in range(len(l) + 1)]
+    for i in range(len(l)):
+        a[i + 1] = a[i] + l[i]
     return a
 
-
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):
@@ -188,6 +186,16 @@ def LCSof(str1, str2):
     ans.reverse()
     return dp[len(str1)][len(str2)], ans
 
+# 繰り返し二乗法
+def modpow(a, n):
+    ans = 1
+    tmp = a
+    while 1 <= n:
+        if n % 2 == 1:
+            ans *= tmp
+        tmp *= tmp
+        n = n >> 1
+    return ans
 
 # 転倒数
 def count_inversions(arr):
@@ -270,6 +278,31 @@ def my_bisect_right(a, x):
         return None
     return bisect.bisect_right(a, x)
 
+# Trie用ノードクラス
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+# トライ木
+class Trie:
+    def __init__(self):
+        self.root = Node()
+    
+    def insert(self, word: str) -> None:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = Node()
+            node = node.children[ch]
+        node.is_end = True
+    
+    def search(self, word: str) -> bool:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.is_end
 
 # ローリングハッシュクラス
 class RollingHash:

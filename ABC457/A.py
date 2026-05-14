@@ -40,11 +40,13 @@ from itertools import permutations as p
 def main():
 
     N = int(input())
-    A = i_list()
+    A = list(map(int, input().split()))
     X = int(input())
+
     print(A[X-1])
 
     return
+
 ######################################################
 
 if __name__ == "__main__":
