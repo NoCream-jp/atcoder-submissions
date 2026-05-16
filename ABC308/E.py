@@ -39,15 +39,13 @@ from itertools import permutations as p
 
 def main():
 
-    """
-    EXを固定すればMの場所の値でmexはO(1)でわかる。
-    すべてのEXについて、Mの場所が0, 1, 2の場合すべてのmexを保存しておくO(3N)
-    
-    """
+    n, k = map(int, input().split())
 
-    N = int(input())
-    A = i_list()
-    S = input()
+    bunsi = 1 + 3*(n-1) + 3*(n - 1)**2
+
+    bunbo = n ** 3
+
+    print(bunsi / bunbo)
 
     return
 ######################################################
