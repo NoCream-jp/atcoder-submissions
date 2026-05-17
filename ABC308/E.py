@@ -27,7 +27,6 @@ def c_list():
     return list(input().split())
 
 from collections import defaultdict
-from sys import breakpointhook
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -36,34 +35,35 @@ import bisect
 from itertools import permutations as p
 
 ##################################################
-def mex(a, b, c):
-    st = set([a, b, c])
-    if len(st) == 3:
-        return 3
-    for n in range(3):
-        if n not in st:
-            return n
-    return -1
+def mex(a: int, b: int, c: int) -> int:
+    for i in range(4):
+        if i not in (a, b, c):
+            return i
+    return 3
 
 def main():
-
     """
     それぞれのMより右にEとXが何個あって値が何かを探す
     今のMの値を固定したら、EとXのパターンは9個しかない。
-    3行
     """
 
     N = int(input())
     A = i_list()
     S = input()
 
-    l = {k: [[0, 0, 0] for _ in range(N)] for k in "EX"}
+    l: dict[str, list] = {
+        "E": [[0, 0, 0] for _ in range(N)],
+        "X": [[0, 0, 0] for _ in range(N)],
+    }
+    l["EX"] = [[[0, 0, 0] for _ in range(3)] for _ in range(N)]
+
     i = N-1
-    while 0 < i:
+    while 0 <= i:
         if S[i] == "X":
             l["X"][i][A[i]] = 1
             break
         i -= 1
+        
     for i in range(N-1)[::-1]:
         k = S[i]
         for c in "EX":
@@ -72,13 +72,16 @@ def main():
                     l[c][i][n] = l[c][i+1][n] + 1
                 else:
                     l[c][i][n] = l[c][i+1][n]
-    for k in l:
-        for j in range(3):
-            for i in range(N):
-                print(l[k][i][j], end=" ")
-            print()
-        print()
-    
+                    
+        for enum in range(3):
+            for xnum in range(3):
+                l["EX"][i][enum][xnum] = l["EX"][i+1][enum][xnum]
+                
+        if k == "E":
+            enum = A[i]
+            for xnum in range(3):
+                l["EX"][i][enum][xnum] += l["X"][i+1][xnum]
+
     ans = 0
     for i in range(N-1):
         if S[i] != "M":
@@ -86,18 +89,13 @@ def main():
         mnum = A[i]
         for enum in range(3):
             for xnum in range(3):
-                # 何回mex計算をするか
-                count = l["E"][i+1][enum] * l["X"][i+1][xnum]
-                ans += mex(mnum, enum, xnum) * count
-                print(f"mnum={mnum}, enum={enum}, xnum={xnum}, mex={mex(mnum, enum, xnum)}, count={count}, ans={ans}")
+                count = l["EX"][i+1][enum][xnum]
+                
+                if count > 0:
+                    ans += mex(mnum, enum, xnum) * count
+                    # print(f"mnum={mnum}, enum={enum}, xnum={xnum}, mex={mex(mnum, enum, xnum)}, count={count}, ans={ans}")
+                    
     print(ans)
 
-            
-                    
-
-
-    return
-######################################################
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
