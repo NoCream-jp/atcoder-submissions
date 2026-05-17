@@ -39,7 +39,9 @@ from itertools import permutations as p
 
 def main():
 
-    
+    S = list(input())
+    N = int(input())
+    print("".join(S[N:-N]))
 
     return
 ######################################################

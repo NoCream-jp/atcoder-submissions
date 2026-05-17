@@ -39,9 +39,39 @@ from itertools import permutations as p
 
 def main():
 
-    
+    """
+    優先度キュー二つ
+    medよりおおきい奴らがくればmedを小さいのに入れて大きいもののうち小さいものがmed
+    [2]3523[5] -> 3
+    [12][35] -> 2
+    [122][235]
+    """
 
-    return
+    X = int(input())
+    Q = int(input())
+
+    med = X
+    blst, slst = [], []
+    heapq.heapify(blst) # 小さいやつらの降順
+    heapq.heapify(slst) # 大きいやつらの昇順
+    for _ in range(Q):
+        a, b = i_map()
+        if med < a and med < b:
+            heapq.heappush(slst, -med)
+            heapq.heappush(blst, a)
+            heapq.heappush(blst, b)
+            med = heapq.heappop(blst)
+        elif a < med and b < med:
+            heapq.heappush(slst, -a)
+            heapq.heappush(slst, -b)
+            heapq.heappush(blst, med)
+            med = -heapq.heappop(slst)
+        else:
+            heapq.heappush(slst, -(min(a, b)))
+            heapq.heappush(blst, max(a, b))
+            med = med
+        print(med)
+
 ######################################################
 
 if __name__ == "__main__":
