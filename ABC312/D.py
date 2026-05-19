@@ -4,14 +4,14 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < green
+                    ████╝ < wanna solve green
 """
 ###################################################
 
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-# MOD = 998244353
+MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 
@@ -38,37 +38,26 @@ from itertools import permutations as p
 
 
 def main():
+
     """
-    昇順だということに気づかなかった。人2が人7の子だということはあり得ないので、
-    昇順に何代後まで続くかをメモしていくだけで大丈夫
+    解説読んだ
     """
-
-    N, M = i_map()
-    P = i_list()
-
-    # 人iが最大で何代後まで補償を持っているか
-    memo = [-1 for _ in range(N)]
-    for _ in range(M):
-        x, y = i_map()
-        x -= 1
-        memo[x] = max(memo[x], y)
-    # print(memo)
-
-    for i in range(1, N):
-        parent = P[i-1] - 1
-        memo[i] = max(memo[parent]-1, memo[i])
-    # print(memo)
-
-    count = 0
+    S = input()
+    N = len(S)
+    dp = [[0 for _ in range(N+1)] for _ in range(N+1)]
+    dp[0][0] = 1
     for i in range(N):
-        if 0 <= memo[i]:
-            count += 1
-    print(count)
+        for j in range(N):
+            if S[i] != ")":
+                dp[i+1][j+1] = (dp[i+1][j+1] + dp[i][j]) % MOD
+            if (j != 0) and (S[i] != "("):
+                dp[i+1][j-1] = (dp[i+1][j-1] + dp[i][j]) % MOD
+
+    # for d in dp:
+    #     print(d)
+    print(dp[N][0])
 
 
-
-    
-    
     return
 ######################################################
 

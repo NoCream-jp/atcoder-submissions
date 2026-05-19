@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < green
+                    ████╝ < wanna solve green
 """
 ###################################################
 
@@ -38,37 +38,9 @@ from itertools import permutations as p
 
 
 def main():
-    """
-    昇順だということに気づかなかった。人2が人7の子だということはあり得ないので、
-    昇順に何代後まで続くかをメモしていくだけで大丈夫
-    """
-
-    N, M = i_map()
-    P = i_list()
-
-    # 人iが最大で何代後まで補償を持っているか
-    memo = [-1 for _ in range(N)]
-    for _ in range(M):
-        x, y = i_map()
-        x -= 1
-        memo[x] = max(memo[x], y)
-    # print(memo)
-
-    for i in range(1, N):
-        parent = P[i-1] - 1
-        memo[i] = max(memo[parent]-1, memo[i])
-    # print(memo)
-
-    count = 0
-    for i in range(N):
-        if 0 <= memo[i]:
-            count += 1
-    print(count)
-
-
 
     
-    
+
     return
 ######################################################
 
