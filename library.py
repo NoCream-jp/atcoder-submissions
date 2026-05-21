@@ -304,23 +304,23 @@ def RLE_for(sequence):
 
     return comp_seq, lengths
 
-# BFS
-### 追加前に判定するのが大事
-visited = [[-1 for _ in range(W)] for _ in range(H)]
-visited[si][sj] = -1
-while q:
-    i, j, label = q.popleft()
-    if visited[i][j] == label:
-        continue
-    visited[i][j] = label
-    for di, dj in drct:
-        ni, nj = i+di, j+dj
-        if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
-            if visited[ni][nj] != -1 and visited[ni][nj] != label: # 4以上かつ自分じゃないとき
-                print(f"Yes")
-                return
-            if visited[ni][nj] == -1 and visited[ni][nj] != label:
-                q.append((ni, nj, label))
+# # BFS
+# ### 追加前に判定するのが大事
+# visited = [[-1 for _ in range(W)] for _ in range(H)]
+# visited[si][sj] = -1
+# while q:
+#     i, j, label = q.popleft()
+#     if visited[i][j] == label:
+#         continue
+#     visited[i][j] = label
+#     for di, dj in drct:
+#         ni, nj = i+di, j+dj
+#         if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
+#             if visited[ni][nj] != -1 and visited[ni][nj] != label: # 4以上かつ自分じゃないとき
+#                 print(f"Yes")
+#                 return
+#             if visited[ni][nj] == -1 and visited[ni][nj] != label:
+#                 q.append((ni, nj, label))
 
 # Trie用ノードクラス
 class Node:

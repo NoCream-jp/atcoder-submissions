@@ -59,30 +59,31 @@ def main():
     for i, j, d in people:
         grid[i][j] = "#"
         di, dj = DRCT[d]
-        while 0 <= i+di <= H-1 and 0 <= j+dj <= W-1 and grid[i+di][j+dj] == ".":
-            grid[i+di][j+dj] = "#"
+        while 0 <= i+di <= H-1 and 0 <= j+dj <= W-1 and grid[i+di][j+dj] in {".", "!"}:
+            grid[i+di][j+dj] = "!"
             i += di
             j += dj
-    for g in grid:
-        print(g)
+    # for g in grid:
+    #     print(g)
 
     # BFS
     q = deque([(start[0], start[1], 0)])
     visited = [[False for _ in range(W)] for _ in range(H)]
     visited[start[0]][start[1]] = True
     while q:
-        print(q)
         i, j, step = q.popleft()
         for di, dj in drct:
             ni, nj = i+di, j+dj
-            if grid[ni][nj] == "G":
-                print(step + 1)
-                return
-            if visited[ni][nj]:
-                continue
-            if 0 <= ni <= H-1 and 0 <= nj <= W-1 and not visited[ni][nj] and grid[ni][nj] != "#":
+            if 0 <= ni <= H-1 and 0 <= nj <= W-1 and not visited[ni][nj] and grid[ni][nj] not in  {"#", "!"}:
+                if grid[ni][nj] == "G":
+                    print(step + 1)
+                    return
+                if visited[ni][nj]:
+                    continue
                 visited[ni][nj] = True
                 q.append((ni, nj, step+1))
+
+    print(-1)
 
     return
 ######################################################
