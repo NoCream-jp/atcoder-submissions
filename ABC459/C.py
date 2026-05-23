@@ -39,7 +39,33 @@ from itertools import permutations
 
 def main():
 
+    """
+    状態はdとcountでじゅうぶん
+    y個以上の数はslから探すしかない
+    """
+
+    N, Q = i_map()
+    d = [0 for _ in range(N)]
     
+    count = 0
+    sl = SortedList([0 for _ in range(N)])
+    for _ in range(Q):
+        q, c = i_map()
+        
+        if q == 1:
+            x = c - 1
+            sl.remove(d[x])
+            d[x] += 1
+            sl.add(d[x])
+            if count < sl[0]:
+                count += 1
+                
+        else:
+            y = c
+            idx = sl.bisect_left(y + count)
+            ans = N - idx
+            print(ans)
+
 
     return
 ######################################################

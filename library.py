@@ -304,6 +304,26 @@ def RLE_for(sequence):
 
     return comp_seq, lengths
 
+# オイラーツアーで部分木の要素数を列挙
+def EulerTour(n, X, i0):
+    done = [0] * n
+    Q = [~i0, i0] # 根をスタックに追加
+    ET = []
+    while Q:
+        i = Q.pop()
+        if i >= 0: # 行きがけの処理
+            done[i] = 1
+            ET.append(i)
+            for a in X[i][::-1]:
+                if done[a]: continue
+                Q.append(~a) # 帰りがけの処理をスタックに追加
+                Q.append(a) # 行きがけの処理をスタックに追加
+        
+        else: # 帰りがけの処理
+            ET.append(~i)
+    
+    return ET
+
 # # BFS
 # ### 追加前に判定するのが大事
 # visited = [[-1 for _ in range(W)] for _ in range(H)]

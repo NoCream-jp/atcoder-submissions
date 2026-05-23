@@ -10,7 +10,7 @@ Here is my coding space
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
-# alpha = "abcdefghijklmnopqrstuvwxyz"
+alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
@@ -39,7 +39,26 @@ from itertools import permutations
 
 def main():
 
-    
+    l = [
+        [{"a", "b", "c"}, 2],
+        [{"d", "e", "f"}, 3],
+        [{"g", "h", "i"}, 4],
+        [{"j", "k", "l"}, 5],
+        [{"m", "n", "o"}, 6],
+        [{"p", "q", "r", "s"}, 7],
+        [{"t", "u", "v"}, 8],
+        [{"w", "x", "y", "z"}, 9]
+    ]
+
+    N = int(input())
+    S = list(input().split())
+    ans = ""
+    for s in S:
+        for alpha in l:
+            if s[0] in alpha[0]:
+                ans += str(alpha[1])
+                break
+    print(ans)
 
     return
 ######################################################
