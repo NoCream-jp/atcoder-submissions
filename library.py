@@ -322,6 +322,24 @@ def RLE_for(sequence):
 #             if visited[ni][nj] == -1 and visited[ni][nj] != label:
 #                 q.append((ni, nj, label))
 
+# BFS
+# visited = [[False for _ in range(W)] for _ in range(H)]
+# visited[starti][startj] = True
+# while q:
+#     i, j = q.popleft()
+#     if visited[i][j]:
+#         continue
+#     visited[i][j] = True
+#     for di, dj in drct:
+#         ni, nj = i+di, j+dj
+#         if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
+#             if visited[ni][nj]:
+#                 print(f"Yes")
+#                 return
+#             if not visited[ni][nj]:
+#                 q.append((ni, nj))
+
+
 # Trie用ノードクラス
 class Node:
     def __init__(self):

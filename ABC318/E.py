@@ -57,32 +57,34 @@ def main():
     A = i_list()
     left = defaultdict(int)
     right = defaultdict(int)
-    result = defaultdict(int)
 
-    # 前計算
+    # 前計算 (j = 1 のときを基準にする)
     left[A[0]] += 1
     for i in range(2, N):
         right[A[i]] += 1
-        result[A[i]] += A[2:].count(A[i])
-    print(left, right, result)
+        
+    result = 0
+    # 最初は left に A[0] しかないので、この計算だけ
+    for k in left:
+        result += left[k] * right[k]
+    # j = 1
+    ans = result - left[A[1]] * right[A[1]]
     
-    # j=1のときだけ
-    ans = 0
-    j = 1
-    ans += left[A[0]] * right[A[0]] - left[A[j]] * right[A[j]]
-    print(f"1回目のans: {ans}")
-
-    # ans 更新
-    for j in range(2, N-1):
-        left[A[j-1]] += 1
-        right[A[j]] -= 1
-        result[A]
-        print(left, right)
-        ans += left[A[j]] * right[A[j]] - left[A[j-1]] * right[A[j-1]]
-        print(f"{j}回目のans: {ans}")
-
-
-
+    # ans 更新 (j を 2 から N-2 まで動かす)
+    for j in range(2, N - 1):
+        num = A[j-1]
+        result -= left[num] * right[num]  # 古い値を引く
+        left[num] += 1                           # leftを更新
+        result += left[num] * right[num]  # 新しい値を足す
+        
+        rnum = A[j]
+        result -= left[rnum] * right[rnum]
+        right[rnum] -= 1
+        result += left[rnum] * right[rnum]
+        
+        ans += result - left[A[j]] * right[A[j]]
+        
+    print(ans)
 
     return
 ######################################################
