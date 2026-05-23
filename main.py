@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < weee
+                    ████╝ < give me money?
 """
 ###################################################
 # import sys
@@ -32,7 +32,7 @@ from collections import deque
 import heapq
 import math
 import bisect
-from itertools import permutations as p
+from itertools import permutations
 
 ##################################################
 
