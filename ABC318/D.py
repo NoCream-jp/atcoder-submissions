@@ -40,7 +40,6 @@ from itertools import permutations as p
 def main():
 
     N = int(input())
-    
 
     return
 ######################################################
