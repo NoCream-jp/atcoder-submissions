@@ -39,6 +39,28 @@ from itertools import permutations
 
 def main():
 
+    """
+    ソート
+    ネタ昇順、シャリ昇順で
+    小さいネタで使えなかったものはもう使えないので
+    """
+
+    N, M = i_map()
+    A = i_list() # し
+    B = i_list() # ね
+    A.sort()
+    B.sort()
+
+    count = 0
+    aidx, bidx = 0, 0
+    while aidx <= N-1 and bidx <= M-1:
+        if B[bidx] <= A[aidx] * 2:
+            count += 1
+            aidx += 1
+            bidx += 1
+        else:
+            aidx += 1
+    print(count)
 
     return
 ######################################################

@@ -38,6 +38,9 @@ from itertools import permutations
 
 
 def main():
+    """
+    子の中で自分から一番遠い黒までの距離を持つ？
+    """
 
 
     return

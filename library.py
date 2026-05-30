@@ -325,22 +325,31 @@ def EulerTour(n, X, i0):
     return ET
 
 # # BFS
-# ### 追加前に判定するのが大事
-# visited = [[-1 for _ in range(W)] for _ in range(H)]
-# visited[si][sj] = -1
-# while q:
-#     i, j, label = q.popleft()
-#     if visited[i][j] == label:
-#         continue
-#     visited[i][j] = label
-#     for di, dj in drct:
-#         ni, nj = i+di, j+dj
-#         if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
-#             if visited[ni][nj] != -1 and visited[ni][nj] != label: # 4以上かつ自分じゃないとき
-#                 print(f"Yes")
-#                 return
-#             if visited[ni][nj] == -1 and visited[ni][nj] != label:
-#                 q.append((ni, nj, label))
+# ### 白黒で黒からの距離
+    # H, W = i_map()
+    #     grid = [list(input()) for _ in range(H)]
+
+    #     # はじめに黒
+    #     q = deque()
+    #     for i in range(H):
+    #         for j in range(W):
+    #             if grid[i][j] == "#":
+    #                 q.append((i, j, 0))
+
+
+    #     visited = [[-1 for _ in range(W)] for _ in range(H)]
+    #     while q:
+    #         i, j, stamp = q.popleft()
+    #         if visited[i][j] != -1:
+    #             continue
+    #         visited[i][j] = stamp
+    #         for di, dj in drct8:
+    #             ni, nj = i+di, j+dj
+    #             if 0 <= ni <= H-1 and 0 <= nj <= W-1:
+    #                 if visited[ni][nj] == -1:
+    #                     q.append((ni, nj, stamp+1))
+    #     for v in visited:
+    #         print(v)
 
 # BFS
 # visited = [[False for _ in range(W)] for _ in range(H)]

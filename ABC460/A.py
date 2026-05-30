@@ -39,6 +39,14 @@ from itertools import permutations
 
 def main():
 
+    N, M = i_map()
+    c = 0
+    while M != 0:
+        x = N % M
+        M = x
+        c += 1
+
+    print(c)
 
     return
 ######################################################
