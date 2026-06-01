@@ -327,8 +327,31 @@ class Solver:
             if not next_states:
                 break
                 
+            # 全体をスコア降順にソート
             next_states.sort(key=lambda s: s.score, reverse=True)
-            current_states = next_states[:BEAM_WIDTH]
+            
+            # グループ化、ビーム幅内で重複を排除したい
+            GROUP_LIMIT = 3 # 1つのグループから生き残れる最大数
+            current_states = []
+            group_counts = defaultdict(int)
+            
+            for state in next_states:
+                # グループを定義する鍵（完了したボールの状況 ＋ 今持っているボール）
+                group_key = (state.completed_mask, state.holding_ball)
+                
+                # そのグループの枠がまだ空いていれば採用
+                if group_counts[group_key] < GROUP_LIMIT:
+                    group_counts[group_key] += 1
+                    current_states.append(state)
+                    
+                # 全体のビーム幅に達したら終了
+                if len(current_states) >= BEAM_WIDTH:
+                    break
+            
+            if current_states:
+                is_best_completed = (best_final_state.completed_mask == (1 << self.M) - 1)
+                if (not is_best_completed) and current_states[0].score > best_final_state.score:
+                    best_final_state = current_states[0]
             
             if current_states:
                 is_best_completed = (best_final_state.completed_mask == (1 << self.M) - 1)
@@ -336,6 +359,7 @@ class Solver:
                     best_final_state = current_states[0]
 
         best_operations = best_final_state.ops
+
         # 最後になるべく解答を圧縮する
         compressed_operations = compress_operations_rh(best_operations)
         
