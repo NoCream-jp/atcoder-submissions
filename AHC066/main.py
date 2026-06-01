@@ -167,57 +167,60 @@ class Solver:
         completed_count = bin(state.completed_mask).count("1")
         score = float(completed_count * 100000)
         
-        min_cost = float(10**9)
         remaining = [i for i in range(self.M) if not (state.completed_mask & (1 << i))]
         
+        # 1. 盤面の全ボールのかごまでの距離の総和
+        balls_dist_sum = 0
+        for b_id in remaining:
+            if b_id == state.holding_ball: continue
+            b_r, b_c = state.ball_pos[b_id]
+            box_r, box_c = self.get_box_pos(b_id)
+            balls_dist_sum += self.dist[b_r][b_c][box_r][box_c]
+
+        # 2. ロボットの移動コスト（2手先読み）
+        robot_cost = float(10**9)
+        
         if state.holding_ball != -1:
-            # 持っている場合はそのまま（計算量は少ないので変更なし）
+            # 持っている場合：かごまでの距離 ＋ 次のボールまでの距離
             h_ball = state.holding_ball
-            target_box_r, target_box_c = self.get_box_pos(h_ball)
-            dist_to_box = self.dist[state.r][state.c][target_box_r][target_box_c]
+            box_r, box_c = self.get_box_pos(h_ball)
+            dist_to_box = self.dist[state.r][state.c][box_r][box_c]
             
-            next_min = float(10**9)
-            for b_id in remaining:
-                if b_id == h_ball: continue
-                b_r, b_c = state.ball_pos[b_id]
-                box_r, box_c = self.get_box_pos(b_id)
-                cost2 = self.dist[target_box_r][target_box_c][b_r][b_c] + self.dist[b_r][b_c][box_r][box_c]
-                if cost2 < next_min:
-                    next_min = float(cost2)
-            
-            if next_min == float(10**9): next_min = 0.0
-            min_cost = float(dist_to_box) + next_min
+            next_min = 0
+            if len(remaining) > 1:
+                next_min = min(self.dist[box_r][box_c][state.ball_pos[b][0]][state.ball_pos[b][1]] for b in remaining if b != h_ball)
+                
+            # 【超重要】持っていること自体にボーナス(-2.0)を与え、Sボタンを押すインセンティブを作る
+            robot_cost = dist_to_box + next_min - 2.0
             
         else:
-            # 【大幅な高速化】近いボールトップ3だけを調べる
+            # 持っていない場合、近いボールトップ3について「拾う距離 ＋ その次までの距離」を計算
             b1_candidates = []
             for b1 in remaining:
                 b1_r, b1_c = state.ball_pos[b1]
-                box1_r, box1_c = self.get_box_pos(b1)
-                cost1 = self.dist[state.r][state.c][b1_r][b1_c] + self.dist[b1_r][b1_c][box1_r][box1_c]
-                b1_candidates.append((cost1, b1, box1_r, box1_c))
+                # ロボットからボールまでの距離だけを計算（かごまでの距離は balls_dist_sum に既に入っているため）
+                cost1 = self.dist[state.r][state.c][b1_r][b1_c]
+                b1_candidates.append((cost1, b1))
             
-            # コスト（距離）が小さい順にソート
             b1_candidates.sort(key=lambda x: x[0])
             
-            # 上位3つだけを2手先読みの対象にする（40×40 = 1600回のループが、3×40 = 120回に減る！）
-            for cost1, b1, box1_r, box1_c in b1_candidates[:3]:
-                next_min = float(10**9)
-                for b2 in remaining:
-                    if b1 == b2: continue
-                    b2_r, b2_c = state.ball_pos[b2]
-                    box2_r, box2_c = self.get_box_pos(b2)
-                    cost2 = self.dist[box1_r][box1_c][b2_r][b2_c] + self.dist[b2_r][b2_c][box2_r][box2_c]
-                    if cost2 < next_min:
-                        next_min = float(cost2)
-                
-                if next_min == float(10**9): next_min = 0.0
-                
-                if cost1 + next_min < min_cost:
-                    min_cost = cost1 + next_min
+            best_cost = float(10**9)
+            for cost1, b1 in b1_candidates[:3]:
+                box1_r, box1_c = self.get_box_pos(b1)
+                next_min = 0
+                if len(remaining) > 1:
+                    next_min = min(self.dist[box1_r][box1_c][state.ball_pos[b2][0]][state.ball_pos[b2][1]] for b2 in remaining if b2 != b1)
+                    
+                if cost1 + next_min < best_cost:
+                    best_cost = cost1 + next_min
+                    
+            if remaining:
+                robot_cost = best_cost
+            else:
+                robot_cost = 0
 
-        score -= min_cost
-        score -= len(state.ops) * 0.1  
+        score -= (balls_dist_sum + robot_cost)
+        score -= len(state.ops) * 0.1 
         
         return score
 
