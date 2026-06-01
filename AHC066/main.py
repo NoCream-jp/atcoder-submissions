@@ -217,7 +217,7 @@ class Solver:
                     min_cost = cost1 + next_min
 
         score -= min_cost
-        score -= len(state.ops) * 0.1 
+        score -= len(state.ops) * 0.1  
         
         return score
 
