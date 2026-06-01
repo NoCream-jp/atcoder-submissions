@@ -1,8 +1,20 @@
+"""
+Here is my coding space
+    Caffeineholic
+                    ) ) )
+                    ( ( (
+                    ████╗
+                    ████╝ < first AHC for me..
+"""
+
 import os
 import sys
 import time
 from collections import defaultdict, deque
-
+"""
+seed=60 score=674(bs, diversity)
+seed=70 score=445(bs, diversity)
+"""
 # =================================================================
 # ローカルテスト用の入出力切り替え（絶対パス取得版）
 # =================================================================
@@ -195,7 +207,7 @@ class Solver:
             # コスト（距離）が小さい順にソート
             b1_candidates.sort(key=lambda x: x[0])
             
-            # 上位3つだけを2手先読みの対象にする（40×40 = 1600回のループが、3×40 = 120回に減る！）
+            # 上位3つだけを2手先読みの対象にする
             for cost1, b1, box1_r, box1_c in b1_candidates[:3]:
                 next_min = float(10**9)
                 for b2 in remaining:
@@ -227,7 +239,7 @@ class Solver:
         return False
 
     def solve(self):
-        BEAM_WIDTH = 25 
+        BEAM_WIDTH = 35
         MAX_DEPTH = self.T 
 
         initial_state = State(
@@ -246,8 +258,8 @@ class Solver:
         start_time = time.time()
 
         for depth in range(MAX_DEPTH):
-            # 実行時間を実際に出してみる
-            runtime = time.time() - start_time
+            if time.time() - start_time > 1.9:
+                break
                 
             if not current_states:
                 break
@@ -347,11 +359,6 @@ class Solver:
                 # 全体のビーム幅に達したら終了
                 if len(current_states) >= BEAM_WIDTH:
                     break
-            
-            if current_states:
-                is_best_completed = (best_final_state.completed_mask == (1 << self.M) - 1)
-                if (not is_best_completed) and current_states[0].score > best_final_state.score:
-                    best_final_state = current_states[0]
             
             if current_states:
                 is_best_completed = (best_final_state.completed_mask == (1 << self.M) - 1)
