@@ -1,7 +1,21 @@
-
+import os
 import sys
 import time
 from collections import defaultdict, deque
+
+# =================================================================
+# ローカルテスト用の入出力切り替え（絶対パス取得版）
+# =================================================================
+# このファイル(main.py)が存在するディレクトリのパスを取得
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_file = os.path.join(script_dir, "input.txt")
+output_file = os.path.join(script_dir, "output.txt")
+
+# input.txt が「main.pyと同じフォルダ」にあれば読み込む
+if os.path.exists(input_file):
+    sys.stdin = open(input_file, "r")
+    sys.stdout = open(output_file, "w") # 出力もファイルにしたい場合はコメントを外す
+# =================================================================
 
 def input(): return sys.stdin.readline().strip()
 def i_map(): return map(int, input().split())
@@ -101,7 +115,7 @@ class State:
         return (self.r, self.c, self.d, self.holding_ball, tuple(self.ball_pos), self.completed_mask)
 
 # メインソルバー
-class AHC066Solver:
+class Solver:
     def __init__(self, N, M, T, v, h, ball_and_box):
         self.N = N
         self.M = M
@@ -148,33 +162,59 @@ class AHC066Solver:
 
     def evaluate_state(self, state: State) -> float:
         if state.completed_mask == (1 << self.M) - 1:
-            return 1000000.0 
+            return float(10**10)
 
         completed_count = bin(state.completed_mask).count("1")
         score = float(completed_count * 100000)
         
         min_cost = float(10**9)
+        remaining = [i for i in range(self.M) if not (state.completed_mask & (1 << i))]
         
         if state.holding_ball != -1:
-            target_box_r, target_box_c = self.get_box_pos(state.holding_ball)
+            # 持っている場合はそのまま（計算量は少ないので変更なし）
+            h_ball = state.holding_ball
+            target_box_r, target_box_c = self.get_box_pos(h_ball)
             dist_to_box = self.dist[state.r][state.c][target_box_r][target_box_c]
-            min_cost = float(dist_to_box)
-            if dist_to_box > 0:
-                min_cost += 0.5 
-        else:
-            for b_id in range(self.M):
-                if (state.completed_mask & (1 << b_id)):
-                    continue
-                    
+            
+            next_min = float(10**9)
+            for b_id in remaining:
+                if b_id == h_ball: continue
                 b_r, b_c = state.ball_pos[b_id]
                 box_r, box_c = self.get_box_pos(b_id)
+                cost2 = self.dist[target_box_r][target_box_c][b_r][b_c] + self.dist[b_r][b_c][box_r][box_c]
+                if cost2 < next_min:
+                    next_min = float(cost2)
+            
+            if next_min == float(10**9): next_min = 0.0
+            min_cost = float(dist_to_box) + next_min
+            
+        else:
+            # 【大幅な高速化】近いボールトップ3だけを調べる
+            b1_candidates = []
+            for b1 in remaining:
+                b1_r, b1_c = state.ball_pos[b1]
+                box1_r, box1_c = self.get_box_pos(b1)
+                cost1 = self.dist[state.r][state.c][b1_r][b1_c] + self.dist[b1_r][b1_c][box1_r][box1_c]
+                b1_candidates.append((cost1, b1, box1_r, box1_c))
+            
+            # コスト（距離）が小さい順にソート
+            b1_candidates.sort(key=lambda x: x[0])
+            
+            # 上位3つだけを2手先読みの対象にする（40×40 = 1600回のループが、3×40 = 120回に減る！）
+            for cost1, b1, box1_r, box1_c in b1_candidates[:3]:
+                next_min = float(10**9)
+                for b2 in remaining:
+                    if b1 == b2: continue
+                    b2_r, b2_c = state.ball_pos[b2]
+                    box2_r, box2_c = self.get_box_pos(b2)
+                    cost2 = self.dist[box1_r][box1_c][b2_r][b2_c] + self.dist[b2_r][b2_c][box2_r][box2_c]
+                    if cost2 < next_min:
+                        next_min = float(cost2)
                 
-                d_to_ball = self.dist[state.r][state.c][b_r][b_c]
-                d_to_box = self.dist[b_r][b_c][box_r][box_c]
+                if next_min == float(10**9): next_min = 0.0
                 
-                cost = d_to_ball + d_to_box
-                if cost < min_cost:
-                    min_cost = float(cost)
+                if cost1 + next_min < min_cost:
+                    min_cost = cost1 + next_min
 
         score -= min_cost
         score -= len(state.ops) * 0.1 
@@ -193,7 +233,7 @@ class AHC066Solver:
         return False
 
     def solve(self):
-        BEAM_WIDTH = 50 
+        BEAM_WIDTH = 25 
         MAX_DEPTH = self.T 
 
         initial_state = State(
@@ -212,9 +252,8 @@ class AHC066Solver:
         start_time = time.time()
 
         for depth in range(MAX_DEPTH):
-            # 実行時間制限
-            if time.time() - start_time > 2.8:
-                break
+            # 実行時間を実際に出してみる
+            runtime = time.time() - start_time
                 
             if not current_states:
                 break
@@ -316,7 +355,7 @@ def main():
     h = [input() for _ in range(N-1)]
     ball_and_box = [i_list() for _ in range(M)]
 
-    solver = AHC066Solver(N, M, T, v, h, ball_and_box)
+    solver = Solver(N, M, T, v, h, ball_and_box)
     solver.solve()
 
 if __name__ == "__main__":
