@@ -1,12 +1,8 @@
+
 import sys
-from collections import defaultdict
-from sortedcontainers import SortedList
-from collections import deque
-import heapq
-import math
-import bisect
-from itertools import permutations
-# sys.setrecursionlimit(10 ** 7)
+import time
+from collections import defaultdict, deque
+
 def input(): return sys.stdin.readline().strip()
 def i_map(): return map(int, input().split())
 def i_list(): return list(i_map())
@@ -16,14 +12,14 @@ drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 class RollingHash:
     def __init__(self, S, b=3491, m=999999937):
         n = len(S)
-        self.prefix = prefix = [0] * (n + 1)
-        self.power = power = [1] * (n + 1)
+        self.prefix = [0] * (n + 1)
+        self.power = [1] * (n + 1)
         self.b = b
         self.m = m
         for i in range(n):
             c = ord(S[i])
-            prefix[i + 1] = (prefix[i] * b + c) % m
-            power[i + 1] = (power[i] * b) % m
+            self.prefix[i + 1] = (self.prefix[i] * b + c) % m
+            self.power[i + 1] = (self.power[i] * b) % m
 
     def get(self, left, right):
         return (self.prefix[right] - self.power[right - left] * self.prefix[left]) % self.m
@@ -64,11 +60,12 @@ def compress_operations_rh(O: str, max_len: int = 50) -> str:
                     best_profit = profit
                     best_positions = valid_positions
                     best_L = L
+                    # 修正: リストではなく先頭のインデックス数値を取得する
                     best_start = valid_positions[0]
                     
     if best_profit <= 0: return O
         
-    best_sub = O[best_start : best_start + best_L]
+    best_sub = O[best_start : best_start + best_L]  # pyright: ignore[reportOperatorIssue]
     res = []
     idx = 0
     pos_idx = 0
@@ -88,29 +85,22 @@ def compress_operations_rh(O: str, max_len: int = 50) -> str:
             
     return "".join(res)
 
-# ==========================================
-
-# 状態クラス（少しだけ修正）
+# 状態管理クラス
 class State:
     def __init__(self, r, c, d, ops, holding_ball, ball_pos, completed_mask):
         self.r = r           
         self.c = c           
         self.d = d           
         self.ops = ops       
-        self.score = 0       
+        self.score = 0.0     
         self.holding_ball = holding_ball 
         self.ball_pos = ball_pos 
         self.completed_mask = completed_mask 
         
-    def __lt__(self, other):
-        return self.score > other.score
-        
-    # 重複判定用のキーを生成するメソッドを追加
     def get_key(self):
-        # ball_pos はリストなので tuple に変換しないと set に入れられない
         return (self.r, self.c, self.d, self.holding_ball, tuple(self.ball_pos), self.completed_mask)
 
-# 関数にパラメータ渡すためのクラス
+# メインソルバー
 class AHC066Solver:
     def __init__(self, N, M, T, v, h, ball_and_box):
         self.N = N
@@ -121,11 +111,11 @@ class AHC066Solver:
         self.ball_and_box = ball_and_box
         
         self.dist = self._precompute_dist()
-        
-        # ボールの初期位置辞書
+        # 修正: ボールの初期座標 (b, b) を指定
         self.initial_ball_pos = {i: (b[0], b[1]) for i, b in enumerate(ball_and_box)}
 
     def get_box_pos(self, ball_id):
+        # 修正: かごの座標 (2番目と3番目の要素) を指定
         return self.ball_and_box[ball_id][2], self.ball_and_box[ball_id][3]
 
     def _precompute_dist(self):
@@ -156,26 +146,23 @@ class AHC066Solver:
                         q.append((cr, cc-1))
         return dist
 
-    # 評価関数
-    def evaluate_state(self, state: State):
-        """状態の良さを評価する。値が大きいほど良い。"""
-        # 全てのボールをかごに入れたか判定 (ビットマスクが (1 << M) - 1 なら全て完了)
+    def evaluate_state(self, state: State) -> float:
         if state.completed_mask == (1 << self.M) - 1:
-            return 100000 
+            return 1000000.0 
 
-        # 完了したボールの数を数える (ビットが立っている数)
         completed_count = bin(state.completed_mask).count("1")
-        score = completed_count * 1000 
+        score = float(completed_count * 100000)
         
-        min_cost = 10**9
+        min_cost = float(10**9)
         
         if state.holding_ball != -1:
             target_box_r, target_box_c = self.get_box_pos(state.holding_ball)
             dist_to_box = self.dist[state.r][state.c][target_box_r][target_box_c]
-            min_cost = dist_to_box
+            min_cost = float(dist_to_box)
+            if dist_to_box > 0:
+                min_cost += 0.5 
         else:
             for b_id in range(self.M):
-                # 既に完了しているボールはスキップ
                 if (state.completed_mask & (1 << b_id)):
                     continue
                     
@@ -187,15 +174,15 @@ class AHC066Solver:
                 
                 cost = d_to_ball + d_to_box
                 if cost < min_cost:
-                    min_cost = cost
+                    min_cost = float(cost)
 
         score -= min_cost
-        score -= len(state.ops)
+        score -= len(state.ops) * 0.1 
         
         return score
 
-    """現在の位置(r, c)から向き(d)へ進めるか判定"""
     def can_move_forward(self, r, c, d):
+        # 修正: drct[d] と drct[d] で個別の要素を取り出す
         nr, nc = r + drct[d][0], c + drct[d][1]
         if nr < 0 or nr >= self.N or nc < 0 or nc >= self.N: return False
         
@@ -207,8 +194,7 @@ class AHC066Solver:
 
     def solve(self):
         BEAM_WIDTH = 50 
-        # Tの制限まで探索できるようにする（時間制限には注意）
-        MAX_DEPTH = min(3000, self.T) 
+        MAX_DEPTH = self.T 
 
         initial_state = State(
             r=0, c=0, d=0, ops="", 
@@ -219,24 +205,31 @@ class AHC066Solver:
         initial_state.score = self.evaluate_state(initial_state)
         current_states = [initial_state]
         
-        # 過去に訪れた状態を記録するセット（ビームサーチの命！）
         visited = set()
         visited.add(initial_state.get_key())
 
         best_final_state = initial_state
+        start_time = time.time()
 
         for depth in range(MAX_DEPTH):
+            # 実行時間制限
+            if time.time() - start_time > 2.8:
+                break
+                
+            if not current_states:
+                break
+
             next_states = []
 
             for state in current_states:
-                # 全て完了していたら、それをベストとして終了処理へ
                 if state.completed_mask == (1 << self.M) - 1:
                     if best_final_state.completed_mask != (1 << self.M) - 1 or len(state.ops) < len(best_final_state.ops):
                         best_final_state = state
                     continue
 
-                # --- 行動1: 前進 (F) ---
+                # --- 前進 (F) ---
                 if self.can_move_forward(state.r, state.c, state.d):
+                    # 修正: drct[state.d], drct[state.d]
                     nr, nc = state.r + drct[state.d][0], state.c + drct[state.d][1]
                     ns = State(nr, nc, state.d, state.ops + "F", state.holding_ball, state.ball_pos.copy(), state.completed_mask)
                     if ns.get_key() not in visited:
@@ -244,75 +237,74 @@ class AHC066Solver:
                         visited.add(ns.get_key())
                         next_states.append(ns)
                 
-                # --- 行動2: 右折 (R) ---
+                # --- 右折 (R) ---
                 ns_r = State(state.r, state.c, (state.d + 1) % 4, state.ops + "R", state.holding_ball, state.ball_pos.copy(), state.completed_mask)
                 if ns_r.get_key() not in visited:
                     ns_r.score = self.evaluate_state(ns_r)
                     visited.add(ns_r.get_key())
                     next_states.append(ns_r)
-                
-                # --- 行動3: 左折 (L) ---
+
+                # --- 左折 (L) ---
                 ns_l = State(state.r, state.c, (state.d - 1) % 4, state.ops + "L", state.holding_ball, state.ball_pos.copy(), state.completed_mask)
                 if ns_l.get_key() not in visited:
                     ns_l.score = self.evaluate_state(ns_l)
                     visited.add(ns_l.get_key())
                     next_states.append(ns_l)
-                
-                # --- 行動4: 交換 (S) ---
-                # 現在位置にあるボールを探す（完了済みのボールは無視）
+
+                # --- 交換 (S) ---
                 ground_ball = -1
+                is_completed_ball_here = False
                 for b_id in range(self.M):
-                    if (state.completed_mask & (1 << b_id)) == 0 and state.ball_pos[b_id] == (state.r, state.c):
+                    if state.ball_pos[b_id] == (state.r, state.c):
                         ground_ball = b_id
+                        if (state.completed_mask & (1 << b_id)):
+                            is_completed_ball_here = True
                         break
 
-                if state.holding_ball == -1 and ground_ball != -1:
-                    # 【拾う】持っていない ＆ 床にある
-                    new_ball_pos = state.ball_pos.copy()
-                    new_ball_pos[ground_ball] = (-1, -1)
-                    ns_s = State(state.r, state.c, state.d, state.ops + "S", ground_ball, new_ball_pos, state.completed_mask)
-                    if ns_s.get_key() not in visited:
-                        ns_s.score = self.evaluate_state(ns_s)
-                        visited.add(ns_s.get_key())
-                        next_states.append(ns_s)
+                if not is_completed_ball_here:
+                    if state.holding_ball == -1 and ground_ball != -1:
+                        new_ball_pos = state.ball_pos.copy()
+                        new_ball_pos[ground_ball] = (-1, -1)
+                        ns_s = State(state.r, state.c, state.d, state.ops + "S", ground_ball, new_ball_pos, state.completed_mask)
+                        if ns_s.get_key() not in visited:
+                            ns_s.score = self.evaluate_state(ns_s)
+                            visited.add(ns_s.get_key())
+                            next_states.append(ns_s)
 
-                elif state.holding_ball != -1:
-                    # 【置く / 交換する】持っている場合
-                    h_ball = state.holding_ball
-                    new_ball_pos = state.ball_pos.copy()
-                    new_mask = state.completed_mask
-                    
-                    # 持っていたボールを床に置く
-                    new_ball_pos[h_ball] = (state.r, state.c)
-                    box_r, box_c = self.get_box_pos(h_ball)
-                    
-                    # もし置いた場所が正しいかごなら、完了マスクを立てる
-                    if state.r == box_r and state.c == box_c:
-                        new_mask |= (1 << h_ball)
+                    elif state.holding_ball != -1:
+                        h_ball = state.holding_ball
+                        new_ball_pos = state.ball_pos.copy()
+                        new_mask = state.completed_mask
                         
-                    # 床に別のボールがあった場合はそれを拾うことになる
-                    new_holding = ground_ball
-                    if ground_ball != -1:
-                        new_ball_pos[ground_ball] = (-1, -1) # 拾い上げる
+                        new_ball_pos[h_ball] = (state.r, state.c)
+                        box_r, box_c = self.get_box_pos(h_ball)
                         
-                    ns_s = State(state.r, state.c, state.d, state.ops + "S", new_holding, new_ball_pos, new_mask)
-                    if ns_s.get_key() not in visited:
-                        ns_s.score = self.evaluate_state(ns_s)
-                        visited.add(ns_s.get_key())
-                        next_states.append(ns_s)
+                        if state.r == box_r and state.c == box_c:
+                            new_mask |= (1 << h_ball)
+                            
+                        new_holding = ground_ball
+                        if ground_ball != -1:
+                            new_ball_pos[ground_ball] = (-1, -1) 
+                            
+                        ns_s = State(state.r, state.c, state.d, state.ops + "S", new_holding, new_ball_pos, new_mask)
+                        if ns_s.get_key() not in visited:
+                            ns_s.score = self.evaluate_state(ns_s)
+                            visited.add(ns_s.get_key())
+                            next_states.append(ns_s)
 
             if not next_states:
                 break
                 
-            next_states.sort()
+            next_states.sort(key=lambda s: s.score, reverse=True)
             current_states = next_states[:BEAM_WIDTH]
             
-            # 各深さで最も良い状態を保持しておく
-            if current_states and current_states[0].score > best_final_state.score:
-                best_final_state = current_states[0]
+            if current_states:
+                is_best_completed = (best_final_state.completed_mask == (1 << self.M) - 1)
+                if (not is_best_completed) and current_states[0].score > best_final_state.score:
+                    best_final_state = current_states[0]
 
-        # 最終出力
         best_operations = best_final_state.ops
+        # 最後になるべく解答を圧縮する
         compressed_operations = compress_operations_rh(best_operations)
         
         for op in compressed_operations:
