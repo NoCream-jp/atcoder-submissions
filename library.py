@@ -252,6 +252,11 @@ def make_dictionary(lst):
             d[n] = 1
     return d
 
+# 辞書ならこっちのほうが早い
+from collections import Counter
+def dictionary_of(lst):
+    return Counter(lst)
+
 
 def lis(seq):
     LIS = [seq[0]]
@@ -269,7 +274,6 @@ def my_bisect_left(a, x):
     if a[-1] < x:
         return None
     return bisect.bisect_left(a, x)
-
 
 def my_bisect_right(a, x):
     if x < a[0]:
