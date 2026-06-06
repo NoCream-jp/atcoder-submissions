@@ -40,7 +40,23 @@ from itertools import permutations
 
 def main():
 
-    
+    N = int(input())
+    A = i_list()
+    B = i_list()
+
+    f = True
+    for p in range(N):
+        axe = A[p]
+        true = B[axe-1] - 1
+        if true == p:
+            continue
+        else:
+            f = False
+            break
+    if f:
+        print("Yes")
+    else:
+        print("No")
 
     return
 ######################################################

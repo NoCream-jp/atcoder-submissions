@@ -40,7 +40,11 @@ from itertools import permutations
 
 def main():
 
-    
+    N, Q = i_map()
+    for i in range(Q):
+        query = input().split()
+        n, c = int(query[0]), query[1]
+        
 
     return
 ######################################################

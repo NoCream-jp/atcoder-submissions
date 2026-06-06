@@ -40,6 +40,48 @@ from itertools import permutations
 
 def main():
 
+    """
+    貪欲に
+    M種類までは各種類のうち最大のものを取ってくる
+    そのあとは全てで見る
+    種類ごとにソート、全部でソート？
+    種類毎にリストを作って、最大と色のタプルを作っておく。
+    それとは別にもう一つ全てのリストを入れたslを作る。
+    M回ののうちは、選んだものを削除する。
+    """
+
+    N, K, M = i_map()
+    DIFF = K - M
+    d = defaultdict(list)
+    for _ in range(N):
+        c, v = i_map()
+        d[c].append(v)
+
+    lst = []
+    for k in d:
+        d[k].sort()
+        lst.append((k, d[k][-1])) # (color, score)
+    # print("lst", lst)
+    lst.sort(key=lambda x:x[-1])
+
+    ans = 0
+    # まずはM回種類をまたいで最大値
+    while M:
+        M -= 1
+        color, score = lst.pop()
+        ans += score
+        d[color].pop()
+    # 次に残り物を混ぜてソート
+    l = []
+    for k in d:
+        for v in d[k]:
+            l.append(v)
+    l.sort()
+    for _ in range(DIFF):
+        ans += l.pop()
+    
+    print(ans)
+
     
 
     return

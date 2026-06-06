@@ -40,7 +40,11 @@ from itertools import permutations
 
 def main():
 
-    
+    A, D = i_map()
+    if A <= D:
+        print("Yes")
+    else:
+        print("No")
 
     return
 ######################################################
