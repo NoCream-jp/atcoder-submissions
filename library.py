@@ -358,19 +358,26 @@ def EulerTour(n, X, i0):
 #             if not visited[ni][nj]:
 #                 q.append((ni, nj))
 
-# dijkstra
-    # dist = [float("inf") for _ in range(N+1)]
-    # start = 0
-    # dist[start] = 0
-    # pq = [(0, start)]
-    # while pq:
-    #     d, u = heapq.heappop(pq)
-    #     if dist[u] < d:
-    #         continue
-    #     for v, cost in graph[u]:
-    #         if dist[u] + cost < dist[v]:
-    #             dist[v] = dist[u] + cost
-    #             heapq.heappush(pq, (dist[v], v))
+# def dijkstra(start, graph, N):
+#     INF = 10**18
+#     dist = [INF] * N
+#     dist[start] = 0
+
+#     pq = [(0, start)]
+
+#     while pq:
+#         cost, now = heapq.heappop(pq)
+
+#         if cost > dist[now]:
+#             continue
+
+#         for nxt in graph[now]:
+#             nxtcost = graph[now][nxt]
+#             if dist[nxt] > cost + nxtcost:
+#                 dist[nxt] = cost + nxtcost
+#                 heapq.heappush(pq, (dist[nxt], nxt))
+
+#     return dist
 
 # Trie用ノードクラス
 class Node:

@@ -49,27 +49,19 @@ def main():
                     for l in range(4**N): # l回シフトしたものを使う
                         use.append((i, j, k, l))
         
-        result = 0
-        for i, j, k, l in use:
-            # i番目のサイコロすべてを見て、
-            # j番目のサイコロを0なら反転させる
-            temp = []
-            c_dice = dice[i] 
-            for jj in range(N): # bit
-                if (j >> jj) & 1 :
-                    c_dice[jj]
-            for kk in range(N): # 4進数
-                if (k >> kk):
+        # result = 0
+        # for i, j, k, l in use:
+        #     # i番目のサイコロすべてを見て、
+        #     # j番目のサイコロを0なら反転させる
+        #     temp = []
+        #     c_dice = dice[i] 
+        #     for jj in range(N): # bit
+        #         if (j >> jj) & 1 :
+        #             c_dice[jj]
+        #     for kk in range(N): # 4進数
+        #         # if (k >> kk):
                     
-            for ll in range(N):
-
-
-
-
-                    
-                    
-            
-
+            # for ll in range(N):
 
 ######################################################
 
