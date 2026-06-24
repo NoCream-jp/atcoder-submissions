@@ -1,3 +1,11 @@
+"""
+Here is my coding space
+    Caffeineholic
+                    ) ) )
+                    ( ( (
+                    ████╗
+                    ████╝ < before i get cold
+"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)
@@ -32,7 +40,7 @@ from itertools import permutations
 
 def main():
 
-        
+    
 
     return
 ######################################################

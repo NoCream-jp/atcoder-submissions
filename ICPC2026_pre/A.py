@@ -18,21 +18,18 @@ def i_list():
 def c_list():
     return list(input().split())
 
-from collections import defaultdict
-from collections import Counter
-from sortedcontainers import SortedList
-from collections import deque
-import heapq
-import math
-import bisect
-from itertools import permutations
-
 ##################################################
 
 
 def main():
 
-        
+    while 1:
+        N = int(input())
+        if N == 0:
+            return
+        A = i_list()
+        A.sort()
+        print(A[1])
 
     return
 ######################################################

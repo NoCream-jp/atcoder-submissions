@@ -1,3 +1,11 @@
+"""
+Here is my coding space
+    Caffeineholic
+                    ) ) )
+                    ( ( (
+                    ████╗
+                    ████╝ < give me higher rate point !!!!
+"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)
@@ -32,7 +40,10 @@ from itertools import permutations
 
 def main():
 
-        
+    T = int(input())
+    for _ in range(T):
+        n, k = i_map()
+        s = input()
 
     return
 ######################################################

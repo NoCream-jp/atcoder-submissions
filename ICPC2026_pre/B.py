@@ -18,23 +18,29 @@ def i_list():
 def c_list():
     return list(input().split())
 
-from collections import defaultdict
-from collections import Counter
-from sortedcontainers import SortedList
-from collections import deque
-import heapq
-import math
-import bisect
-from itertools import permutations
-
 ##################################################
 
 
 def main():
 
-        
+    while 1:
+        N = int(input())
+        if N == 0:
+            return
+        S = list(input())
+        st = set()
+        for c in S:
+            st.add(c)
+        if len(st) <= 1:
+            print("IMPOSSIBLE")
+            continue
+        else:
+            for i in range(N-1):
+                if S[i] != S[i+1]:
+                    S[i], S[i+1] = S[i+1], S[i]
+                    break
+        print("".join(S))
 
-    return
 ######################################################
 
 if __name__ == "__main__":

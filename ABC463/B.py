@@ -1,3 +1,11 @@
+"""
+Here is my coding space
+    Caffeineholic
+                    ) ) )
+                    ( ( (
+                    ████╗
+                    ████╝ < give me higher rate point !!!!
+"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)
@@ -32,7 +40,16 @@ from itertools import permutations
 
 def main():
 
-        
+    n, X = input().split()
+    N = int(n)
+    grid = [input() for _ in range(N)]
+    alpha = ["A", "B", "C", "D", "E"]
+    idx = alpha.index(X)
+    ans = "No"
+    for i in range(N):
+        if grid[i][idx] == "o":
+            ans = "Yes"
+    print(ans)
 
     return
 ######################################################

@@ -1,10 +1,5 @@
 """
-Here is my coding space
-    Caffeineholic
-                    ) ) )
-                    ( ( (
-                    ████╗
-                    ████╝ < too hot
+https://onlinejudge.u-aizu.ac.jp/challenges/sources/JAG/Prelim/3204?year=2020
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -38,10 +33,34 @@ from itertools import permutations as p
 
 
 def main():
-    
-    
-
-    return
+    """
+    (が来たらすでにたまっている)を見てansを増やす。(をためる
+    )が来たらたまっている(をできるだけ消してから、余っている)をそのままためる。余っていなければそのまま次へ
+    """
+    while 1:
+        S = list(input())
+        if S == "#":
+            break
+        idx = 0
+        ans = 0
+        stack = []
+        for c in S:
+            if c == "(":
+                while stack:
+                    if stack[-1] == "(":
+                        stack.append("(")
+                    else:
+                        ans += (len(stack) + 1)//2
+                        stack = ["("]
+                        break
+            else:
+                if stack and stack[-1] == ")":
+                    stack.append(")")
+                elif 2 <= len(stack):
+                    stack.pop()
+                    stack.pop()
+            print("stack", stack)
+            
 ######################################################
 
 

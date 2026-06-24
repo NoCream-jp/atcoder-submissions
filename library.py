@@ -39,22 +39,8 @@ from itertools import permutations as p
 
 def main():
 
-    N = 10
-    L = [1 , 6 , 3 , 4 , 2 , 5 , 5 , 4 , 9 , 10]
-
-    lst = cum_sum(L)
-    print(lst)
-
-    # 0~8の和(for文)
-    ans = 0
-    for i in range(0, 9):
-        ans += L[i]
-    print("for文で求めた和:", ans)
-
-    # 0~8の和(累積和)
-    l = 0
-    r = 8
-    print("累積和で求めた和:", lst[r+1] - lst[l])
+    l = [6, 12, 1, 10, 15, 7]
+    print(l[2:] + l[:2])
 
     return
 ######################################################
@@ -372,6 +358,19 @@ def EulerTour(n, X, i0):
 #             if not visited[ni][nj]:
 #                 q.append((ni, nj))
 
+# dijkstra
+    # dist = [float("inf") for _ in range(N+1)]
+    # start = 0
+    # dist[start] = 0
+    # pq = [(0, start)]
+    # while pq:
+    #     d, u = heapq.heappop(pq)
+    #     if dist[u] < d:
+    #         continue
+    #     for v, cost in graph[u]:
+    #         if dist[u] + cost < dist[v]:
+    #             dist[v] = dist[u] + cost
+    #             heapq.heappush(pq, (dist[v], v))
 
 # Trie用ノードクラス
 class Node:

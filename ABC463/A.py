@@ -1,3 +1,11 @@
+"""
+Here is my coding space
+    Caffeineholic
+                    ) ) )
+                    ( ( (
+                    ████╗
+                    ████╝ < give me higher rate point !!!!
+"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)
@@ -32,7 +40,11 @@ from itertools import permutations
 
 def main():
 
-        
+    X, Y = i_map()
+    ans = "Yes"
+    if X*9 != Y*16:
+        ans = "No"
+    print(ans)
 
     return
 ######################################################
