@@ -1,11 +1,3 @@
-"""
-Here is my coding space
-    Caffeineholic
-                    ) ) )
-                    ( ( (
-                    ████╗
-                    ████╝ < too hot
-"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)

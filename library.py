@@ -147,6 +147,13 @@ def cum_sum(l):
         a[i + 1] = a[i] + l[i]
     return a
 
+# 累積xor和
+def cum_xor(l):
+    a = [0 for _ in range(len(l) + 1)]
+    for i in range(len(l)):
+        a[i + 1] = a[i] & l[i]
+    return a
+
 # LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]

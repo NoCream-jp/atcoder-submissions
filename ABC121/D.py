@@ -1,17 +1,10 @@
-"""
-Here is my coding space
-    Caffeineholic
-                    ) ) )
-                    ( ( (
-                    ████╗
-                    ████╝ < too hot
-"""
 ###################################################
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
+MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
 
@@ -40,7 +33,12 @@ from itertools import permutations
 
 def main():
 
-        
+    """
+    """
+
+    N = int(input())
+    A = i_list()
+
 
     return
 ######################################################
