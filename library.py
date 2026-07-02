@@ -39,8 +39,6 @@ from itertools import permutations as p
 
 def main():
 
-    l = [6, 12, 1, 10, 15, 7]
-    print(l[2:] + l[:2])
 
     return
 ######################################################
