@@ -40,7 +40,12 @@ from itertools import permutations
 
 def main():
 
-    
+    while 1:
+        n = int(input())
+        if n == 0:
+            return
+        w = i_list()
+        
 
     return
 ######################################################
