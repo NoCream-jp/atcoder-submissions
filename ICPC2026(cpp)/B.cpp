@@ -9,7 +9,7 @@ bool range_check(int i, int j, int h, int w) { return 0 <= j && j < w && 0 <= i 
 
 ll solve() {
 	
-    
+    cout << "aoki" << endl;
     
 	return 0;
 }
