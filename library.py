@@ -25,14 +25,15 @@ def i_list():
 def c_list():
     return list(input().split())
 
+
 from collections import defaultdict
+from collections import Counter
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
 import math
 import bisect
-
-from itertools import permutations as p
+from itertools import permutations
 
 ##################################################
 
@@ -319,33 +320,6 @@ def EulerTour(n, X, i0):
     
     return ET
 
-# # BFS
-# ### 白黒で黒からの距離
-    # H, W = i_map()
-    #     grid = [list(input()) for _ in range(H)]
-
-    #     # はじめに黒
-    #     q = deque()
-    #     for i in range(H):
-    #         for j in range(W):
-    #             if grid[i][j] == "#":
-    #                 q.append((i, j, 0))
-
-
-    #     visited = [[-1 for _ in range(W)] for _ in range(H)]
-    #     while q:
-    #         i, j, stamp = q.popleft()
-    #         if visited[i][j] != -1:
-    #             continue
-    #         visited[i][j] = stamp
-    #         for di, dj in drct8:
-    #             ni, nj = i+di, j+dj
-    #             if 0 <= ni <= H-1 and 0 <= nj <= W-1:
-    #                 if visited[ni][nj] == -1:
-    #                     q.append((ni, nj, stamp+1))
-    #     for v in visited:
-    #         print(v)
-
 # BFS
 # visited = [[False for _ in range(W)] for _ in range(H)]
 # visited[starti][startj] = True
@@ -363,26 +337,21 @@ def EulerTour(n, X, i0):
 #             if not visited[ni][nj]:
 #                 q.append((ni, nj))
 
-# def dijkstra(start, graph, N):
-#     INF = 10**18
-#     dist = [INF] * N
-#     dist[start] = 0
-
-#     pq = [(0, start)]
-
-#     while pq:
-#         cost, now = heapq.heappop(pq)
-
-#         if cost > dist[now]:
-#             continue
-
-#         for nxt in graph[now]:
-#             nxtcost = graph[now][nxt]
-#             if dist[nxt] > cost + nxtcost:
-#                 dist[nxt] = cost + nxtcost
-#                 heapq.heappush(pq, (dist[nxt], nxt))
-
-#     return dist
+def dijkstra(edges, num_node):
+    node = [float('inf')] * num_node
+    node[0] = 0
+    node_name = []
+    heapq.heappush(node_name, [0, 0])
+    while len(node_name) > 0:
+        _, min_point = heapq.heappop(node_name)
+        for factor in edges[min_point]:
+            goal = factor[0]   #終点
+            cost  = factor[1]   #コスト
+            #更新条件
+            if node[min_point] + cost < node[goal]:
+                node[goal] = node[min_point] + cost
+                heapq.heappush(node_name, [node[min_point] + cost, goal])
+    return node
 
 # Trie用ノードクラス
 class Node:
