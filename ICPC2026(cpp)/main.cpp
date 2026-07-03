@@ -47,6 +47,7 @@ ll solve() {
   cin.tie(nullptr);
   ios::sync_with_stdio(false);
 
+  cout << 'a' << endl;
 
   return 0;
 }
