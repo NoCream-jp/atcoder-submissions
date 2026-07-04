@@ -40,7 +40,11 @@ from itertools import permutations
 
 def main():
 
-    
+    a, b = i_map()
+    if a > b * 2 / 3:
+        print("Yes")
+    else:
+        print("No")
 
     return
 ######################################################

@@ -40,7 +40,16 @@ from itertools import permutations
 
 def main():
 
-    
+    x, y, l, r, a, b = i_map()
+
+    c = 0
+    for i in range(a, b):
+        if l <= i+0.5 <= r:
+            c += x
+        else:
+            c += y
+        # print(i, c)
+    print(c)
 
     return
 ######################################################

@@ -40,7 +40,32 @@ from itertools import permutations
 
 def main():
 
+    """
+    kに対する操作は常に同じ
+    見る範囲がどんどん大きくなるから後ろから
+    oかxかだけでNから場所が決定していきそう
+    """
+
+    N = int(input())
+    S = input()
     
+    ans = [0 for _ in range(N)]
+    num = N
+    left, right = 0, N-1
+    ld, rd = 1, -1
+    for c in S[::-1]:
+        if c == "o":
+            ans[left] = num
+            left += ld
+            left, right = right, left
+            ld *= -1
+            rd *= -1
+        else:
+            ans[right] = num
+            right += rd
+        num -= 1
+    print(*ans)
+
 
     return
 ######################################################

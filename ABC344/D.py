@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < abc465?
+                    ████╝ < hot
 """
 ###################################################
 # import sys
@@ -40,30 +40,29 @@ from itertools import permutations
 
 def main():
 
+    T = input()
+    N = int(input())
+    l = [list(input().split()) for _ in range(N)]
+
     """
-    それぞれの個数数えるだけで行けそう、Nがint型じゃないほうがよさそうなことに注意？
-    包除みたいにO(1)で最後につじつま合わせ
-    6個求めないといけない
-    a, b, c, ab, bc, ca
-
-    a:3の倍数の数は、割るだけ
-    b:十進表記に3が含まれる数は、一つも含まない数が9進数になるから簡単
-    c:ちょうど3種類の数字は、これも0で場合分けして0以外の9C3と4進数
-
-    ab: 3の倍数 かつ 十進表記に3が含まれる数は、3を使ったか使ってないかで
-        桁の数の合計が3の倍数かどうか
-    bc: 
-
-    ca: 
-
-    無理そう
-
-    桁ごとに見れないか
-    桁そこまでにある大丈夫な数の集合？
-    メタ読み：http://qiita.com/pinokions009/items/1e98252718eeeeb5c9ab
+    temp[i] = i文字目までを完成させるのに何円かかったか
     """
     
+    temp = [float('inf') for _ in range(len(T))]
 
+    for i in range(N):
+        for j in range(1, int(l[i][0])+1):
+            string = l[i][j]
+            for jj in range(len(T) - len(string)+1):
+                # print(f"{T[jj:jj+len(string)]}")
+                if T[jj:jj+len(string)] == string:
+                    if i == 0:
+                        temp[jj+len(string)-1] = 1
+                    else:
+                        temp[jj+len(string)-1] = min(temp[jj+len(string)-1], temp[jj-1] + 1)
+            # print(temp)
+    print(temp[-1])
+    
 
     return
 ######################################################

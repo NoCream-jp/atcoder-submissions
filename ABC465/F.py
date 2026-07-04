@@ -40,7 +40,16 @@ from itertools import permutations
 
 def main():
 
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+    Q = int(input())
+    for _ in range(Q):
+        x, y = i_map()
     
+    l.sort()
+
+    while 1:
+        
 
     return
 ######################################################
