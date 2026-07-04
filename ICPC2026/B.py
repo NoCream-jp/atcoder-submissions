@@ -21,9 +21,27 @@ def c_list():
 
 def main():
 
-    
+    while 1:
+        n, d = i_map()
+        if n == d == 0:
+            return
+        l = i_list()
 
-    return
+        ans = 0
+
+        while l:
+            start = l[-1]
+            # print(f"l: {l}")
+            while l and start - d*2 <= l[-1]:
+                # print(f"pop {l.pop()}, ans={ans}")
+                l.pop()
+            ans += 1
+
+        
+        print(ans)
+
+
+
 ######################################################
 
 if __name__ == "__main__":
