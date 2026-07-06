@@ -10,7 +10,7 @@ Here is my coding space
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
-# alpha = "abcdefghijklmnopqrstuvwxyz"
+alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
@@ -40,7 +40,11 @@ from itertools import permutations
 
 def main():
 
-    
+    S = input()
+    for i in range(len(S)):
+        if S[i] in alpha.upper():
+            print(i + 1)
+            return
 
     return
 ######################################################

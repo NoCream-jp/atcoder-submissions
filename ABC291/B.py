@@ -40,7 +40,13 @@ from itertools import permutations
 
 def main():
 
-    
+    N = int(input())
+    X = sorted(i_list())
+
+    # print(X[N:-N])
+    sm = sum(X[N:-N])
+    print(sm / (3*N))
+
 
     return
 ######################################################

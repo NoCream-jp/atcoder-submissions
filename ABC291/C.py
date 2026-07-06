@@ -13,7 +13,7 @@ Here is my coding space
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-
+drct_char = {"U": (0, 1), "D": (0, -1), "L": (-1, 0), "R": (1, 0)}
 
 def i_map():
     return map(int, input().split())
@@ -40,7 +40,20 @@ from itertools import permutations
 
 def main():
 
-    
+    N = int(input())
+
+    st = set()
+    x, y = 0, 0
+    st.add((x, y))
+    for c in input():
+        dx, dy = drct_char[c]
+        x += dx
+        y += dy
+        if (x, y) in st:
+            print("Yes")
+            return
+        st.add((x, y))
+    print("No")
 
     return
 ######################################################
