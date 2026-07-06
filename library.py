@@ -119,13 +119,12 @@ def get_dist(x1, y1, x2, y2):
 
 
 # ワーシャルフロイドでO(N**3)で最短経路
-# costs = [[] for _ in range(N)] の2重リスト
+# costs[i] = [cost_i0, cost_i1,...] の2重リスト
 def floyd(costs: list):
     N = len(costs)
     for k in range(N):
         for i in range(N):
             for j in range(N):
-                # 修正ポイント: min()関数を使わず、if文で比較する
                 if costs[i][k] + costs[k][j] < costs[i][j]:
                     costs[i][j] = costs[i][k] + costs[k][j]
     return costs

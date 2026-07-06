@@ -41,7 +41,6 @@ def floyd(costs: list):
     for k in range(N):
         for i in range(N):
             for j in range(N):
-                # 修正ポイント: min()関数を使わず、if文で比較する
                 if costs[i][k] + costs[k][j] < costs[i][j]:
                     costs[i][j] = costs[i][k] + costs[k][j]
     return costs
@@ -72,11 +71,11 @@ def main():
             if l[j] == 1:
                 graph[i][j] = 1
     
-    for g in graph:
-        print(g)
+    # for g in graph:
+    #     print(g)
 
     dist = floyd(graph)
-    print(dist)
+    # print(dist)
 
     Q = int(input())
     for _ in range(Q):
@@ -90,8 +89,6 @@ def main():
         if ans == float('inf'):
             ans = -1
         print(ans)
-
-
 
     return
 ######################################################
