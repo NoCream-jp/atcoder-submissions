@@ -340,17 +340,17 @@ def EulerTour(n, X, i0):
 #             if not visited[ni][nj]:
 #                 q.append((ni, nj))
 
-def dijkstra(edges, num_node):
+# ダイクストラ法でstartからの全てのノードへの最短距離を求める
+def dijkstra(edges, num_node, start):
     node = [float('inf')] * num_node
-    node[0] = 0
+    node[start] = 0
     node_name = []
-    heapq.heappush(node_name, [0, 0])
-    while len(node_name) > 0:
+    heapq.heappush(node_name, [0, start])
+    while 0 < len(node_name):
         _, min_point = heapq.heappop(node_name)
         for factor in edges[min_point]:
-            goal = factor[0]   #終点
-            cost  = factor[1]   #コスト
-            #更新条件
+            goal = factor[0]
+            cost  = factor[1]
             if node[min_point] + cost < node[goal]:
                 node[goal] = node[min_point] + cost
                 heapq.heappush(node_name, [node[min_point] + cost, goal])
