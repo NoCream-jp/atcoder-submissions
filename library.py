@@ -40,7 +40,27 @@ from itertools import permutations
 
 def main():
 
-    
+    graph = [
+        [[1, 2], [5, 1]],
+        [[2, 1]],
+        [[0, 3], [3, 3], [4, 4]],
+        [[6, 1]],
+        [[6, 10]],
+        [[2, 5], [4, 2]],
+        []
+    ]
+    N = len(graph)
+
+    rgraph = [[] for _ in range(N)]
+    for i in range(N):
+        for nxt, cost in graph[i]:
+            rgraph[nxt].append([i, cost])
+    print(rgraph)
+
+    dist = dijkstra(graph, 7, 0)
+    rdist = dijkstra(rgraph, 7, 0)
+    print(dist)
+    print(rdist)
 
     return
 
@@ -100,11 +120,14 @@ def get_dist(x1, y1, x2, y2):
 
 # ワーシャルフロイドでO(N**3)で最短経路
 # costs = [[] for _ in range(N)] の2重リスト
-def floyd(costs: list, N: int):
+def floyd(costs: list):
+    N = len(costs)
     for k in range(N):
         for i in range(N):
             for j in range(N):
-                costs[i][j] = min(costs[i][j], costs[i][k] + costs[k][j])
+                # 修正ポイント: min()関数を使わず、if文で比較する
+                if costs[i][k] + costs[k][j] < costs[i][j]:
+                    costs[i][j] = costs[i][k] + costs[k][j]
     return costs
 
 
@@ -340,7 +363,9 @@ def EulerTour(n, X, i0):
 #             if not visited[ni][nj]:
 #                 q.append((ni, nj))
 
+
 # ダイクストラ法でstartからの全てのノードへの最短距離を求める
+# edges[start] = [[nxt, cost], [nxt, cost], ...]
 def dijkstra(edges, num_node, start):
     node = [float('inf')] * num_node
     node[start] = 0

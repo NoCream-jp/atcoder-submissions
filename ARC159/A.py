@@ -35,20 +35,16 @@ import math
 import bisect
 from itertools import permutations
 
-def dijkstra(edges, num_node, start):
-    node = [float('inf')] * num_node
-    node[start] = 0
-    node_name = []
-    heapq.heappush(node_name, [0, start])
-    while 0 < len(node_name):
-        _, min_point = heapq.heappop(node_name)
-        for factor in edges[min_point]:
-            goal = factor[0]
-            cost  = factor[1]
-            if node[min_point] + cost < node[goal]:
-                node[goal] = node[min_point] + cost
-                heapq.heappush(node_name, [node[min_point] + cost, goal])
-    return node
+
+def floyd(costs: list):
+    N = len(costs)
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                # 修正ポイント: min()関数を使わず、if文で比較する
+                if costs[i][k] + costs[k][j] < costs[i][j]:
+                    costs[i][j] = costs[i][k] + costs[k][j]
+    return costs
 
 ##################################################
 
@@ -61,38 +57,40 @@ def main():
     i -> j+K, i -> j+2K, ... , i -> j+(K-1)K も存在する
     そいつらをコスト1としてダイクストラは書けない
 
-    勘だけど作るグラフはN頂点で、ダイクストラの結果を用意して
+    勘だけど作るグラフはN頂点で、floydの結果を用意して
     クエリをKで割った余りをその結果から見れば解けそう
 
-    x -> y の距離はdijkstraを二回で求められるので
+    x -> y の距離はdijkstraを各頂点に対して行うことで求められるので
     その計算をあまりに対して行うだけ
     """
 
     N, K = i_map()
-    graph = [[] for _ in range(N)]
-    rgraph = [[] for _ in range(N)]
+    graph = [[float('inf') for _ in range(N)] for _ in range(N)]
     for i in range(N):
         l = i_list()
         for j in range(N):
             if l[j] == 1:
-                graph[i].append([j, 1])
-                rgraph[j].append([i, 1])
+                graph[i][j] = 1
     
     for g in graph:
         print(g)
 
-    dist = dijkstra(graph, N, 0)
-    rdist = dijkstra(rgraph, N, N-1)
-    print(f"{dist=}")
-    print(f"{rdist=}")
+    dist = floyd(graph)
+    print(dist)
 
     Q = int(input())
     for _ in range(Q):
         s, t = i_map()
-        s -= 1
-        t -= 1
-        s %= K
-        t %= K
+        if s == t:
+            ans = 0
+            continue
+        s = (s-1) % N
+        t = (t-1) % N
+        ans = dist[s][t]
+        if ans == float('inf'):
+            ans = -1
+        print(ans)
+
 
 
     return
