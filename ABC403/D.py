@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < too hot
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -28,6 +28,7 @@ def c_list():
 
 from collections import defaultdict
 from collections import Counter
+from multiprocessing.managers import DictProxy
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -35,29 +36,33 @@ import math
 import bisect
 from itertools import permutations
 
-##################################################
+#########################################################################
+# main
+#########################################################################
 
 
 def main():
 
-    d = defaultdict(int)
-    d[0] += 1
-    print(d[43])
-    print(bool(d[0]))
-    print(bool(d[4]))
+    """
+    dp[i] = i番目まで見たときの、削除の最小値
+    """
+
+    N, D = i_map()
+    A = i_list()
+
+
 
     return
 
 
-######################################################
-
+#########################################################################
 # Classes
 #########################################################################
 
 class PrefixSum2D:
     def __init__(self, grid):
         """
-        二次元配列（グリッド）を受け取り、二次元累積和を構築する。
+        二次元配列（グリッド）を受け取り、二次元累積和を構築する
         :param grid: 2次元リスト (H x W)
         """
         self.H = len(grid)
@@ -243,6 +248,7 @@ class UnionFind:
         return "\n".join(f"{r}: {m}" for r, m in self.all_group_members().items())
 
 
+#########################################################################
 # Functions
 #########################################################################
 
@@ -426,7 +432,7 @@ def lis(seq):
 
 # 辞書作るだけ
 # {名前: その数}
-def make_dictionary(lst):
+def make_dictionary(lst: list[int]):
     d = {}
     for n in lst:
         if n in d:
