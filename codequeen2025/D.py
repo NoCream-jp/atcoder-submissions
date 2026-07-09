@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -39,10 +39,59 @@ from itertools import permutations
 # main
 #########################################################################
 
-
+    
 def main():
+
+    """
+    A[i]の
+
+    i ~ jのaverage
+
+    ( ps(A[i]) - ps(A[j]) ) / ( i - j + 1) = K
+
+    ( ps(A[i]) - ps(A[j]) ) = K ( i - j ) = Ki - Kj
+
+    ps(A[i]) - Ki = ps(A[j]) - Kj
+
     
     
+    """
+
+    n, k = map(int, input().split())
+    a = list(map(int, input().split()))
+    keys = []
+    vals = []
+
+    import bisect
+
+    ps = 0
+    ans = 0
+
+    for j in range(n):
+        # 左端 i の候補を記録する
+        # まだ a[j] を足していないので、ps は S_{j-1} の状態
+        key_add = ps - k * (j - 1)
+
+        pos = bisect.bisect_left(keys, key_add)
+        if pos == len(keys):
+            keys.append(key_add)
+            vals.append(j)
+
+        # a[j] を足すことで、ps は S_j になる
+        ps += a[j]
+
+        # 右端 j の評価値
+        # 数式の S_j - K * j に相当します。
+        key_query = ps - k * j
+        
+        # 右端 j に対して、条件を満たす最も左の i を探す
+        pos = bisect.bisect_left(keys, key_query)
+
+        if pos == len(keys):
+            continue
+
+        # j - i + 1 で区間の長さを計算し、最大値を更新
+        ans = max(ans, j - vals[pos] + 1)
 
     return
 
@@ -282,7 +331,7 @@ def count_inversions(arr):
 
 
 # 累積和 総和 = (r+1番目) - (l番目)
-def cum_sum(l):
+def pre_sum(l):
     a = [0 for _ in range(len(l) + 1)]
     for i in range(len(l)):
         a[i + 1] = a[i] + l[i]

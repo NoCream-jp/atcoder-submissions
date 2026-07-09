@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < f**k
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,24 @@ from itertools import permutations
 
 def main():
     
-    
+    N, dice = i_map()
+    S = list(input())
+
+    idx = N-1
+    ans = []
+    temp = 1
+    trapnum = 0
+    while idx != 0:
+        ans.append(dice)
+        for _ in range(dice):
+            p = S.pop()
+            if p == "1":
+                trapnum += 1
+        
+        if S[-1] == "1":
+
+
+
 
     return
 

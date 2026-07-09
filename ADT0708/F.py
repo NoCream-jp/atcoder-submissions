@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -35,6 +35,7 @@ import math
 import bisect
 from itertools import permutations
 
+
 #########################################################################
 # main
 #########################################################################
@@ -42,7 +43,46 @@ from itertools import permutations
 
 def main():
     
+    N, K = i_map()
+    S = input()
+
     
+    rle, num = RLE_for(S)
+    # print(rle, num)
+
+    l1, l2 = 0, 0
+    k = K
+    for c in rle:
+        if c == "1":
+            k -= 1
+        l1 += 1
+        if k == 1:
+            break
+    k = K
+    for c in rle:
+        if c == "1":
+            k -= 1
+        l2 += 1
+        if k == 0:
+            break
+            
+    l1 -= 1
+    l2 -= 1
+    # print(l1, l2)
+
+    ans = []
+    for i in range(len(rle)):
+        if i == l1:
+            ans.append([rle[l1] for _ in range(num[l1])])
+            ans.append([rle[l2] for _ in range(num[l2])])
+        elif i != l2:
+            ans.append([rle[i] for _ in range(num[i])])
+        else:
+            continue
+    for a in ans:
+        for c in a:
+            print(c, end="")
+
 
     return
 

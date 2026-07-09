@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,16 @@ from itertools import permutations
 
 def main():
     
+    N = int(input())
     
+    a = ["-" for _ in range(N)]
+
+    if N % 2 == 0:
+        a[N//2 - 1] = "="
+    a[N//2] = "="
+    
+
+    print("".join(a))
 
     return
 

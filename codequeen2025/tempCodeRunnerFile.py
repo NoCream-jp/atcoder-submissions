@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -38,11 +38,34 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
-
+def check(l, x):
+    cum = cum_sum(l)
+    print(f"{cum=}, {x=}")
+    N = len(l)
+    ans = float('inf')
+    if N < x :
+        return False
+    for left in range(N - x):
+        right = left + x
+        sm = cum[right + 1] - cum[left]
+        ans = min(ans, sm / x)
+        print(f"{sm=} {ans=}", end=" ")
+        print()
+    return ans    
 
 def main():
     
-    
+    N, K = i_map()
+    A = i_list()
+
+    left, right = 0, 10**9 + 1
+    while left <= right:
+        mid = (left + right) // 2
+        if check(A, mid):
+            left = mid + 1
+        else:
+            right = mid - 1
+    print("!", left)
 
     return
 

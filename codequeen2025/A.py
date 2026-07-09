@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -38,11 +38,17 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
-
+def temp(x):
+    return x[0], x[1]
 
 def main():
     
-    
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+
+    l.sort(key = temp)
+    for a, b in l:
+        print(a, b)
 
     return
 

@@ -4,13 +4,13 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-# MOD = 998244353
+MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 
@@ -42,7 +42,35 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    桁数を保持してqueueをイメージしながら数の計算のみする
+    桁数は余りを取るときに利用する
+    1: 10倍してxを足す、桁数を上げる
+    2: 10^桁数 での余りを取る、桁数を下げる
+    3: 今の数字をMOD取って出力する
+    最大で10^5桁くらいになりそうだけどPythonならいけるよねってしていいの？
+    """
+
+    Q = int(input())
+    temp = [1 for _ in range(Q+5)]
+    for i in range(1, Q + 5):
+        temp[i] = temp[i-1] * 10 % MOD
+
+    num = 1
+    rank = 1
+    for _ in range(Q):
+        query = i_list()
+        if query[0] == 1:
+            num *= 10
+            num += query[1]
+            num %= MOD
+            rank += 1
+        elif query[0] == 2:
+            num %= temp[rank - 1]
+            rank -= 1
+        else:
+            print(num % MOD)
+        # print("!", num)
 
     return
 

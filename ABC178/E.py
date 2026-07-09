@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < omg
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,9 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+
 
     return
 
@@ -351,6 +353,10 @@ def floyd(costs: list):
 # ユークリッド距離
 def get_dist(x1, y1, x2, y2):
     return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+# マンハッタン
+def man_dist(x1, y1, x2, y2):
+    return (abs(x1 - x2) + abs(y1 - y2))
 
 # 最大公約数
 def get_gcd(a, b):

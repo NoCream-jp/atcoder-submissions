@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,29 @@ from itertools import permutations
 
 def main():
     
-    
+    Q = int(input())
+    # q = deque()
+
+    for i in range(Q):
+        query = i_list()
+        head = 0
+        diff = 0
+        lst = []
+        if query[0] == 1:
+            l = query[1]
+            if lst:
+                lst.append(l+lst[-1])
+            else:
+                lst.append(l)
+            # print(1, lst)
+        elif query[0] == 2:
+            print("2", lst)
+            diff += lst[head]
+            head += 1
+        else:
+            # print("3", lst)
+            k = query[1]
+            print(lst[k] - diff)
 
     return
 

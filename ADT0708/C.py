@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -38,11 +38,31 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
-
+def check(a, b):
+    aset = set()
+    bset = set()
+    while a:
+        aset.add(a % 10)
+        a //= 10
+    while b:
+        bset.add(b % 10)
+        b //= 10
+    if aset == bset and len(aset) == len(bset) == 1:
+        # print(aset, bset)
+        return True
+    return False
 
 def main():
     
-    
+    N = int(input())
+    D = i_list()
+
+    c = 0
+    for i in range(N):
+        for day in range(1, D[i]+1):
+            if check(i+1, day):
+                c += 1
+    print(c)
 
     return
 

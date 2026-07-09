@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,22 @@ from itertools import permutations
 
 def main():
     
+    N, S = i_map()
+    A = i_list()
     
+    d = defaultdict(int)
+
+    for a in A:
+        d[a] += 1
+    # print(d)
+
+    ans = 0
+    for i in range(N):
+        if S - A[i] == A[i]:
+            ans += d[A[i]] - 1
+        else:
+            ans += d[S - A[i]]
+    print(ans // 2)
 
     return
 

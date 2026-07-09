@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < unbelievable
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -41,8 +41,20 @@ from itertools import permutations
 
 
 def main():
+    """
+    ごまかしが聴く回数を考える
+    昇順ならごまかし0
+    降順ならごまかしNで無理
     
+    """
     
+    N, K = i_map()
+    
+    if 
+
+    l = [6,4,5,3,6]
+    a = count_inversions(l)
+    print(a)
 
     return
 
@@ -248,8 +260,7 @@ class UnionFind:
 def get_division(left, right, n):
     return (right // n) - (left // n) + (1 if left % n == 0 else 0)
 
-
-# 素数列挙
+# 転倒数
 def count_inversions(arr):
     """
     与えられた整数配列の転倒数（昇順に並び替えるために必要な隣接スワップの最小回数）を返す。

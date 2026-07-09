@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < anbelievable
+                    ████╝ < 寝れない
 """
 ###################################################
 # sys.setrecursionlimit(10 ** 7)
@@ -42,7 +42,12 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    T = i_list()
+    l = [(T[i], i) for i in range(N)]
+    l.sort()
+    for i in range(3):
+        print(l[i][-1] + 1)
 
     return
 
