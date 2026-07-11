@@ -48,13 +48,7 @@ def main():
     
     """
     
-    N, K = i_map()
     
-    if 
-
-    l = [6,4,5,3,6]
-    a = count_inversions(l)
-    print(a)
 
     return
 

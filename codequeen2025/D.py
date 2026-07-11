@@ -49,9 +49,9 @@ def main():
 
     ( ps(A[i]) - ps(A[j]) ) / ( i - j + 1) = K
 
-    ( ps(A[i]) - ps(A[j]) ) = K ( i - j ) = Ki - Kj
+    ( ps(A[i]) - ps(A[j]) ) = K ( i - j + 1 ) = Ki - Kj + K
 
-    ps(A[i]) - Ki = ps(A[j]) - Kj
+    ps(A[i]) - Ki = ps(A[j]) - Kj + K
 
     
     
@@ -68,24 +68,22 @@ def main():
     ans = 0
 
     for j in range(n):
-        # 左端 i の候補を記録する
         # まだ a[j] を足していないので、ps は S_{j-1} の状態
-        key_add = ps - k * (j - 1)
+        left_value = ps - k * (j - 1)
 
-        pos = bisect.bisect_left(keys, key_add)
+        pos = bisect.bisect_left(keys, left_value)
         if pos == len(keys):
-            keys.append(key_add)
+            keys.append(left_value)
             vals.append(j)
 
         # a[j] を足すことで、ps は S_j になる
         ps += a[j]
 
-        # 右端 j の評価値
-        # 数式の S_j - K * j に相当します。
-        key_query = ps - k * j
+        # 数式の S_j - K * j
+        right_value = ps - k * j
         
         # 右端 j に対して、条件を満たす最も左の i を探す
-        pos = bisect.bisect_left(keys, key_query)
+        pos = bisect.bisect_left(keys, right_value)
 
         if pos == len(keys):
             continue
