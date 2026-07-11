@@ -7,7 +7,6 @@ Here is my coding space
                     ████╝ < practice
 """
 ###################################################
-# import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
@@ -42,33 +41,20 @@ from itertools import permutations
 
 
 def main():
-
-    """
-    K個飛ばしに
-    貪欲に
-    """
     
-    N, K = i_map()
-    R, S, P = i_map()
-    T = list(input())
+    """
+    素数を列挙して二分探索かな？
+    """
 
-    l = [[] for _ in range(K)]
+    primes = get_primes(1, 10**6)
 
-    d = {"r": P, "s": R, "p": S}
+    X = int(input())
 
-    for i in range(N):
-        l[i%K].append(T[i])
-    # print(l)
+    i = bisect.bisect_left(primes, X)
+    print(primes[i])
     
-    ans = 0
-    for i in range(K):
-        rle, num = RLE_for(l[i])
-        # print(f"{rle=}, {num=}")
 
-        for c, n in zip(rle, num):
-            ans += d[c] * ceil_div(n, 2)
-            # print(f"{d[c]}*{ceil_div(n, 2)} {ans=}")
-    print(ans)
+    return
 
 
 #########################################################################
@@ -267,14 +253,6 @@ class UnionFind:
 #########################################################################
 # Functions
 #########################################################################
-
-# 切り上げ
-def ceil_div(a: int, b: int) -> int:
-    return -(-a // b)
-
-# 切り捨て
-def floor_div(a: int, b: int) -> int:
-    return a // b
 
 # l~rのうち，nで割り切れるものの個数
 def get_division(left, right, n):
@@ -504,8 +482,6 @@ def prime_factors(n):
 
 
 def RLE_for(sequence):
-    if not sequence:
-        return [], []
 
     #戻り値の初期化
     comp_seq = list() # 圧縮されたデータのリスト

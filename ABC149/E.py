@@ -7,7 +7,6 @@ Here is my coding space
                     ████╝ < practice
 """
 ###################################################
-# import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
@@ -42,33 +41,33 @@ from itertools import permutations
 
 
 def main():
-
-    """
-    K個飛ばしに
-    貪欲に
-    """
     
-    N, K = i_map()
-    R, S, P = i_map()
-    T = list(input())
+    """
+    最高の人を含めたペアにN回触れる
+    が、最高の人とほかの人の組み合わせなので
+    最善はそれではない
+    愚直に考えると全ペアについてパワーをもとめて上から取る
+    Mが大きすぎて不可能？
+    全ペアの上位M個の総和
 
-    l = [[] for _ in range(K)]
+    Mに対応する「使われる人」の数を考えると
+    xC2 == M のとき
+    x * (x-1) // 2 == M
+    x(x-1) == M
 
-    d = {"r": P, "s": R, "p": S}
+    大体M**(1/2) = Nくらいまで
+    x個ある数字についての全ペアの和はO(1)とかO(x)で求まるから
+    そこからどれだけ辻褄合わせられるか
+    """
 
-    for i in range(N):
-        l[i%K].append(T[i])
-    # print(l)
-    
-    ans = 0
-    for i in range(K):
-        rle, num = RLE_for(l[i])
-        # print(f"{rle=}, {num=}")
+    N, M = i_map()
+    A = i_list()
 
-        for c, n in zip(rle, num):
-            ans += d[c] * ceil_div(n, 2)
-            # print(f"{d[c]}*{ceil_div(n, 2)} {ans=}")
-    print(ans)
+    x = int(M**0.5) + 1
+
+    print(f"{x=}, {x-1=}")
+
+    return
 
 
 #########################################################################
@@ -267,14 +266,6 @@ class UnionFind:
 #########################################################################
 # Functions
 #########################################################################
-
-# 切り上げ
-def ceil_div(a: int, b: int) -> int:
-    return -(-a // b)
-
-# 切り捨て
-def floor_div(a: int, b: int) -> int:
-    return a // b
 
 # l~rのうち，nで割り切れるものの個数
 def get_division(left, right, n):
@@ -504,8 +495,6 @@ def prime_factors(n):
 
 
 def RLE_for(sequence):
-    if not sequence:
-        return [], []
 
     #戻り値の初期化
     comp_seq = list() # 圧縮されたデータのリスト

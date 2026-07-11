@@ -50,7 +50,8 @@ def main():
     
     N, K = i_map()
     R, S, P = i_map()
-    T = list(input())
+    T = input()
+    # print(f"{T=}")
 
     l = [[] for _ in range(K)]
 
