@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < practice
+                    ████╝ < keep it up
 """
 ###################################################
 # import sys
@@ -40,35 +40,60 @@ from itertools import permutations
 # main
 #########################################################################
 
+# 受け取ったリストの部分で長さKのo,からなる部分列を作れるか、
+# 作れるならそのうちのoの個数を返す
+# xがない長さKの区間の端を最初のlとrとして、
+# rがxでない間l++, r++してその間のoの数を保存する
+# rがxならまたl = r+1からやり直し
+def func(lst, K):
+    N = len(lst)
+    ocount = 0
+    ans = -1
+    l = 0
+    for r in range(N):
+        # print(f"{lst[l:r+1]}, ocount")
+        if lst[r] == "o":
+            ocount += 1
+        elif lst[r] == "x":
+            ocount = 0
+            l = r+1
+            continue
+        if K - 1 < r - l:
+            if lst[l] == "o":
+                ocount -= 1
+            l += 1
+        if r - l == K - 1:
+            ans = max(ans, ocount)
+    return(K - ans) if ans != -1 else float('inf')
 
 def main():
 
     """
-    K個飛ばしに
-    貪欲に
+    斜めは無し
+    マスは2*10^5
+    横と縦に別々に累積和か何かでo,.の数を数えておいて判定する
+
+    横に見るとき
+    各iについてoを累積するリストとo.を両方累積するリストを用意する。
+    xがでたらleftをrightに戻してやり直しの尺取りをi回やり直す
     """
+    H, W, K = i_map()
+    grid = [list(input()) for _ in range(H)]
+
+    ans = float(('inf'))
+    # 横向きに全部入れて判定する
+    for g in grid:
+        ans = min(ans, func(g, K))
     
-    N, K = i_map()
-    R, S, P = i_map()
-    T = list(input())
+    # 縦向きに全部入れて判定する
+    for j in range(W):
+        temp = []
+        for i in range(H):
+            temp.append(grid[i][j])
+        ans = min(ans, func(temp, K))
+    print(ans if ans != float('inf') else -1)
 
-    l = [[] for _ in range(K)]
-
-    d = {"r": P, "s": R, "p": S}
-
-    for i in range(N):
-        l[i%K].append(T[i])
-    # print(l)
-    
-    ans = 0
-    for i in range(K):
-        rle, num = RLE_for(l[i])
-        # print(f"{rle=}, {num=}")
-
-        for c, n in zip(rle, num):
-            ans += d[c] * ceil_div(n, 2)
-            # print(f"{d[c]}*{ceil_div(n, 2)} {ans=}")
-    print(ans)
+    return
 
 
 #########################################################################

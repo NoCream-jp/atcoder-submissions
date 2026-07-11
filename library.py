@@ -40,11 +40,8 @@ from itertools import permutations
 
 def main():
 
-    d = defaultdict(int)
-    d[0] += 1
-    print(d[43])
-    print(bool(d[0]))
-    print(bool(d[4]))
+    a = ["x", "o", ".", "x", "o", ".", "o", "o"]
+    print(a[4: 7+1])
 
     return
 
