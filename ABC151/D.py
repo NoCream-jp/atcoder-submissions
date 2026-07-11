@@ -43,25 +43,30 @@ from itertools import permutations
 
 def main():
 
-    # 直径
+    # BFS.
+
     H, W = i_map()
     grid = [input() for _ in range(H)]
 
-    graph = [set() for _ in range(H * W)]
-    start = (-1, -1)
+    ans = 0
     for i in range(H):
         for j in range(W):
             if grid[i][j] == ".":
-                start = (i, j)
-                for di, dj in drct:
-                    ni, nj = i+di, j+dj
-                    if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
-                        graph[i*H + j].add((ni*H + j))
-                        graph[ni*H + nj].add((i*H + j))
-    graph = {i:list(graph[i]) for i in range(H*W)}
-    
-    print(get_graph_diameter(graph))
-
+                si, sj = i, j
+                visited = [[False for _ in range(W)] for _ in range(H)]
+                q = deque([(si, sj, 0)])
+                while q:
+                    nowi, nowj, step = q.popleft()
+                    ans = max(ans, step)
+                    if visited[nowi][nowj]:
+                        continue
+                    visited[nowi][nowj] = True
+                    for di, dj in drct:
+                        ni, nj = nowi + di, nowj + dj
+                        if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
+                            if not visited[ni][nj]:
+                                q.append((ni, nj, step+1))
+    print(ans)
 
     return
 
@@ -346,29 +351,6 @@ def dijkstra(edges, num_node, start):
                 heapq.heappush(node_name, [node[min_point] + cost, goal])
     return node
 
-"""
-グラフの直径
-:param graph: 辞書型の隣接リスト {node: [neighbor1, neighbor2, ...]}
-:return: グラフの直径 (int)
-"""
-def get_graph_diameter(graph:dict) -> int:
-    def bfs(start):
-        visited = {start: 0}
-        q = deque([start])
-        mx = 0
-        while q:
-            current = q.popleft()
-            cd = visited[current]
-            for nxt in graph.get(current, []):
-                if nxt not in visited:
-                    visited[nxt] = cd + 1
-                    mx = max(mx, visited[nxt])
-                    q.append(nxt)
-        return mx
-    d = 0
-    for node in graph:
-        d = max(d, bfs(node))
-    return d
 """
 オイラーツアーで部分木の要素数を列挙
 """
