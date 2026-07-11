@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < practice
+                    ████╝ < keep it up
 """
 ###################################################
 # import sys
@@ -43,32 +43,9 @@ from itertools import permutations
 
 def main():
 
-    """
-    K個飛ばしに
-    貪欲に
-    """
     
-    N, K = i_map()
-    R, S, P = i_map()
-    T = list(input())
 
-    l = [[] for _ in range(K)]
-
-    d = {"r": P, "s": R, "p": S}
-
-    for i in range(N):
-        l[i%K].append(T[i])
-    # print(l)
-    
-    ans = 0
-    for i in range(K):
-        rle, num = RLE_for(l[i])
-        # print(f"{rle=}, {num=}")
-
-        for c, n in zip(rle, num):
-            ans += d[c] * ceil_div(n, 2)
-            # print(f"{d[c]}*{ceil_div(n, 2)} {ans=}")
-    print(ans)
+    return
 
 
 #########################################################################
