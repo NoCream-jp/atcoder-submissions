@@ -43,30 +43,9 @@ from itertools import permutations
 
 def main():
 
-    """
-    うずまき状に増やすのがいいのはわかった
-    外周の辺の数と内部でつぶれた辺の数がわかれば解ける
-    """
+    
 
-    import math
-
-    for _ in range(int(input())):
-        N = int(input())
-        if N < 4:
-            print(N - 1)
-            continue
-
-        # 小さい正方形の辺の数
-        edge = math.isqrt(N)
-        # 正方形だったとき
-        if edge * edge == N:
-            ans = 2 * N - 2 * edge
-        # そうじゃない場合、中で潰れている辺は2*k + 1
-        else:
-            ans = 2 * N - (2 * edge + 1)
-        # print(f"{k=}, {N=}, {ans=}")
-        
-        print(ans)
+    return
 
 
 #########################################################################
