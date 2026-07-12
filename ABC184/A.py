@@ -43,7 +43,9 @@ from itertools import permutations
 
 def main():
 
-    print(2)
+    a, b = i_map()
+    c, d = i_map()
+    print(a*d - b*c)
 
     return
 

@@ -43,7 +43,14 @@ from itertools import permutations
 
 def main():
 
-    
+    N, X = i_map()
+    S = input()
+    for c in S:
+        if c == "x":
+            X = max(0, X-1)
+        else:
+            X = max(0, X+1)
+    print(X)
 
     return
 

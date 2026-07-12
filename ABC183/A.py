@@ -43,32 +43,7 @@ from itertools import permutations
 
 def main():
 
-    """
-    個別に求められる
-    Aがa枚、...あるときは
-    Aで達成する回数は
-    (100 - a) * (a / ( a + b + c ))
     
-    Aを選ぶ確率は
-    a / ( a + b + c )
-    選んだ時、Aは増えるので,その次に選ぶ確率は
-    ( a+1 ) / ( a + b + c + 1 )
-
-    Aを(100 - a)回選ばなければならないので
-    本当の期待値は
-    pi_i (a+i) / pi_i (a + b + c + i) * (100 - a)
-
-    どれを選んでも分母の数は変わらないので
-    pi_i (a+i) / pi_i (sum(l) + i) * (100 - a)  ( iは1 ~ 100 - a)
-    """
-
-    l = i_list()
-
-    ans = 0
-    for a in l:
-        ans += (100 - a) * (a / (sum(l)))
-        print((100 - a) * (a / (sum(l))))
-    # print(ans)
 
     return
 

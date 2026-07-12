@@ -10,9 +10,9 @@ Here is my coding space
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
-# alpha = "abcdefghijklmnopqrstuvwxyz"
+alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998244353
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 
 def i_map():
@@ -36,6 +36,7 @@ import math
 import bisect
 from itertools import permutations
 
+
 #########################################################################
 # main
 #########################################################################
@@ -43,8 +44,52 @@ from itertools import permutations
 
 def main():
 
-    
+    """
+    ワープできるBFSってだけ
+    visitedにSからの最短を書きこんでいく。
+    ワープに差し掛かったらワープできる次のマス目をすべてqueueに入れて終わり
+    """
 
+    alpha_set = set(list(alpha))
+
+    H, W = i_map()
+    grid = [list(input()) for _ in range(H)]
+
+    d = {char:set() for char in alpha}
+    si, sj, gi, gj = 0, 0, 0, 0
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "S":
+                si, sj = i, j
+            elif grid[i][j] == "G":
+                gi, gj = i, j
+            elif grid[i][j] in alpha_set:
+                d[grid[i][j]].add((i, j))
+    
+    q = deque([(si, sj, 0)])
+    visited = [[float('inf') for _ in range(W)] for _ in range(H)]
+
+    while q:
+        i, j, step = q.popleft()
+        # print("!", grid[i][j])
+        if visited[i][j] != float('inf'):
+            continue
+        visited[i][j] = min(step, visited[i][j])
+        if grid[i][j] in alpha_set:
+            for ni, nj in d[grid[i][j]]:
+                q.append((ni, nj, step + 1))
+            alpha_set.remove(grid[i][j]) # 最初に到達したのが最速なのでそれ以降消して触らせない
+        for di, dj in drct:
+            ni, nj = i+di, j+dj
+            if 0 <= ni <= H-1 and 0 <= nj <= W-1:
+                if grid[ni][nj] == "." or grid[ni][nj] in alpha_set:
+                    q.append((ni, nj, step + 1))
+                elif grid[ni][nj] == "G":
+                    ans = min(visited[ni][nj], step+1)
+                    print(ans if ans != float('inf') else -1)
+                    return
+    ans = visited[gi][gj]
+    print(ans if ans != float('inf') else -1)
     return
 
 
