@@ -42,8 +42,46 @@ from itertools import permutations
 
 
 def main():
+    """
+    CとかBCが積まれてたら連鎖する
+    Bは全部BCに置き換わってるとする
+    """
 
-    
+    for t in range(int(input())):
+        S = list(input())
+        N = len(S)
+        stack = []
+        count = 0
+        while S:
+            char = S.pop()
+            # print(f"{stack=}, {char=}, {count=}")
+            if char == "A":
+                if not stack:
+                    count += 1
+                elif stack[-1] == "BC":
+                    stack.pop()
+                    count += 3
+                elif stack[-1] == "B":
+                    stack.pop()
+                    count += 2
+                else:
+                    count += 1
+            elif char == "B":
+                if not stack:
+                    stack.append(char)
+                elif stack[-1] == "C":
+                    stack.pop()
+                    stack.append("BC")
+                elif stack[-1] == "B":
+                    stack.append(char)
+                else:
+                    stack.append(char)
+            else:
+                stack.append(char)
+            # print(f"{stack=} {count=} \n")
+        ans = N - count
+        # print(f"{ans=}")
+        print(ans)
 
     return
 
