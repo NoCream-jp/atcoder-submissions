@@ -27,6 +27,27 @@ def c_list():
     return list(input().split())
 
 
+def u_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+        graph[v].append(u)
+    return graph
+
+
+def d_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+    return graph
+
+
 from collections import defaultdict
 from collections import Counter
 from sortedcontainers import SortedList
@@ -42,8 +63,33 @@ from itertools import permutations
 
 
 def main():
+    """
+    頂点iから見て、隣接する頂点のうち一つだけが(番号i)-1になるように
+    番号を振っていく。頂点1の番号は0。
+    頂点1からの到達距離BFSかと思ったが
+    木構造でないと破綻するのでDFSか
 
-    
+    本当にDFSするだけっぽい
+
+    """
+
+    for t in range(int(input())):
+        N, M = i_map()
+        graph = u_graph(N, M)
+        
+        stack = [(0, 0)]
+        stamp = [-1 for _ in range(N)]
+        while stack:
+            now, num = stack.pop()
+            if stamp[now] != -1:
+                continue
+            stamp[now] = num
+            for nxt in graph[now]:
+                if stamp[nxt] != -1:
+                    continue
+                else:
+                    stack.append((nxt, num + 1))
+        print(*stamp)
 
     return
 
@@ -517,22 +563,40 @@ def rotate(grid):
             tmp[i][j] = grid[H - 1 - j][i]
     return tmp
 
-# BFS
+# BFSはappendしたとき
 # visited = [[False for _ in range(W)] for _ in range(H)]
 # visited[starti][startj] = True
+# q = collections.deque([(starti, startj)])
 # while q:
 #     i, j = q.popleft()
-#     if visited[i][j]:
-#         continue
-#     visited[i][j] = True
 #     for di, dj in drct:
-#         ni, nj = i+di, j+dj
-#         if 0 <= ni <= H-1 and 0 <= nj <= W-1 and grid[ni][nj] == ".":
-#             if visited[ni][nj]:
-#                 print(f"Yes")
-#                 return
+#         ni, nj = i + di, j + dj
+#         if 0 <= ni < H and 0 <= nj < W and grid[ni][nj] == ".":
 #             if not visited[ni][nj]:
+#                 visited[ni][nj] = True
 #                 q.append((ni, nj))
+#             else:
+#                 print("Yes")
+#                 return
+
+# DFSはpopしたとき
+# for t in range(int(input())):
+#     N, M = i_map()
+#     graph = u_graph(N, M)
+    
+#     stack = [(0, 0)]
+#     stamp = [-1 for _ in range(N)]
+#     while stack:
+#         now, num = stack.pop()
+#         if stamp[now] != -1:
+#             continue
+#         stamp[now] = num
+#         for nxt in graph[now]:
+#             if stamp[nxt] != -1:
+#                 continue
+#             else:
+#                 stack.append((nxt, num + 1))
+#     print(*stamp)
 
 
 """
