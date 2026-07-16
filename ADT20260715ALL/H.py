@@ -11,8 +11,7 @@ Here is my coding space
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-# MOD = 998_244_353
-# MOD = 1_000_000_007
+# MOD = 998244353
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 
@@ -62,11 +61,52 @@ from itertools import permutations
 # main
 #########################################################################
 
+def check(string):
+    if string == string[::-1]:
+        return True
+    return False
 
 def main():
     
-    N, M = i_map()
+    N = int(input())
+
+    C = [list(input()) for _ in range(N)] 
+
+    graph = [[] for _ in range(N)]
+
+    for i in range(N):
+        for j in range(N):
+            if C[i][j] != "-":
+                graph[i].append((j, C[i][j]))
+    for g in graph:
+        print(g)
     
+    ans = float('inf')
+    rgrid = [[-1 for _ in range(N)] for _ in range(N)]
+    for i in range(N):
+        for goal in range(N):
+            if rgrid[i][goal] == "-":
+                break
+            stack = [(i, C[i][goal])]
+            visited = [False for _ in range(N)]
+            print("start:", i, "goal", goal)
+            while stack:
+                # print(stack)
+                now, char = stack.pop()
+                if visited[now] or char == "-":
+                    continue
+                visited[now] = True
+                if check(char):
+                    ans = min(ans, len(char))
+                for nxt in range(N):
+                    if nxt == goal:
+                        print("!", char + nxtchar)
+                        ans = min(ans, len(char) + 1)
+                        rgrid[i][goal] = len(char) + 1
+                    stack.append((nxt, char + nxtchar))
+
+    for r in rgrid:
+        print(*r)
 
     return
 
@@ -347,22 +387,6 @@ def dijkstra(edges, num_node, start):
             if node[min_point] + cost < node[goal]:
                 node[goal] = node[min_point] + cost
                 heapq.heappush(node_name, [node[min_point] + cost, goal])
-    return node
-
-# ダイクストラ法で最大コストを求める
-def dijkstra_max(edges, num_node, start):
-    node = [-float('inf')] * num_node
-    node[start] = 0
-    node_name = []
-    heapq.heappush(node_name, [0, start])
-    while 0 < len(node_name):
-        _, max_point = heapq.heappop(node_name)
-        for factor in edges[max_point]:
-            goal = factor[0]
-            cost  = factor[1]
-            if node[max_point] + cost > node[goal]:
-                node[goal] = node[max_point] + cost
-                heapq.heappush(node_name, [-(node[max_point] + cost), goal])
     return node
 
 # オイラーツアーで部分木の要素数を列挙

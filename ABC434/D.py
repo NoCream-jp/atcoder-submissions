@@ -64,6 +64,11 @@ from itertools import permutations
 
 def main():
     
+    """
+    行ごと列ごとに数えるのは無理そう
+    累積和の中で
+    """
+
     
 
     return
