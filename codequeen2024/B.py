@@ -17,7 +17,6 @@ Here is my coding space
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = float('inf')
 
-
 def i_map():
     return map(int, input().split())
 
@@ -67,9 +66,7 @@ from itertools import permutations
 
 def main():
     
-    
-    
-
+   
     return
 
 

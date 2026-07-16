@@ -15,8 +15,6 @@ Here is my coding space
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
-INF = float('inf')
-
 
 def i_map():
     return map(int, input().split())
@@ -67,7 +65,14 @@ from itertools import permutations
 
 def main():
     
+    X = int(input())
     
+    if X <= 10:
+        print(10)
+    elif X <= 15:
+        print(15)
+    else:
+        print(17)
     
 
     return

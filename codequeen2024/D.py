@@ -17,7 +17,6 @@ Here is my coding space
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = float('inf')
 
-
 def i_map():
     return map(int, input().split())
 
@@ -65,10 +64,74 @@ from itertools import permutations
 #########################################################################
 
 
+
 def main():
+
+    """
+    時刻0に0にいる
+    時刻t1にc1にいることができる or できない
+    時刻t2にc2にいることができる or できない
+    ...
+    は無理。イベントごとに訪れる順番を決めるとダメ
+
+    イベント同士の最短距離でグラフを再構築する
+
+    イベントとイベントの間の距離を求めておく。
+    startlstに、0から到達可能なdfsの始点の候補を入れる。
+    0から到達可能だということは、正解の経路に含まれる可能性があるということ。
+    これらのノードから多始点dfsして相互に到達可能なイベントの場所を探す。
+    ただしt = t_iにciにいないといけないので、それをどうやって
+    判定するのかわからない
+    のでdp
+    """
     
+    N, M, K = i_map()
+    graph = [[] for _ in range(N)]
+    for _ in range(M):
+        a, b, d = i_map()
+        a -= 1
+        b -= 1
+        graph[a].append((b, d))
+        graph[b].append((a, d))
     
-    
+    events = defaultdict(list)
+    for _ in range(K):
+        c, t = i_map()
+        c -= 1
+        events[c].append(t)
+
+    # 全通りのiからjに行くコスト[i][j]
+    targets = set(events.keys())
+    targets.add(0)
+    dist = {}
+    for start in targets:
+        dist[start] = dijkstra(graph, N, start)
+
+    eventlst = [(0, 0)] 
+    for c, t_list in events.items():
+        for t in t_list:
+            eventlst.append((t, c))
+
+    # 時刻 t の昇順にソート
+    eventlst.sort()
+
+    eN = len(eventlst)
+    temp = [-INF for _ in range(eN)]
+    temp[0] = 0
+    for i in range(eN):
+        if temp[i] == -INF:
+            continue
+        nowt, nowc = eventlst[i]
+        for j in range(i + 1, eN):
+            nxtt, nxtc = eventlst[j]
+            # print(f"{nowc=}, {nxtc=}, {nowt=}, {nxtt=}")
+            if dist[nowc][nxtc] == INF:
+                continue
+            # i->jが通れるときだけ、iに書いておいた数を1増やす。
+            elif dist[nowc][nxtc] <= nxtt - nowt:
+                temp[j] = max(temp[j], temp[i] + 1)
+    # print(temp)
+    print(max(temp))
 
     return
 

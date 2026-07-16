@@ -15,8 +15,7 @@ Here is my coding space
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
-INF = float('inf')
-
+# INF = float('inf')
 
 def i_map():
     return map(int, input().split())
@@ -65,10 +64,58 @@ from itertools import permutations
 #########################################################################
 
 
+
 def main():
+
+    """
+    Rで降順ソートして、Rの大きいほうから見る。
+    それまでの最小の金額minpriceと今残っている部屋数existを保存して
+    R_iより左にしか入れない客を見つけた時点でexistを更新する。
+
+    Rでソート済みのときRの降順に
+    人iを見たときに、人iのrよりも大きいRを持つ部屋全てについて、
+    最小hqに値段をキーに入れて行って、今見てる入れたい人がいなくなるまでhqから取り出しつづけて消化する
+    人のrが出たときにそれよりもＲが大きい部屋の数だけ値段を入れる
+    hqに入れる。hqから取り出したいのにないならその時点でアウト
     
+
+    値段キーと考えずに値段自体を要れればいい
+    バグらせないように圧縮は考えない。
+    hq:値段キーの部屋の数。
     
-    
+
+    rankのでかい順に見ていったら、これまでみた部屋は全部OKになるので
+    値段を小さい順に保存できればいい
+    """
+
+    N, M = i_map()
+    A = i_list()
+    A.sort()
+    room = [i_list() for _ in range(M)]
+    room.sort()
+
+    hq = []
+    ans = 0
+    heapq.heapify(hq)
+    for i in range(N):
+        r, b, c = room.pop()
+        # 部屋の数bだけcを入れる
+        while b:
+            heapq.heappush(hq, c)
+            b -= 1
+        print(f"入れた後の{hq=} {A=}")
+        # 部屋のランクが、一番贅沢な客A[-1]よりでかい間OKなので、
+        # 客とhqを1ずつ減らす
+        # そうでなければその客があぶれるので終了
+        while hq and A and A[-1] < r:
+            mx = A.pop()
+            ans += heapq.heappop(hq)
+        print(f"1個ずつ出した後 {hq=}, {A=}, {r=}, {ans=}")
+        if (A and not hq) and r <= A[-1]:
+            print(-1)
+            return
+        print()
+    print(ans)
 
     return
 

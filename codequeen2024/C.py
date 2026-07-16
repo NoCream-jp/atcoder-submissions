@@ -17,7 +17,6 @@ Here is my coding space
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = float('inf')
 
-
 def i_map():
     return map(int, input().split())
 
@@ -67,7 +66,46 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    T * N
+    iまで見たときの、T回乗ったときの最小値
+    dp[t][j] = dp[t-1][j-2] + P[j] + P[j-1]...
+
+    3  5  10 4  1  7  3  9
+
+    I  8  8  8  5  5  5  5
+    I  I  I  22 13 13 13
+    I  I  I  I  I  
+    """
+
+    N, K, T = i_map()
+    P = i_list()
+    cs = cum_sum(P)
+    mn = min(P)
+    # print(f"{cs=}")
+
+
+    # K回
+    # 長さTの区間
+    dp = [[INF for _ in range(N)] for _ in range(K)]
+    for j in range(N):
+        if j >= T-1:
+            dp[0][j] = cs[j+1] - cs[j-T+1]
+            if j > 0:
+                dp[0][j] = min(dp[0][j], dp[0][j-1])
+    for t in range(1, K):
+        for j in range(N):
+            if j:
+                dp[t][j] = dp[t][j-1]
+            if T-1 <= j:
+                if T-1 <= j:
+                    cost = cs[j+1] - cs[j-T+1]
+                    if T <= j:
+                        dp[t][j] = min(dp[t][j], dp[t-1][j-T] + cost)
+            
+    # for d in dp:
+    #     print(d)
+    print(dp[K-1][N-1])
     
 
     return
