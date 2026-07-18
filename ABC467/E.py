@@ -67,8 +67,55 @@ from itertools import permutations
 
 def main():
     
+    """
+    左をxとすると、xの符号が反転していく。
+
+    """
+
+    N, M = i_map()
+    A = i_list()
+    B = i_list()
     
+    # 1. 基準となる数列 S を作る
+    S = [0] * N
+    for i in range(N - 1):
+        S[i+1] = (B[i] - S[i]) % M
+        
+    # 2. U と V を計算
+    U = []
+    V = []
+    for i in range(N):
+        if i % 2 == 0:
+            U.append((A[i] - S[i]) % M)
+        else:
+            V.append((S[i] - A[i]) % M)
+            
+    # 3. ソートと合計値の準備
+    U.sort()
+    V.sort()
+    sum_U = sum(U)
+    sum_V = sum(V)
+    len_U = len(U)
+    len_V = len(V)
     
+    # 4. コストの最小値を計算
+    ans = float('inf')
+    candidates = U + V
+    
+    for x in candidates:
+        # U側のコスト: x より真に小さい要素に対して M を足す必要がある
+        cnt_U_less_than_x = len_U - bisect.bisect_right(U, x)
+        cost_U = len_U * x - sum_U + M * cnt_U_less_than_x
+        
+        # V側のコスト: x より大きい要素に対して M を足す必要がある
+        cnt_V_less_than_x = bisect.bisect_left(V, x)
+        cost_V = sum_V - len_V * x + M * cnt_V_less_than_x
+        
+        total_cost = cost_U + cost_V
+        if total_cost < ans:
+            ans = total_cost
+            
+    print(ans)
 
     return
 
@@ -397,6 +444,44 @@ def floyd(costs: list):
                 if costs[i][k] + costs[k][j] < costs[i][j]:
                     costs[i][j] = costs[i][k] + costs[k][j]
     return costs
+
+# 木の直径を求める
+# :param is_weighted: エッジが重みを持つ場合(True)、持たない場合(False)
+def get_tree_diameter(graph, is_weighted=False):
+
+    if not graph:
+        return 0, None, None
+    start_node = next(iter(graph))
+    
+    def bfs(start):
+        dist = {start: 0}
+        queue = deque([start])
+        
+        farthest_node = start
+        max_dist = 0
+        while queue:
+            curr = queue.popleft()
+            for edge in graph[curr]:
+                if is_weighted:
+                    neighbor, weight = edge
+                else:
+                    neighbor = edge
+                    weight = 1
+                # 未訪問のノードのみ処理
+                if neighbor not in dist:
+                    dist[neighbor] = dist[curr] + weight
+                    queue.append(neighbor)
+                    # 最遠点の更新
+                    if dist[neighbor] > max_dist:
+                        max_dist = dist[neighbor]
+                        farthest_node = neighbor
+                        
+        return farthest_node, max_dist
+
+    node_a, _ = bfs(start_node)
+    node_b, diameter = bfs(node_a)
+    
+    return diameter, node_a, node_b
 
 # ユークリッド距離
 def get_dist(x1, y1, x2, y2):

@@ -63,12 +63,61 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
+def line(x1, y1, x2, y2):
+    if (x1, y1) == (x2, y2):
+        return INF, INF, INF
+    a = 2 * (x2 - x1)
+    b = 2 * (y2 - y1)
+    c = (x1**2 + y1**2) - (x2**2 + y2**2)
 
+    return a, b, c
 
 def main():
-    
-    
-    
+    """
+    2点を周上に持つ円ってその点と同距離の直線状にしかないので
+    二回直線を求めて同じとか交点をもつならおｋ
+
+    あとは数学
+
+    """
+    for t in range(int(input())):
+        px, py, qx, qy, rx, ry, sx, sy = i_map()
+
+        # print(line(px, py, qx, qy))
+        # print(line(rx, ry, sx, sy))
+
+        a1, b1, c1 = line(px, py, qx, qy)
+        a2, b2, c2 = line(rx, ry, sx, sy)
+
+        ans = ""
+        
+        # 水平どうし
+        if a1 == 0 and a2 == 0:
+            #　同じ
+            if c1 / b1 == c2 / b2:
+                ans = "Yes"
+            else:
+                ans = "No"
+        # 片方だけ水平
+        elif a1 == 0 or a2 == 0:
+            ans = "Yes"
+        # 垂直どうし
+        elif b1 == 0 and b2 == 0:
+            # 同じ
+            if c1 / a1 == c2 / a2:
+                ans = "Yes"
+            else:
+                ans = "No"
+        # 片方垂直
+        elif b1 == 0 or b2 == 0:
+            ans = "Yes"
+        # どちらもななめ
+        else:
+            if a1 / b1 == a2 / b2 and c1 / b1 != c2 / b2:
+                ans = "No"
+            else:
+                ans = "Yes"
+        print(ans)
 
     return
 
@@ -397,6 +446,44 @@ def floyd(costs: list):
                 if costs[i][k] + costs[k][j] < costs[i][j]:
                     costs[i][j] = costs[i][k] + costs[k][j]
     return costs
+
+# 木の直径を求める
+# :param is_weighted: エッジが重みを持つ場合(True)、持たない場合(False)
+def get_tree_diameter(graph, is_weighted=False):
+
+    if not graph:
+        return 0, None, None
+    start_node = next(iter(graph))
+    
+    def bfs(start):
+        dist = {start: 0}
+        queue = deque([start])
+        
+        farthest_node = start
+        max_dist = 0
+        while queue:
+            curr = queue.popleft()
+            for edge in graph[curr]:
+                if is_weighted:
+                    neighbor, weight = edge
+                else:
+                    neighbor = edge
+                    weight = 1
+                # 未訪問のノードのみ処理
+                if neighbor not in dist:
+                    dist[neighbor] = dist[curr] + weight
+                    queue.append(neighbor)
+                    # 最遠点の更新
+                    if dist[neighbor] > max_dist:
+                        max_dist = dist[neighbor]
+                        farthest_node = neighbor
+                        
+        return farthest_node, max_dist
+
+    node_a, _ = bfs(start_node)
+    node_b, diameter = bfs(node_a)
+    
+    return diameter, node_a, node_b
 
 # ユークリッド距離
 def get_dist(x1, y1, x2, y2):

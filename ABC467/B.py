@@ -67,8 +67,16 @@ from itertools import permutations
 
 def main():
     
-    
-    
+    N = int(input())
+
+    ans = 0
+    for _ in range(N):
+        a, b, s = input().split()
+        a = int(a)
+        b = int(b)
+        if s == "keep":
+            ans += (b - a)
+    print(ans)
 
     return
 
@@ -397,6 +405,44 @@ def floyd(costs: list):
                 if costs[i][k] + costs[k][j] < costs[i][j]:
                     costs[i][j] = costs[i][k] + costs[k][j]
     return costs
+
+# 木の直径を求める
+# :param is_weighted: エッジが重みを持つ場合(True)、持たない場合(False)
+def get_tree_diameter(graph, is_weighted=False):
+
+    if not graph:
+        return 0, None, None
+    start_node = next(iter(graph))
+    
+    def bfs(start):
+        dist = {start: 0}
+        queue = deque([start])
+        
+        farthest_node = start
+        max_dist = 0
+        while queue:
+            curr = queue.popleft()
+            for edge in graph[curr]:
+                if is_weighted:
+                    neighbor, weight = edge
+                else:
+                    neighbor = edge
+                    weight = 1
+                # 未訪問のノードのみ処理
+                if neighbor not in dist:
+                    dist[neighbor] = dist[curr] + weight
+                    queue.append(neighbor)
+                    # 最遠点の更新
+                    if dist[neighbor] > max_dist:
+                        max_dist = dist[neighbor]
+                        farthest_node = neighbor
+                        
+        return farthest_node, max_dist
+
+    node_a, _ = bfs(start_node)
+    node_b, diameter = bfs(node_a)
+    
+    return diameter, node_a, node_b
 
 # ユークリッド距離
 def get_dist(x1, y1, x2, y2):
