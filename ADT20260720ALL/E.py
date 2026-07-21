@@ -70,11 +70,15 @@ def main():
     N, A, B = i_map()
     P, Q, R, S = i_map()
     grid = [["" for _ in range(S - R)] for _ in range(Q - P)]
+    
+    """
+    gridの角に外接するひし形の領域内に(A, B)がない場合はマスを塗らない
+    逆にある場合は全マスをなぞってPQRS領域内のみ塗る
+    全マスは高々領域の面積の2倍。
+    """
+
 
     
-
-
- 
     return
 
 
