@@ -10,7 +10,7 @@ Here is my coding space
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
-# alpha = "abcdefghijklmnopqrstuvwxyz"
+alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
@@ -67,9 +67,14 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N = int(input())
+
+    ans = []
+    while N:
+        ans.append(alpha[(N-1)%26])
+        N //= 26
+
+    print("".join(ans[::-1]))
 
     return
 

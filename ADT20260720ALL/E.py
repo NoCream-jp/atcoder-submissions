@@ -67,10 +67,14 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N, A, B = i_map()
+    P, Q, R, S = i_map()
+    grid = [["" for _ in range(S - R)] for _ in range(Q - P)]
 
+    
+
+
+ 
     return
 
 

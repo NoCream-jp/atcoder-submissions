@@ -66,10 +66,27 @@ from itertools import permutations
 
 
 def main():
+    """
+    1,2,3,4,5,6人いるとする
+    1：2~6のxor
+
+    全部の総xor取ると
+    全部のすぬけくんについて奇数回(N-1回)xor取った値が得られる
+    ということはAの総xorはすぬけくんの総xorになってる
+
+    一人のxor求めたいときは、その総xorとxor取ればいい
+    """
+
+    N = int(input())
+    A = i_list()
+
+    entire = 0
+    for a in A:
+        entire ^= a
     
-    a = 26
-    a //= 26
-    print(a)
+    for a in A:
+        print(entire^a, end=" ")
+    
 
     return
 

@@ -67,9 +67,28 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N = int(input())
+    A = [i_list() for _ in range(N)]
+    B = [i_list() for _ in range(N)]
+    AA = A[:]
+
+    ansflag = False
+    for _ in range(4):
+        AA = rotate(AA)
+
+        flag = True
+        for i in range(N):
+            for j in range(N):
+                if AA[i][j] == 1 and B[i][j] == 0:
+                    flag = False
+        
+        if flag == True:
+            ansflag = True
+            break
+    if ansflag:
+        print("Yes")
+    else:
+        print("No")
 
     return
 

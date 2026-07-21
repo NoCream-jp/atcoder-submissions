@@ -67,9 +67,17 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N = int(input())
+
+    st = set()
+    for _ in range(N):
+        s, t = input().split()
+        st.add(s + "#" + t)
+    
+    if len(st) == N:
+        print("No")
+    else:
+        print("Yes")
 
     return
 

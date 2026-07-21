@@ -67,9 +67,11 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    M, D = i_map()
+    if (M, D) in set([(1, 7), (3, 3), (5, 5), (7, 7), (9, 9)]):
+        print('Yes')
+    else:
+        print("No")
 
     return
 

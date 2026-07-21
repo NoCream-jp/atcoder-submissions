@@ -67,9 +67,15 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N, M = i_map()
+
+    c = 0
+    while M:
+        x = N % M
+        M = x
+        c += 1
+
+    print(c)
 
     return
 

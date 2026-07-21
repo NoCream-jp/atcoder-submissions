@@ -67,9 +67,7 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    
 
     return
 

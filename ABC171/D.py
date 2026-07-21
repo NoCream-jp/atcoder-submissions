@@ -67,9 +67,21 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N = int(input())
+    A = i_list()
+    count = [0 for _ in range(10 ** 5 + 1)]
+    ans = sum(A)
+    for a in A:
+        count[a] += 1
+    
+    for q in range(int(input())):
+        b, c = i_map()
+        bcount = count[b]
+        count[b] = 0
+        count[c] += bcount
+        ans -= b * bcount
+        ans += c * bcount
+        print(ans)
 
     return
 

@@ -67,9 +67,10 @@ from itertools import permutations
 
 def main():
     
-    a = 26
-    a //= 26
-    print(a)
+    N, K = i_map()
+    p = i_list()
+    p.sort()
+    print(sum(p[:K]))
 
     return
 
