@@ -10,11 +10,11 @@ Here is my coding space
 # import sys
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
-# ALPHA = "abcdefghijklmnopqrstuvwxyz"
+# alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-DRCT = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-# DRCT_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
+# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+# drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = float('inf')
 
 
@@ -67,64 +67,7 @@ from itertools import permutations
 
 def main():
     
-    """
-    頂点倍化から
-    BFSでとける
-    同じマスを持った、扉が反転したグリッドを構築するだけ。
-    スイッチマスに立った時階層を変更すればよい。
-    """
-
-    H, W = i_map()
-    grid = [list(input()) for _ in range(H)]
-    grid2 = []
     
-    si, sj, gi, gj = 0, 0, 0, 0
-    for i in range(H):
-        temp = []
-        for j in range(W):
-            if grid[i][j] == "S":
-                si, sj = i, j
-            elif grid[i][j] == "G":
-                gi, gj = i, j
-
-            if grid[i][j] == "o":
-                temp.append("x")
-            elif grid[i][j] == "x":
-                temp.append("o")
-            else:
-                temp.append(grid[i][j])
-        grid2.append(temp)
-    
-    allgrid = [grid, grid2]
-
-    # bfs
-    q = deque([(0, si, sj, 0)])  # f, i, j, step
-    stamp = [[[-1 for _ in range(W)] for _ in range(H)] for _ in range(2)]
-    stamp[0][si][sj] = 0
-
-    while q:
-        f, i, j, step = q.popleft()
-        
-        if i == gi and j == gj:
-            print(step)
-            return
-        for di, dj in DRCT:
-            ni, nj = i + di, j + dj
-            if not (0 <= ni < H and 0 <= nj < W):
-                continue
-            if grid[ni][nj] == "?":
-                nf = 1-f 
-            else:
-                nf = f
-            if stamp[nf][ni][nj] != -1:
-                continue
-            now = allgrid[nf][ni][nj]
-            if now == "x" or now == "#":
-                continue
-            stamp[nf][ni][nj] = step + 1
-            q.append((nf, ni, nj, step + 1))
-
-    print(-1)
 
     return
 
