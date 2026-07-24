@@ -67,6 +67,21 @@ from itertools import permutations
 
 def main():
     
+    S = list(input())
+    f1, f2, f3 = False, False, False # 大、小、相異なる
+    for c in S:
+        if c.lower() == c:
+            f1 = True
+        elif c.upper() == c:
+            f2 = True
+    if len(set(S)) == len(S):
+        f3 = True
+    
+    if f1 and f2 and f3:
+        print("Yes")
+    else:
+        print("No")
+
     
 
     return

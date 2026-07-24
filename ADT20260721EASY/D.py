@@ -67,7 +67,20 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    A = i_list()
+
+    f = True
+    for i in range(1, N-1):
+        if A[i-1]*A[i+1] == A[i] * A[i]:
+            pass
+        else:
+            f = False
+            break
+    if f:
+        print("Yes")
+    else:
+        print("No")
 
     return
 

@@ -51,6 +51,7 @@ def d_graph(node, edge):
     return graph
 
 
+from ast import Return
 from collections import defaultdict
 from collections import Counter
 from sortedcontainers import SortedList
@@ -67,7 +68,26 @@ from itertools import permutations
 
 def main():
     
+    N, K = i_map()
+    R = i_list()
+
+    ans = []
+
+    def solve(i, R, ans, string):
+        if i == N-1:
+            for num in range(1, R[i]+1):
+                ans.append(string + [num])
+            return
+        for num in range(1, R[i]+1):
+            solve(i+1, R, ans, string + [num])
     
+    solve(0, R, ans, [])
+
+    # print(ans)
+
+    for l in sorted(ans):
+        if sum(l) % K == 0:
+            print(*l)
 
     return
 

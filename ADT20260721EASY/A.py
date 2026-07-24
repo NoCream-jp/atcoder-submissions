@@ -67,7 +67,7 @@ from itertools import permutations
 
 def main():
     
-    
+    print("".join(sorted(list(input().split()), reverse=True)))
 
     return
 
