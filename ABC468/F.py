@@ -11,7 +11,7 @@ Here is my coding space
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-MOD = 998_244_353
+# MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
@@ -66,9 +66,15 @@ from itertools import permutations
 
 
 def main():
+    """
+    右から見ると全部見れずに終わるので左から。
+    下りを2回までごまかしながら、上りの回数を数えていきたい
+    一番よさそうな連続でない増加部分列の長さをxで数えるとyが残りすべてを担当することになるので
+    大きいほうに毎回入れるのがよさそう
+    """
     
-    ans = pow(5926, -1, MOD)
-    print(ans)
+    N = int(input())
+    P = i_list()
 
     return
 
@@ -508,7 +514,7 @@ def lis(seq):
             LIS.append(seq[i])
         else:
             LIS[bisect.bisect_left(LIS, seq[i])] = seq[i]
-    return LIS, len(LIS)
+    return len(LIS)
 
 # 辞書作るだけ
 # {名前: その数}

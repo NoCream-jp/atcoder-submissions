@@ -11,7 +11,7 @@ Here is my coding space
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-MOD = 998_244_353
+# MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
@@ -67,8 +67,15 @@ from itertools import permutations
 
 def main():
     
-    ans = pow(5926, -1, MOD)
-    print(ans)
+    M, D = i_map()
+    S = list(input())
+
+    for i in range(M):
+        if S[i] == "G":
+            for j in range(max(0, i - D), min(M, i + D + 1)):
+                if S[j] != "G":
+                    S[j] = "#"
+    print(S.count("."))
 
     return
 

@@ -11,7 +11,7 @@ Here is my coding space
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-MOD = 998_244_353
+# MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
@@ -63,11 +63,32 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
+def check(string):
+    n = len(string)
+    f = 0
+    for i in range(n//2):
+        if string[i] != string[n-1-i]:
+            f += 1
+            if 2 <= f:
+                return False
+    return True
 
 
 def main():
+
+    """
+    左端固定してr動かすだけ？
+    """
     
-    ans = pow(5926, -1, MOD)
+    S = input()
+    N = len(S)
+    ans = 0
+    for l in range(N):
+        for r in range(l, N):
+            if check(S[l:r+1]):
+                print(S[l:r+1])
+                ans += 1
+
     print(ans)
 
     return
