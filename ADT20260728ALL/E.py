@@ -66,19 +66,41 @@ from itertools import permutations
 
 
 def main():
+    """
+    貪欲に、可能なもののうちでかいものから使う
+    """
     
-    N = int(input())
+    for t in range(int(input())):
+        N = int(input())
+        S = i_list()
+        l = S[1:-1]
+        l.sort()
+        if not l:
+            print(2 if  S[-1] <= S[0]*2 else -1)
+            continue
+        now = S[0]
+        cnt = 0
+        goal = S[-1]
+        # print(f"{now=}, {l=}")
+        # 満たした時点で脱出
+        while now * 2 < goal:
+            nxtidx = bisect.bisect_right(l, now * 2) - 1
+            # 最大のものが自分だった場合
+            if nxtidx == -1:
+                print(-1)
+                break
+            # それらしいのが見つかった場合
+            else:
+                now = l[nxtidx]
+                cnt += 1
+            # 全部見た後ゴールに届かなかった場合
+            if cnt == len(l) and now * 2 < goal:
+                print(-1)
+                break
+        else:
+            print(cnt + 2)
 
-    graph = [[] for _ in range(N)]
-    for i in range(N-1):
-        a, b, x = i_map()
-        x -= 1
-        graph[i].append((i+1, a))
-        graph[i].append((x, b))
-    
-    dist = dijkstra(graph, N, 0)
-    print(dist[-1])
-    
+
     return
 
 

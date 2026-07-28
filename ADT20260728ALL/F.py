@@ -68,17 +68,22 @@ from itertools import permutations
 def main():
     
     N = int(input())
+    L = [tuple(i_map()) for _ in range(N)]
+    L.sort()
+    ans = []
+    sm = 0
+    for l, r in L:
+        if l < 0:
+            if r < 0:
+                sm += r
+                ans.append(r)
+            else:
+                ans.append(0)
+        else:
+            ans.append(l)
+            sm += l
+            
 
-    graph = [[] for _ in range(N)]
-    for i in range(N-1):
-        a, b, x = i_map()
-        x -= 1
-        graph[i].append((i+1, a))
-        graph[i].append((x, b))
-    
-    dist = dijkstra(graph, N, 0)
-    print(dist[-1])
-    
     return
 
 

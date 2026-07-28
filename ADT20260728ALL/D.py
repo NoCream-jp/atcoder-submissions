@@ -68,17 +68,12 @@ from itertools import permutations
 def main():
     
     N = int(input())
+    grid = [
+        tuple(i_list()) for _ in range(N)
+    ]
 
-    graph = [[] for _ in range(N)]
-    for i in range(N-1):
-        a, b, x = i_map()
-        x -= 1
-        graph[i].append((i+1, a))
-        graph[i].append((x, b))
-    
-    dist = dijkstra(graph, N, 0)
-    print(dist[-1])
-    
+    print(len(set(grid)))
+
     return
 
 

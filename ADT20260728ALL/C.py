@@ -67,17 +67,33 @@ from itertools import permutations
 
 def main():
     
-    N = int(input())
+    N, M = i_map()
+    grid = [
+        input() for _ in range(N)
+    ]
 
-    graph = [[] for _ in range(N)]
-    for i in range(N-1):
-        a, b, x = i_map()
-        x -= 1
-        graph[i].append((i+1, a))
-        graph[i].append((x, b))
+    ans = [0 for _ in range(N)]
+    for j in range(M):
+        cnt1 = 0
+        for i in range(N):
+            if grid[i][j] == "1":
+                cnt1 += 1
+        if cnt1 <= N//2: # 1が少数派
+            for i in range(N):
+                if grid[i][j] == "1":
+                    ans[i] += 1
+        else:
+            for i in range(N):
+                if grid[i][j] == "0":
+                    ans[i] += 1
     
-    dist = dijkstra(graph, N, 0)
-    print(dist[-1])
+    mx = max(ans)
+    for i in range(N):
+        if ans[i] == mx:
+            print(i+1, end=" ")
+
+
+    
     
     return
 

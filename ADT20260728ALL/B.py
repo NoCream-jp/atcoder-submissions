@@ -67,18 +67,16 @@ from itertools import permutations
 
 def main():
     
-    N = int(input())
+    R, X = i_map()
+    ans = "No"
+    if X == 1:
+        if 1600 <= R <= 2999:
+            ans = "Yes"
+    else:
+        if 1200 <= R <= 2399:
+            ans = "Yes"
+    print(ans)
 
-    graph = [[] for _ in range(N)]
-    for i in range(N-1):
-        a, b, x = i_map()
-        x -= 1
-        graph[i].append((i+1, a))
-        graph[i].append((x, b))
-    
-    dist = dijkstra(graph, N, 0)
-    print(dist[-1])
-    
     return
 
 
