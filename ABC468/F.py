@@ -67,14 +67,28 @@ from itertools import permutations
 
 def main():
     """
-    右から見ると全部見れずに終わるので左から。
-    下りを2回までごまかしながら、上りの回数を数えていきたい
-    一番よさそうな連続でない増加部分列の長さをxで数えるとyが残りすべてを担当することになるので
-    大きいほうに毎回入れるのがよさそう
+    最長増加部分列を二つ取るだけ
     """
     
     N = int(input())
     P = i_list()
+    
+    ng = set()
+    x = 0
+    ans = 0
+    for i in range(N):
+        if x < P[i]:
+            x = P[i]
+            ans += 1
+            ng.add(P[i])
+
+    new = []
+    for i in range(N):
+        if P[i] not in ng:
+            new.append(P[i])
+    ans += len(lis(new))
+
+    print(ans)
 
     return
 
@@ -508,13 +522,27 @@ def LCSof(str1, str2):
     return dp[len(str1)][len(str2)], ans
 
 def lis(seq):
-    LIS = [seq[0]]
-    for i in range(len(seq)):
-        if seq[i] > LIS[-1]:
-            LIS.append(seq[i])
+    if not seq:
+        return []
+    L = []
+    L_id = []
+    parent = [-1] * len(seq)
+    for i, x in enumerate(seq):
+        pos = bisect.bisect_left(L, x)
+        if pos == len(L):
+            L.append(x)
+            L_id.append(i)
         else:
-            LIS[bisect.bisect_left(LIS, seq[i])] = seq[i]
-    return len(LIS)
+            L[pos] = x
+            L_id[pos] = i
+        if pos > 0:
+            parent[i] = L_id[pos - 1]
+    curr = L_id[-1]
+    res = []
+    while curr != -1:
+        res.append(seq[curr])
+        curr = parent[curr]
+    return res[::-1]
 
 # 辞書作るだけ
 # {名前: その数}
