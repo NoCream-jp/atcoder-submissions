@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < oi
+                    ████╝ < really
 """
 ###################################################
 # import sys
@@ -63,32 +63,42 @@ from itertools import permutations
 #########################################################################
 # main
 #########################################################################
-def check(string):
-    n = len(string)
-    f = 0
-    for i in range(n//2):
-        if string[i] != string[n-1-i]:
-            f += 1
-            if 2 <= f:
-                return False
-    return True
 
 
 def main():
-
-    """
-    左端固定してr動かすだけ？
-    """
     
     S = input()
     N = len(S)
-    ans = 0
-    for l in range(N):
-        for r in range(l, N):
-            if check(S[l:r+1]):
-                print(S[l:r+1])
-                ans += 1
 
+    ans = 0
+    for center in range(N):
+        diffcount = 0
+        for d in range(N):
+            if not (0 <= center - d <= N-1 and 0 <= center + d <= N-1):
+                break
+            elif S[center - d] != S[center + d]:
+                diffcount += 1
+            # print("!", S[center-d:center+d+1])
+            if 2 <= diffcount:
+                # print("out")
+                break
+            else:
+                ans += 1
+    # 偶数文字の場合
+    for center1 in range(N-1):
+        center2 = center1 + 1
+        diffcount = 0
+        for d in range(N):
+            if not (0 <= center1 - d <= N-1 and 0 <= center2 + d <= N-1):
+                break
+            elif S[center1 - d] != S[center2 + d]:
+                diffcount += 1
+            # print("!", S[center1-d:center2+d+1])
+            if 2 <= diffcount:
+                # print("out")
+                break
+            else:
+                ans += 1
     print(ans)
 
     return
