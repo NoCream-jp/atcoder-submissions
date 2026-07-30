@@ -67,36 +67,31 @@ from itertools import permutations
 
 def main():
     """ 
-    i が 1 ~ N
-    1 ~ Nの和
-    1 ~ Nの和 + 2 ~ N-1の和
     
-    (i-1回目の結果) + (i ~ N-iの和)
-    
-    こいつらを求めてそのときのiで割った物の総和が答え。
-
-    MODがわからないので調べる。
-    https://strangerxxx.hateblo.jp/entry/20230419/1681873929    
-    分母のモジュラ逆数求めて、かけることで期待値を足したことになるっぽい
     """
 
     N = int(input())
     A = i_list()
 
-    l, r = 0, N-1
-    p = sum(A) # 分子
-    q = N # 分母
-    # ans = p / q
-    ans = p * pow(q, -1, MOD) % MOD
-    for t in range((N-1)//2):
-        p -= A[l] + A[r]
-        l += 1
-        r -= 1
-        q -= 2
-        ans += p * pow(q, -1, MOD) % MOD
-        ans %= MOD
-    print(ans)
+    cs = cum_sum(A)
     
+    ans = 0
+    add, sub = 0, 0 # 足す分、引く分
+    l1, l2, r1, r2 = 0, 0, N-1, N-1
+
+    for l in range(1, N+1):
+        add = cs[-1] * l
+        p = add - sub
+        q = l
+        # p / q
+        ans += p * pow(q, MOD - 2, MOD)
+        ans %= MOD
+        sub += (cs[l2+1] - cs[l1]) + (cs[r2+1] - cs[r1])
+        l2 += 1
+        r1 -= 1
+    
+    print(ans)
+
     return
 
 

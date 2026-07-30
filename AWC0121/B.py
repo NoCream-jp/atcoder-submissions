@@ -67,17 +67,10 @@ from itertools import permutations
 
 def main():
     
-    N, K = i_map()
+    N = int(input())
     A = i_list()
-    rle, num = RLE_for(A)
-    
-    if len(rle) <= K:
-        print(N)
-    else:
-        cnt = 0
-        while num:
-            cnt += num.pop()
 
+    
 
     return
 
@@ -273,6 +266,9 @@ class UnionFind:
 
     def __str__(self):
         return "\n".join(f"{r}: {m}" for r, m in self.all_group_members().items())
+
+# class TrieTree():
+    
 
 
 #########################################################################
