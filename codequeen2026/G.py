@@ -603,10 +603,10 @@ def RLE_for(sequence):
 # 時計回りに回転
 def rotate(grid):
     H, W = len(grid), len(grid[0])
-    tmp = [["" for _ in range(W)] for __ in range(H)]
+    tmp = [["" for _ in range(H)] for __ in range(W)]
     for i in range(H):
         for j in range(W):
-            tmp[i][j] = grid[H - 1 - j][i]
+            tmp[j][H - 1 - i] = grid[i][j]
     return tmp
 
 # BFSはappendしたとき
