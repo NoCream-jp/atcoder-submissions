@@ -67,8 +67,41 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    らせん状にたべるのがよし
+    めんど
+    """
 
+    N = int(input())
+    # N段ある
+    # 横幅がNから始まる
+    
+    i, j = 1, 1
+    number = 0
+    ans = []
+    di, dj = 0, 1
+    drct = [(0, 1), (1, -1), (-1, 0)]
+    drctidx = 0
+    visited = set()
+    while number < N*(N+1)//2:
+        ans.append((i, j))
+        visited.add((i, j))
+        number += 1
+        di, dj = drct[drctidx]
+        ni, nj = i+di, j+dj
+        if 0 <= ni <= N and 0 <= nj <= N and (ni, nj) not in visited: # 範囲内
+            pass
+        else:
+            drctidx = (drctidx + 1) % 3
+            di, dj = drct[drctidx]
+            ni, nj = i+di, j+dj
+        i, j = ni, nj
+    
+    # print(ans, number)
+    print(len(ans)//2)
+    for i in range(len(ans)//2):
+        print(ans[2*i][0], ans[2*i][1], ans[2*i+1][0], ans[2*i+1][1])
+    
     return
 
 

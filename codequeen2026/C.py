@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < oi
+                    ████╝ < WTF
 """
 ###################################################
 # import sys
@@ -53,6 +53,7 @@ def d_graph(node, edge):
 
 from collections import defaultdict
 from collections import Counter
+from email.policy import default
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -67,7 +68,37 @@ from itertools import permutations
 
 def main():
     
-    
+    N, K = i_map()
+    gem = [i_list() for _ in range(N)]
+
+    """
+    価値の大きい順に並べて、色毎に数えながら加算する
+    K//2を超えた色のみ、その超えた時点から無視する
+    だけ
+    """
+
+    gem.sort(key = lambda x: x[-1])
+
+    # limitになったらアウト
+    limit = K // 2 + 1
+    d = defaultdict(int)
+    ans = 0
+    # 使った数
+    number = 0
+    while number != K and gem:
+        c, v = gem.pop()
+        d[c] += 1
+        if limit <= d[c]:
+            pass
+        else:
+            ans += v
+            number += 1
+        # print(ans, number, gem)
+
+    if number != K:
+        print(-1)
+    else:
+        print(ans)
 
     return
 

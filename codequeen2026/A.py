@@ -67,7 +67,14 @@ from itertools import permutations
 
 def main():
     
-    
+    N, X = i_map()
+
+    mx = 0
+    for _ in range(N):
+        c, a = i_map()
+        if c == X:
+            mx = max(mx, a)
+    print(mx if mx else -1)
 
     return
 

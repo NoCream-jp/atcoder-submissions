@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < oi
+                    ████╝ < difficult
 """
 ###################################################
 # import sys
@@ -67,8 +67,52 @@ from itertools import permutations
 
 def main():
     
-    
+    N, M, _, K = i_map()
+    L, R = i_list(), i_list()
 
+    """
+    片方にしかない指示はノーリスクなので必ず取る
+    両方にある指示がいくつ連続しているか数える。
+    """
+
+    lset, rset = set(L), set(R)
+    ans = []
+    ansnum = 0
+    double = []
+    for i in range(N):
+        if L[i] not in rset:
+            ans.append(L[i])
+            ansnum += 1
+        else:
+            double.append(L[i])
+    for i in range(M):
+        if R[i] not in lset:
+            ans.append(R[i])
+            ansnum += 1
+    
+    # print(ansnum)
+    # print(double)
+
+    # 連続する区間はK回まで取れる
+    l = 1
+    temp = -1
+    # print(ans, l, ansnum)
+    for i in range(len(double)):
+        if temp + 1 == double[i]:
+            l += 1
+        else:
+            l = 1
+        if l <= K:
+            ansnum += 2
+        else:
+            ansnum += 1
+            l = 0
+        ans.append(double[i])
+        temp = double[i]
+        # print(ans, l, ansnum\
+    
+    print(ansnum)
+        
     return
 
 

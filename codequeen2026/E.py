@@ -53,6 +53,7 @@ def d_graph(node, edge):
 
 from collections import defaultdict
 from collections import Counter
+from re import L
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -67,7 +68,56 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    lでソートして最大のrを取って、それ以下の最大のlからスタートする
+    を繰り返したい
+    最初からなかった区間は無視できるのが難しい
+    最初からなかった区間はわかる
+    実装バグらせそうなだけで解けるかも
+
+    左から見て、自分よりもrが小さいやつは食べられる
+    をするだけ？空いた区間は関係ない？
+    """
+
+    N = int(input())
+    S = [i_list() for _ in range(N)]
+    S.sort()
+
+    empty = [] # (l: r)　の区間が空
+    for i in range(N-1):
+        l1, r1 = S[i]
+        l2, r2 = S[i+1]
+        if r1 < l2:
+            empty.append((r1, l2))
+
+    print(empty)
+
+    ans = 0
+    ate = set()
+    idx = 0 # empty内のインデックス
+    for i in range(N-1):
+        j = i+1
+        nowl, nowr = S[i]
+        nxtl, nxtr = S[j]
+        while nxtr <= nowr:
+            j += 1
+            nowemptyl, nowemptyr = empty[idx]
+            if j not in ate:
+                if nxtr <= nowemptyl:
+                    ans += 1
+                    ate.add(j)
+                elif nowemptyr <= nxtr:
+                    ans += 1
+                    ate.add(j)
+                    idx += 1
+                else:
+                    idx += 1
+                    break
+            if j == N-1:
+                break
+    print(ate)
+    print(ans)
+
 
     return
 
