@@ -53,6 +53,7 @@ def d_graph(node, edge):
 
 from collections import defaultdict
 from collections import Counter
+from signal import raise_signal
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -66,8 +67,37 @@ from itertools import permutations
 
 
 def main():
+
+    """
+    左から尺取りみたいに到達できるところをのばしていく
+    """
     
+    N = int(input())
+    S = list(input())
+    cs = [0]
+    for c in S:
+        if c == "o":
+            cs.append(cs[-1] + 1)
+        else:
+            cs.append(cs[-1])
+
+    ans = [0 for _ in range(N)]
+
+    r = 0
+    for i in range(N):
+        if r < i:
+            r = i
+
+        while r < N:
+            xcnt = r - cs[r]
+            if xcnt <= i:
+                r += 1
+            else:
+                break
+        ans[i] = r
     
+    for a in ans:
+        print(a)
 
     return
 

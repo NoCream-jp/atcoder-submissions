@@ -67,7 +67,8 @@ from itertools import permutations
 
 def main():
     
-    
+    N, K = i_map()
+    print(N - K + 1)
 
     return
 

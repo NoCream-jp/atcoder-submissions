@@ -67,7 +67,7 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
 
     return
 

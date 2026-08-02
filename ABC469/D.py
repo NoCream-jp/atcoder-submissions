@@ -67,8 +67,75 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    答えは小さくなる。
+    2か1か0か？
+    0になる条件、1になる条件、それ以外を
+    見ながら線形に数えていって解けそう
 
+    M戦あって
+    02
+    02
+    02
+    02
+    14
+    14
+    14
+    この配置が最高の数っぽくて01, 04, 21, 24の4組までしかありえない？
+    コンビネーションからNかけてみるのは不可能なのでセットから消していくなどする
+    見ていくのも難しい
+    N//2ないとダメなわけじゃない
+    今見てるどっちかのメンバーが必ず答えに含まれる。
+    ので、今までに出てきていないやつは退場
+    を前後からやればいい？
+
+    どこを見てもa,bのどちらかがいる
+    a,bの大きいほうの値を最小にするには交互に使うしかないから
+    a,bのどちらかは少なくともN//2登場している
+    ので、登場している回数が多そうなやつをまず見つける
+
+    それ以外が資格なしとはならないが
+    多いの & それより少ないの
+    のペアであることは確実なので
+    多いのがいない場所の中で同じことをしたい
+    ということは場所を保存していく必要がある
+    """
+
+    N, M = i_map()
+    l = [i_list() for _ in range(M)]
+
+    cnt = [[] for _ in range(N)]
+    ecnt = defaultdict(int)
+
+    for i in range(M):
+        a, b = l[i]
+        a -= 1
+        b -= 1
+        cnt[a].append(i)
+        cnt[b].append(i)
+        
+        u, v = min(a, b), max(a, b)
+        ecnt[(u, v)] = ecnt[(u, v)] + 1
+
+    lenlst = [[] for _ in range(N)]
+    for i in range(N):
+        lenlst[i] = [len(cnt[i]), i]
+    lenlst.sort()
+
+    ans = 0
+    for i in range(N)[::-1]:
+        li, x = lenlst[i]
+        for j in range(i-1)[::-1]:
+            lj, y = lenlst[j]
+            if li + lj < M:
+                break
+            u, v = min(x, y), max(x, y)
+            overlap = ecnt[(u, v)]
+            
+            if li + lj - overlap == M:
+                ans += 1
+
+    print(ans)
     return
 
 

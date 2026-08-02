@@ -67,8 +67,23 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    S = input()
 
+    if N == 1:
+        print(1 if S[0] == "x" else 0)
+        return
+
+    c = 0
+    for i in range(N):
+        if S[i] == "x":
+            if i == 0 and S[i+1] == "X" or i == N - 1 and S[i-1] == "x":
+                c += 1
+            else:
+                if S[i - 1] == "x" and S[i + 1] == "x":
+                    c += 1
+    print(c)
+    
     return
 
 
