@@ -68,7 +68,7 @@ from itertools import permutations
 def main():
     
     
-
+    
     return
 
 
@@ -116,39 +116,66 @@ class PrefixSum2D:
 
 # ローリングハッシュクラス
 class RollingHash:
-    def __init__(self, S, b=3491, m=999999937):
-        """任意の基数と法でハッシュを生成する"""
-        n = len(S)
-        self.prefix = prefix = [0] * (n + 1)
-        self.power = power = [1] * (n + 1)
-        self.b = b
-        self.m = m
-        for i in range(n):
-            c = ord(S[i])
-            prefix[i + 1] = (prefix[i] * b + c) % m
-            power[i + 1] = (power[i] * b) % m
+    def __init__(
+        self,
+        S,
+        b1=10_007,
+        m1=1_000_000_007,
+        b2=10_009,
+        m2=1_000_000_009
+    ):
+        self.rh1 = SingleRollingHash(S, b1, m1)
+        self.rh2 = SingleRollingHash(S, b2, m2)
 
     def get(self, left, right):
-        """S[l, r) のハッシュを求める"""
-        return (self.prefix[right] - self.power[right - left] * self.prefix[left]) % self.m
+        return (
+            self.rh1.get(left, right),
+            self.rh2.get(left, right)
+        )
 
     def concat(self, h1, h2, l2):
-        """S1+S2 のハッシュを、それぞれのハッシュから求める"""
-        return (self.power[l2] * h1 + h2) % self.m
+        return (
+            self.rh1.concat(h1[0], h2[0], l2),
+            self.rh2.concat(h1[1], h2[1], l2)
+        )
 
     def lcp(self, l1, r1, l2, r2):
-        """S[l1, r1) とS[l2, r2) の最大共通接頭辞を求める"""
-        # LCPの最小値 (範囲内)
         low = 0
-        # LCPの最大値 + 1 (範囲外)
-        high = min(r1 - l1, r2 - l2) + 1
+        high = min(r1-l1, r2-l2) + 1
+
         while high - low > 1:
             mid = (high + low) // 2
-            if self.get(l1, l1 + mid) == self.get(l2, l2 + mid):
+            if self.get(l1, l1+mid) == self.get(l2, l2+mid):
                 low = mid
             else:
                 high = mid
+
         return low
+
+# ローリングハッシュクラス（シングルハッシュ版）
+class SingleRollingHash:
+    def __init__(self, S, b, m):
+        n = len(S)
+
+        self.prefix = [0] * (n + 1)
+        self.power = [1] * (n + 1)
+
+        self.b = b
+        self.m = m
+
+        for i, c in enumerate(S):
+            x = ord(c)
+            self.prefix[i+1] = (self.prefix[i] * b + x) % m
+            self.power[i+1] = (self.power[i] * b) % m
+
+    def get(self, left, right):
+        return (
+            self.prefix[right]
+            - self.power[right-left] * self.prefix[left]
+        ) % self.m
+
+    def concat(self, h1, h2, l2):
+        return (self.power[l2] * h1 + h2) % self.m
 
 
 # セグメント木
