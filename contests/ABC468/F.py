@@ -67,7 +67,7 @@ from itertools import permutations
 
 def main():
     """
-    最長増加部分列を二つ取るだけ
+
     """
     
     N = int(input())

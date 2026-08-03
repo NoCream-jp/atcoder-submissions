@@ -67,8 +67,7 @@ from itertools import permutations
 
 def main():
     
-    num = "10"
-    print(sum(map(int, str(num))))
+    
     
     return
 
