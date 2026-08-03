@@ -67,7 +67,38 @@ from itertools import permutations
 
 def main():
     
+    N, M = i_map()
+    graph = [[] for _ in range(N*1024)]
+    for _ in range(M):
+        u, v, w = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append((v, w))
     
+    """
+    全bit分頂点倍化
+    1000以上なら良いので1024N個にする
+    """
+
+    stack = [(0, 0)]
+    visited = [[False for _ in range(1<<10)] for _ in range(N)]
+    visited[0][0] = True
+    while stack:
+        now, nowv = stack.pop()
+        visited[now][nowv] = True
+        for nxt, nxtv in graph[now]:
+            if visited[nxt][nowv ^ nxtv] == True:
+                continue
+            stack.append((nxt, nowv ^ nxtv))
+    
+    f = False
+    ans = 1<<10+1
+    for i in range(1<<10)[::-1]:
+        if visited[N-1][i]:
+            f = True
+            ans = i
+
+    print(ans if f else -1)
     
     return
 

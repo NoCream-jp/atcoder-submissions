@@ -67,7 +67,26 @@ from itertools import permutations
 
 def main():
     
-    
+    N, M = i_map()
+    grid = [
+        i_list() for _ in range(N)
+    ]
+
+    flag = True
+
+    for i in range(N):
+        for j in range(1, M):
+            if not ((grid[i][j-1] - 1) % 7 + 1 == (grid[i][j] - 1)%7):
+                flag = False
+            if not (grid[i][j-1]+1 == grid[i][j]):
+                flag = False
+        if 1 <= i and not (grid[i-1][0]+7 == grid[i][0]):
+            flag = False
+    if flag:
+        print("Yes")
+    else:
+        print("No")
+
     
     return
 

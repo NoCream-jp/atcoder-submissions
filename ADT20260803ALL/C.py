@@ -67,7 +67,22 @@ from itertools import permutations
 
 def main():
     
+    N = int(input())
+    l = [list(input().split()) for _ in range(N)]
+    ans = []
     
+    sm = 0
+    while l:
+        c, n = l.pop()
+        n = int(n)
+        sm += n
+        if 100 < sm:
+            print("Too Long")
+            return
+        for _ in range(n):
+            ans.append(c)
+    
+    print("".join(ans[::-1]))
     
     return
 

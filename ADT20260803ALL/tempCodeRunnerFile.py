@@ -66,14 +66,25 @@ from itertools import permutations
 
 
 def main():
+    """
+    最高点者との差が300以内
+    同率1位ありなので考えなくてよい
+    """
     
-    N = int(input())
+    N, K = i_map()
+    P = [i_list() for _ in range(N)]
 
-    ans = [1 for _ in range(N+1)]
-    for i in range(2, N+1):
-        ans[i] = ans[i-1]+sum(map(int, str(ans[i-1])))
-    print(ans[-1])
+    l = [[sum(P[i]), i] for i in range(N)]
+    l.sort()
 
+    mx = l[-1][0]
+    ans = ["No" for _ in range(N)]
+    for p, n in l:
+        if mx <= p + 300:
+            ans[n] = "Yes"
+    
+    for a in ans:
+        print(a)
     
     return
 

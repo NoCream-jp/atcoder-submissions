@@ -67,7 +67,17 @@ from itertools import permutations
 
 def main():
     
-    
+    grid = [input() for _ in range(2)]
+    if grid == [
+        "#.",
+        ".#"] or \
+    grid == [
+        ".#",
+        "#."
+    ]:
+        print("No")
+    else:
+        print("Yes")
     
     return
 

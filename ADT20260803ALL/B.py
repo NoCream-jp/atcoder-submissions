@@ -67,7 +67,12 @@ from itertools import permutations
 
 def main():
     
-    
+    s, a, b, x = i_map()
+    ans = 0
+    ans += (x // (a+b)) * a
+    x %= (a+b)
+    ans += min(a, x)
+    print(ans * s)
     
     return
 
