@@ -70,7 +70,9 @@ def main():
     N, M = i_map()
     A = i_list()
 
-    dp = [[0 for _ in range(N+1)] for _ in range(M+1)]
+    dp = [[-INF for _ in range(N+1)] for _ in range(M+1)]
+    for j in range(N+1):
+        dp[0][j] = 0
 
     for i in range(1, M+1):
         for j in range(N+1):
