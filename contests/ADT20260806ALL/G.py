@@ -11,7 +11,7 @@ Here is my coding space
 # sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-# MOD = 998_244_353
+MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
@@ -50,15 +50,8 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
+from ast import mod
 from collections import defaultdict
 from collections import Counter
 from sortedcontainers import SortedList
@@ -75,7 +68,24 @@ from itertools import permutations
 
 def main():
     
-    
+    q = deque([1])
+    length = 1
+    ans = 1
+    for _ in range(int(input())):
+        query = i_list()
+        if query[0] == 1:
+            x = query[1]
+            length += 1
+            q.append(x)
+            ans = (ans * 10 + x) % MOD
+        elif query[0] == 2:
+            front = q.popleft()
+            ans -= pow(10, length-1) * front
+            length -= 1
+            ans %= MOD
+        else:
+           print(ans % MOD)
+        # print(q)
 
     return
 
@@ -510,7 +520,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):
@@ -568,18 +578,6 @@ def make_dictionary(lst):
         else:
             d[n] = 1
     return d
-
-# 繰り返し二乗法
-def modpow(a, n):
-    ans = 1
-    tmp = a
-    while 1 <= n:
-        if n % 2 == 1:
-            ans *= tmp
-        tmp *= tmp
-        n = n >> 1
-    return ans
-
 
 def my_bisect_left(a, x):
     if x < a[0]:

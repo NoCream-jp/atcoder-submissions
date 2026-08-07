@@ -50,14 +50,6 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -74,8 +66,35 @@ from itertools import permutations
 
 
 def main():
+    """
+    車グラフと電車グラフ(reverse)を作って、
+    車でスタートから、電車でゴールからdijkstraすると
+    ある地点iについて
+    「スタートからiまでのコスト」「iからゴールまでのコスト」
+    がすぐわかる
+
+    通った場所が被ってるとダメ、乗り換えし直しはできないから
+    """
+
+    N, A, B, C = i_map()
+    grid = [i_list() for _ in range(N)]
+
+    car_graph = [[] for _ in range(N)]
+    train_graph = [[] for _ in range(N)]
+
+    for i in range(N):
+        for j in range(N):
+            car_graph[i].append((j, grid[i][j] * A))
+            train_graph[j].append((i, grid[i][j] * B + C))
     
-    
+    car_list = dijkstra(car_graph, N, 0)
+    train_list = dijkstra(train_graph, N, N - 1)
+
+    mn = INF
+    for i in range(N):
+        mn = min(mn, car_list[i] + train_list[i])
+
+    print(mn)
 
     return
 
@@ -510,7 +529,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):

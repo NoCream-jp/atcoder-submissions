@@ -50,14 +50,6 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -72,10 +64,33 @@ from itertools import permutations
 # main
 #########################################################################
 
+def check(grid, starti, startj):
+    f = True
+    for di in range(9):
+        for dj in range(9):
+            if not (0 <= starti + di <= len(grid)-1 and 0 <= startj + dj <= len(grid[0])-1):
+                continue
+            if 0 <= di <= 2 and 0 <= dj <= 2:
+                if grid[starti + di][startj + dj] == ".":
+                    f = False
+            elif 6 <= di <= 8 and 6 <= dj <= 8:
+                if grid[starti + di][startj + dj] == ".":
+                    f = False
+            elif (di == 3 and 0 <= dj <= 3) or (dj == 3 and 0 <= di <= 3):
+                if grid[starti + di][startj + dj] == "#":
+                    f = False
+            elif (di == 5 and 5 <= dj <= 8) or (dj == 5 and 5 <= di <= 8):
+                if grid[starti + di][startj + dj] == "#":
+                    f = False
+    return f
 
 def main():
-    
-    
+    N, M = i_map()
+    grid = [list(input()) for _ in range(N)]
+    for i in range(N - 9 + 1):
+        for j in range(M - 9 + 1):
+            if check(grid, i, j):
+                print(i+1, j+1)
 
     return
 
@@ -510,7 +525,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):

@@ -50,14 +50,6 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -66,7 +58,7 @@ from collections import deque
 import heapq
 import math
 import bisect
-from itertools import permutations
+import itertools
 
 #########################################################################
 # main
@@ -74,8 +66,23 @@ from itertools import permutations
 
 
 def main():
+    """
+    各Eについてそれより右のXの累積和
+    各Mについてそれより右のEの累積和
+    """
     
-    
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+
+    a = 0
+    st = set()
+    for c in itertools.combinations(l, 3):
+        x1, y1, x2, y2, x3, y3 = c[0][0], c[0][1], c[1][0], c[1][1], c[2][0] , c[2][1]
+        s = abs(x1 * (y2-y3) + x2 * (y3-y1) + x3 * (y1-y2)) / 2
+        if s:
+            a += 1
+    print(a)
+                
 
     return
 
@@ -510,7 +517,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):

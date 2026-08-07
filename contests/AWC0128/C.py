@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < too hot to live
+                    ████╝ < give me rate point
 """
 ###################################################
 # import sys
@@ -50,14 +50,6 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -75,8 +67,23 @@ from itertools import permutations
 
 def main():
     
-    
+    N, M = i_map()
+    W = i_list()
+    cap = min(i_list())
 
+    l = 0
+    ans = 0
+    cost = 0
+    for r in range(N):
+        cost += W[r]
+        while cap < cost:
+            cost -= W[l]
+            l += 1
+        ans += r - l + 1
+        # print(f"{ans=}\n")
+
+    print(ans)
+    
     return
 
 
@@ -510,7 +517,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):

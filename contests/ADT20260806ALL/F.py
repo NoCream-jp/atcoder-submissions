@@ -50,14 +50,6 @@ def d_graph(node, edge):
         graph[u].append(v)
     return graph
 
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -75,7 +67,24 @@ from itertools import permutations
 
 def main():
     
-    
+    N, white = i_map()
+    logo = 0
+    templogo = 0
+    tempwhite = white
+    for c in input():
+        if c == "0":
+            templogo = 0
+            tempwhite = white
+        elif c == "1":
+            if 0 < tempwhite:
+                tempwhite -= 1
+            else:
+                templogo += 1
+        else:
+            templogo += 1
+        logo = max(logo, templogo)
+        # print(f"{templogo=} {tempwhite=}")
+    print(logo)
 
     return
 
@@ -510,7 +519,7 @@ def get_primes(left, right):
             is_prime_range[start_idx:n:prm] = [False] * length
     return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
 
-# LCS部分文字列一致
+# LCS部分文字列一致？
 def LCSof(str1, str2):
     dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
     for i, vi in enumerate(str1):
