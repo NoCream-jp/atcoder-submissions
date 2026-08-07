@@ -75,7 +75,16 @@ from itertools import permutations
 
 def main():
     
+    n, s, m, l = i_map()
     
+    ans = INF
+    for i in range(101):
+        for j in range(101):
+            for k in range(101):
+                if n <= 6 * i + 8 * j + 12 * k:
+                    ans = min(ans, s * i + m * j + l * k)
+                    # print(ans)
+    print(ans)
 
     return
 

@@ -75,8 +75,16 @@ from itertools import permutations
 
 def main():
     
-    
-
+    for _ in range(int(input())):
+        N = int(input())
+        P = i_list()
+        c = 0
+        for a in range(19):
+            for b in range(N+1):
+                if not((a + 1) * pow(2, b) <= pow(2, N)):
+                    continue
+                c += 1
+        print(c)
     return
 
 

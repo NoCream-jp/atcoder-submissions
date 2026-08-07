@@ -75,7 +75,17 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    A = i_list()
+
+    c = 1
+    mxright = A[0]
+    for i in range(1, N):
+        if i < mxright:
+            mxright = max(mxright, i + A[i])
+            c += 1
+
+    print(c)
 
     return
 

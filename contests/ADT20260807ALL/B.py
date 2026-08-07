@@ -75,7 +75,14 @@ from itertools import permutations
 
 def main():
     
-    
+    l1, r1, l2, r2 = i_map()
+    a = [0]*100
+    for i in range(l1, r1):
+        a[i] += 1
+    for i in range(l2, r2):
+        a[i] += 1
+    # print(a)
+    print(a.count(2))
 
     return
 

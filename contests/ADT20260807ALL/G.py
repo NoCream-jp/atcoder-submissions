@@ -75,8 +75,41 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    どの頂点に0を書き込んでも製薬を逸脱しないので頂点0に0が書かれているとする
+    """
 
+    N, M = i_map()
+    uf = UnionFind(N)
+    graph = [[] for _ in range(N)]
+    for _ in range(M):
+        u, v, w = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append((v, w))
+        graph[v].append((u, -w))
+        uf.union(u, v)
+        
+
+    visited = [False for _ in range(N)]
+    ans = [0 for _ in range(N)]
+    roots = uf.roots()
+    stack = []
+    for r in roots:
+        stack.append((r, 0))
+        visited[r] = True
+    # print(f"{roots=}")
+    while stack:
+        # print(stack)
+        now, num = stack.pop()
+        if not visited[now]:
+            visited[now] = True
+        for nxt, cost in graph[now]:
+            # print(f"{now=} -> {nxt=}, {cost=}, {visited=}")
+            if not visited[nxt]:
+                ans[nxt] = num + cost
+                stack.append((nxt, num + cost))
+    print(*ans)
     return
 
 

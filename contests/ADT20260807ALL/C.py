@@ -75,7 +75,23 @@ from itertools import permutations
 
 def main():
     
+    N, M = i_map()
+    l = [i_list() for _ in range(N)]
+
+    ans = "No"
+    for i in range(N):
+        for j in range(N):
+            pi = l[i][0]
+            iset = set(l[i][2:])
+            pj = l[j][0]
+            jset = set(l[j][2:])
+            if pj <= pi:
+                if iset <= jset:
+                    if jset - iset or pj < pi:
+                        ans = "Yes"
+                        break
     
+    print(ans)
 
     return
 

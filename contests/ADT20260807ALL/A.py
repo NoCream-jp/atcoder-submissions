@@ -75,7 +75,15 @@ from itertools import permutations
 
 def main():
     
-    
+    N = int(input())
+    st = set()
+    ans = 0
+    for c in input():
+        ans += 1
+        st.add(c)
+        if st == {"A", "B", "C"}:
+            print(ans)
+            break
 
     return
 

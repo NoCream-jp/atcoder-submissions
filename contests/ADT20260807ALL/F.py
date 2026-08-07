@@ -75,7 +75,30 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    前計算するだけ
+    """
+    N = int(input())
+    A = i_list()
+    M = int(input())
+    B = i_list()
+    L = int(input())
+    C = i_list()
+    Q = int(input())
+    X = i_list()
+
+    st = set()
+
+    for i in range(N):
+        for j in range(M):
+            for k in range(L):
+                st.add(A[i] + B[j] + C[k])
+
+    for x in X:
+        if x in st:
+            print("Yes")
+        else:
+            print("No")
 
     return
 

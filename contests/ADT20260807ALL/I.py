@@ -75,6 +75,24 @@ from itertools import permutations
 
 def main():
     
+    N, Q = i_map()
+    A = i_list()
+
+    st_a = SegmentTree(N, sum, 0, A)
+    st_b = SegmentTree(N, sum, 0, st_a)
+    st_c = SegmentTree(N, sum, 0, st_b)
+
+    for _ in range(Q):
+        query = i_list()
+        if query[0] == 1:
+            x, v = query[1:]
+            st_a.update(x - 1, v)
+            st_b.update(x - 1, v)
+            st_c.update(x - 1, v)
+        else:
+            x = query[1]
+            print(st_c.query(0, x))
+
     
 
     return
