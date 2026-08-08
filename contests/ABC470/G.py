@@ -75,7 +75,7 @@ from itertools import permutations
 
 def main():
     
-    print(2^1^1)
+    
 
     return
 

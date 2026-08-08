@@ -74,8 +74,41 @@ from itertools import permutations
 
 
 def main():
+    """
+    'が2回ずつループ
+    入れ替えのみ考えればよい
+    辞書のほうがやりやすい
+
+    """
     
-    print(2^1^1)
+    N, Q = i_map()
+    temp = i_list()
+    P = {i+1: temp[i] for i in range(N)}
+    Pd = {}
+    for i in range(1, N+1):
+        Pd[P[i]] = i
+
+    flag = True # TrueならP, FalseならPd
+    for _ in range(Q):
+        query = i_list()
+        if query[0] == 1:
+            x, y = query[1:]
+            if flag:
+                a, b = P[x], P[y]
+                P[x], P[y] = P[y], P[x]
+                Pd[a], Pd[b] = Pd[b], Pd[a]
+            else:
+                a, b = Pd[x], Pd[y]
+                Pd[x], Pd[y] = Pd[y], Pd[x]
+                P[a], P[b] = P[b], P[a]
+        else:
+            flag = not flag
+            
+    for i in range(1, N+1):
+        if flag:
+            print(P[i], end=" ")
+        else:
+            print(Pd[i], end=" ")
 
     return
 

@@ -67,6 +67,7 @@ import heapq
 import math
 import bisect
 from itertools import permutations
+import atcoder
 
 #########################################################################
 # main
@@ -74,8 +75,13 @@ from itertools import permutations
 
 
 def main():
+    """
+    """
     
-    print(2^1^1)
+    N, Q = i_map()
+    # A = [[] for _ in range(N)]
+
+
 
     return
 

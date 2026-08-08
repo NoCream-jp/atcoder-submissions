@@ -75,7 +75,14 @@ from itertools import permutations
 
 def main():
     
-    print(2^1^1)
+    N = int(input())
+    C = i_list()
+    mx = 0
+    for col in C:
+        mx = max(mx, C.count(col))
+    
+    print(N - mx)
+    
 
     return
 
