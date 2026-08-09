@@ -14,7 +14,7 @@ Here is my coding space
 # MOD = 998_244_353
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-# drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
+# drct_char = {"U": (-1, a), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
 
@@ -75,7 +75,30 @@ from itertools import permutations
 
 def main():
     
+    """
+    2の倍数を貪欲にならべて、
+    4の倍数が残りの半分以上ならOK
+    """
     
+    N = int(input())
+    A = i_list()
+    c2, c4 = 0, 0
+    for i in range(N):
+        if A[i] % 4 == 0:
+            c4 += 1
+        elif A[i] % 2 == 0:
+            c2 += 1
+    
+    temp = N - c2
+    # print(f"{c2=}, {c4=}, {temp=}")
+    if (temp+1) // 2 <= c4:
+        print("Yes")
+        return
+    if c2 == 0 and temp // 2 <= c4:
+        print("Yes")
+        return
+    
+    print("No")
 
     return
 

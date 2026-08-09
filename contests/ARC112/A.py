@@ -75,7 +75,9 @@ from itertools import permutations
 
 def main():
     
-    
+    for _ in range(int(input())):
+        l, r = i_map()
+        
 
     return
 
