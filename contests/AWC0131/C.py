@@ -74,8 +74,24 @@ from itertools import permutations
 
 
 def main():
+    """
+    右端から単調増加な列だけ残る
+    """
     
-    print({"ai":4} | {"ai":1, "iu": 100})
+    N = int(input())
+    H = i_list()
+
+    c = 1
+    right = H.pop()
+    while H:
+        left = H.pop()
+        if left < right:
+            continue
+        else:
+            right = left
+            c += 1
+
+    print(c)
 
     return
 

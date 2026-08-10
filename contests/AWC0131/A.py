@@ -75,7 +75,17 @@ from itertools import permutations
 
 def main():
     
-    print({"ai":4} | {"ai":1, "iu": 100})
+    N = int(input())
+    c = 0
+    for i in range(N):
+        f = int(input())
+        N -= f
+        if 0 < N:
+            c += 1
+            N -= 1
+        
+
+    print(c)
 
     return
 

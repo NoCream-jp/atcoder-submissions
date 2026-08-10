@@ -75,7 +75,17 @@ from itertools import permutations
 
 def main():
     
-    print({"ai":4} | {"ai":1, "iu": 100})
+    N, Q = i_map()
+    S = list(input().split())
+
+    d = defaultdict(list)
+    for i, c in enumerate(S):
+        d[c].append(i)
+
+    for _ in range(Q):
+        l, r, t = input().split()
+        l, r = int(l) - 1, int(r) - 1
+        print(bisect.bisect_right(d[t], r) - bisect.bisect_left(d[t], l))
 
     return
 
@@ -348,19 +358,11 @@ def count_inversions(arr):
     _, count = merge_sort_and_count(arr)
     return count
 
-
-# 累積和 総和 = (r+1番目) - (l番目)
-def cum_sum(l):
+# 累積和、xorなど
+def prefix_func(l, func):
     a = [0 for _ in range(len(l) + 1)]
     for i in range(len(l)):
-        a[i + 1] = a[i] + l[i]
-    return a
-
-# 累積xor和
-def cum_xor(l):
-    a = [0 for _ in range(len(l) + 1)]
-    for i in range(len(l)):
-        a[i + 1] = a[i] & l[i]
+        a[i + 1] = func(a[i], l[i])
     return a
 
 # 辞書ならこっちのほうが早い

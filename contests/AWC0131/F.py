@@ -75,7 +75,7 @@ from itertools import permutations
 
 def main():
     
-    print({"ai":4} | {"ai":1, "iu": 100})
+    
 
     return
 

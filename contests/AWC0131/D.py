@@ -75,7 +75,19 @@ from itertools import permutations
 
 def main():
     
-    print({"ai":4} | {"ai":1, "iu": 100})
+    N, Q, M = i_map()
+    P = i_list()
+
+    pr = 1
+    for p in P:
+        pr = (pr * p) % M
+
+    temp = pr
+    for _ in range(Q):
+        x, v = i_map()
+        temp = (temp // x) % M
+        temp = (temp * v) % M
+        print("!", temp)
 
     return
 
