@@ -79,7 +79,32 @@ def main():
     """
     
     N, Q = i_map()
-    # A = [[] for _ in range(N)]
+    xor = 0
+
+    A = [0 for _ in range(N)]
+    d = defaultdict(int)
+    for _ in range(Q):
+        query = i_list()
+        if query[0] == 1:
+            x = query[1]
+            x -= 1
+            d[x] += 1
+            xor ^= A[x]
+            A[x] += 1
+            xor ^= A[x]
+        else:
+            for k in d:
+                if 0 < d[k]:
+                    d[k] -= 1
+                    xor ^= A[k]
+                    A[k] -= 1
+                    xor ^= A[k]
+                
+        print(xor)
+            
+                
+            
+
 
 
 
