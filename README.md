@@ -25,3 +25,4 @@ https://atcoder.jp/contests/abc325/tasks/abc325_e<br>
 
 ## BFS
 https://atcoder.jp/contests/adt_all_20260811_2/tasks/abc417_e (特殊) <br>
+https://atcoder.jp/contests/abc351/tasks/abc351_d (考察) <br>

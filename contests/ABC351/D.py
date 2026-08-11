@@ -7,57 +7,15 @@ Here is my coding space
                     ████╝ < night
 """
 ###################################################
-# import sys
-# sys.setrecursionlimit(10 ** 7)
+import sys
+sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
-
-
-def i_map():
-    return map(int, input().split())
-
-
-def i_list():
-    return list(i_map())
-
-
-def c_list():
-    return list(input().split())
-
-
-def u_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append(v)
-        graph[v].append(u)
-    return graph
-
-
-def d_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append(v)
-    return graph
-
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
 
 from collections import defaultdict
 from collections import Counter
@@ -72,10 +30,57 @@ from itertools import permutations
 # main
 #########################################################################
 
-
 def main():
+
+    """
+    #と、#に隣接しているマスを行き止まりとして別個数えるBFSを陸の孤島ごとにする
+    """
+
+    H, W = i_map()
+    grid = [input() for _ in range(H)]
+
+    def check(i, j):
+        for di, dj in drct:
+            ni, nj = i + di, j + dj
+            if 0 <= ni < H and 0 <= nj < W:
+                if grid[ni][nj] == "#":
+                    return False
+        return True
+
+    q = deque()
     
-    
+    visited = [[False for _ in range(W)] for _ in range(H)]
+
+    ans = 0
+    for r in grid:
+        if r.count("."):
+            ans = 1
+            break
+
+    for i in range(H):
+        for j in range(W):
+            # 未訪問ならそこから開始
+            if grid[i][j] == "." and check(i, j) and not visited[i][j]:
+                q = deque()
+                q.append((i, j))
+                visited[i][j] = True
+                step = 0
+                freeze = set() # 踏めるけど動けない場所
+                while q:
+                    ci, cj = q.popleft()
+                    step += 1
+                    for di, dj in drct:
+                        ni, nj = ci + di, cj + dj
+                        if 0 <= ni < H and 0 <= nj < W and grid[ni][nj] == ".":
+                            if check(ni, nj):
+                                if not visited[ni][nj]:
+                                    visited[ni][nj] = True
+                                    q.append((ni, nj))
+                            else:
+                                freeze.add((ni, nj))
+                ans = max(ans, step + len(freeze))
+    print(ans)
+
 
     return
 
@@ -303,6 +308,47 @@ class UnionFind:
 #########################################################################
 # Functions
 #########################################################################
+
+def i_map():
+    return map(int, input().split())
+
+
+def i_list():
+    return list(i_map())
+
+
+def c_list():
+    return list(input().split())
+
+
+def u_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+        graph[v].append(u)
+    return graph
+
+
+def d_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+    return graph
+
+def w_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v, w = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append((v, w))
+    return graph
 
 # 切り上げ
 def ceil_div(a: int, b: int) -> int:
