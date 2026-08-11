@@ -74,7 +74,7 @@ from itertools import permutations
 
 
 def main():
-    
+
     
 
     return
@@ -679,6 +679,30 @@ def rotate(grid):
 #                 stack.append((nxt, num + 1))
 #     print(*stamp)
 
+def has_cycle(num_nodes: int, graph: list[list[int]]) -> bool:
+    """
+    有向グラフにサイクルが存在するか判定する関数
+    
+    num_nodes (int): 頂点の数 V
+    graph (list[list[int]]): 隣接リスト形式のグラフ (graph[u] は u からの遷移先リスト)
+        
+    return(bool): サイクルが存在すれば True, なければ False
+    """
+    in_degree = [0] * num_nodes
+    for u in range(num_nodes):
+        for v in graph[u]:
+            in_degree[v] += 1
+    queue = deque([i for i in range(num_nodes) if in_degree[i] == 0])
+    
+    visited_count = 0
+    while queue:
+        u = queue.popleft()
+        visited_count += 1
+        for v in graph[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+    return visited_count < num_nodes
 
 """
 トポロジカルソートを行い、
@@ -700,7 +724,7 @@ def topo_sort_unique(N, graph):
     order = []
     is_unique = True
     while q:
-        if len(q) > 1:
+        if 1 < len(q):
             is_unique = False
         v = q.popleft()
         order.append(v)

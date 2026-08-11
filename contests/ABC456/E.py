@@ -80,15 +80,30 @@ def main():
     Wがどの頂点でも同じだから簡単に見える
     visited配列をW倍にして
     曜日を持ってDFS、行先での次の日がoかつvisitedなら中断とできる？
+    どこも行き来可能だが、サイクルの前にxで止まっては意味がないので
+    初手をどうするか
+    ノード0からスタートしていいのかどうか
+
     """
     for _ in range(int(input())):
         N, M = i_map()
         graph = u_graph(N, M)
         W = int(input())
         S = [input() for _ in range(N)]
+
+        new_graph = [[] for _ in range(N * W + 1)]
+        for i in range(N):
+            for j in graph[i] + [i]:
+                for day in range(W):
+                    tomorrow = (day + 1) % W
+                    if S[i][day] == "o" and S[j][tomorrow] == "o":
+                        new_graph[i * W + day].append(j * W + tomorrow)
         
-
-
+        f = has_cycle(N * W, new_graph)
+        if f:
+            print("Yes")
+        else:
+            print("No")
 
     return
 
@@ -692,6 +707,30 @@ def rotate(grid):
 #                 stack.append((nxt, num + 1))
 #     print(*stamp)
 
+def has_cycle(num_nodes: int, graph: list[list[int]]) -> bool:
+    """
+    有向グラフにサイクルが存在するか判定する関数
+    
+    num_nodes (int): 頂点の数 V
+    graph (list[list[int]]): 隣接リスト形式のグラフ (graph[u] は u からの遷移先リスト)
+        
+    return(bool): サイクルが存在すれば True, なければ False
+    """
+    in_degree = [0] * num_nodes
+    for u in range(num_nodes):
+        for v in graph[u]:
+            in_degree[v] += 1
+    queue = deque([i for i in range(num_nodes) if in_degree[i] == 0])
+    
+    visited_count = 0
+    while queue:
+        u = queue.popleft()
+        visited_count += 1
+        for v in graph[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+    return visited_count < num_nodes
 
 """
 トポロジカルソートを行い、
@@ -713,7 +752,7 @@ def topo_sort_unique(N, graph):
     order = []
     is_unique = True
     while q:
-        if len(q) > 1:
+        if 1 < len(q):
             is_unique = False
         v = q.popleft()
         order.append(v)
