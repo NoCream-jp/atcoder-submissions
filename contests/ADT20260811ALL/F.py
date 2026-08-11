@@ -74,8 +74,32 @@ from itertools import permutations
 
 
 def main():
+    """
+    厳しい順にマッチングする
+
+    シャリの小さい順に見ると
+    シャリiよりも小さいシャリは今までに見たので、見直す必要はない
+    okならシャリを大きくして、ネタを小さくする
+    ngならシャリを大きくする
+    """
     
-    
+    N, M = i_map()
+    A = i_list() # しゃり
+    B = i_list() # ねた
+    A.sort()
+    B.sort()
+
+    aidx, bidx = 0, 0
+    count = 0
+    while aidx < N and bidx < M:
+        if B[bidx] <= A[aidx] * 2:
+            count += 1
+            aidx += 1
+            bidx += 1
+        else:
+            aidx += 1
+
+    print(count)
 
     return
 

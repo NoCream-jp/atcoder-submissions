@@ -75,8 +75,37 @@ from itertools import permutations
 
 def main():
     
-    
+    """
+    最短ステップのほうがいいに決まっているのでBFSしたい
+    ↑違う、DFSすべき。長さでは決まらない
+    できたパスをすべて出してソートするか、
+    次のノードとしてキューに入れるときに小さいものだけを選ぶか
+    """
+    for _ in range(int(input())):
+        N, M, X, Y = i_map()
+        X -= 1
+        Y -= 1
+        graph = u_graph(N, M)
 
+        # dfs
+        stack = [(X, [X + 1])]
+        visited = [False] * N
+        ans = []
+        while stack:
+            now, path = stack.pop()
+            if now == Y:
+                ans.append(path)
+                continue
+            if visited[now]:
+                continue
+            visited[now] = True
+            for nxt in graph[now]:
+                if visited[nxt]:
+                    continue
+                stack.append((nxt, path + [nxt + 1]))
+            print(stack)
+        # print("Failure")
+        print("!", ans)
     return
 
 

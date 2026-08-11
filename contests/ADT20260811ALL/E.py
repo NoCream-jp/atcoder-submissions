@@ -75,7 +75,28 @@ from itertools import permutations
 
 def main():
     
-    
+    N, M = i_map()
+    d = defaultdict(list)
+    ing_of = [set() for _ in range(M)]
+    for dishnum in range(M):
+        l = i_list()
+        for i in range(1, len(l)):
+            d[l[i]].append(dishnum) # 材料毎に料理を記録
+            ing_of[dishnum].add(l[i])
+    # print(d)
+    # print(ing_of)
+
+    cnt = 0
+    B = i_list()
+    for i in range(N):
+        target = B[i]
+        for dish in d[target]:
+            # print(f"{dish=}")
+            ing_of[dish].remove(target)
+            if not ing_of[dish]:
+                cnt += 1
+        print(cnt)
+
 
     return
 
