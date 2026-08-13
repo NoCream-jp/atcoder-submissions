@@ -17,48 +17,6 @@ Here is my coding space
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
-
-def i_map():
-    return map(int, input().split())
-
-
-def i_list():
-    return list(i_map())
-
-
-def c_list():
-    return list(input().split())
-
-
-def u_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append(v)
-        graph[v].append(u)
-    return graph
-
-
-def d_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append(v)
-    return graph
-
-def w_graph(node, edge):
-    graph = [[] for _ in range(node)]
-    for _ in range(edge):
-        u, v, w = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, w))
-    return graph
-
 from collections import defaultdict
 from collections import Counter
 from sortedcontainers import SortedList
@@ -75,22 +33,31 @@ from itertools import permutations
 
 def main():
 
-    H, N = i_map()
-    l = [i_list() for _ in range(N)]
+    N = int(input())
+    
+    global ans
+    ans = 0
 
-    dp = [INF for _ in range(H+1)]
-    dp[0] = 0
+    def check(n):
+        st = set()
+        while n:
+            st.add(n % 10)
+            n //= 10
+        return st == {3, 5, 7}
 
-    for h in range(H):
-        if dp[h] == INF:
-            continue
-        else:
-            for damage, cost in l:
-                if h + damage <= H:
-                    dp[h+damage] = min(dp[h+damage], dp[h] + cost)
-                else:
-                    dp[H] = min(dp[H], dp[h] + cost)
-    print(dp[-1])
+
+    def solve(n):
+        global ans
+        if N < n:
+            return
+        if check(n):
+            ans += 1
+        for i in [3, 5, 7]:
+            solve(n * 10 + i)
+        
+    solve(0)
+    
+    print(ans)
 
     return
 
@@ -318,6 +285,47 @@ class UnionFind:
 #########################################################################
 # Functions
 #########################################################################
+
+def i_map():
+    return map(int, input().split())
+
+
+def i_list():
+    return list(i_map())
+
+
+def c_list():
+    return list(input().split())
+
+
+def u_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+        graph[v].append(u)
+    return graph
+
+
+def d_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+    return graph
+
+def w_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v, w = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append((v, w))
+    return graph
 
 # 切り上げ
 def ceil_div(a: int, b: int) -> int:
