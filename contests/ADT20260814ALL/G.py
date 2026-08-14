@@ -32,8 +32,53 @@ from itertools import permutations
 
 
 def main():
+    """
+    数字の小さいものから見ていく。
+    小さい順にソート
+    ソートしたものをrle
+    数字, 回数になる
+    1が4回、5が2回なら
+        1
+        1
+        1
+        1
+        1
+    11111
+    11111
+        ↓
+    22227
 
-    
+    (ある数字l:5, 回数n:2)を見ているとき
+    (足し算の結果sm:2) = (N:7) - (直前までの回数の総和prelength:5) + (直前からの繰り上がり:0)
+    (保存する数の結果preserve: 2) = (足し算の結果sm:2) % 10
+    (繰り上がりの結果pre: 0) = (足し算の結果sm:2) // 10
+    (ある数字l:5) - (ひとつ前の数字prenumber:1) = (保存回数time:4)桁ぶんだけ (保存する数の結果preserve:2) をansに加える。
+    """
+
+    N = int(input())
+    A = sorted(i_list())
+
+    rle, num = RLE_for(A)
+    # print(rle)
+    # print(num)
+
+    ans = []
+    prelength = 0
+    pre = 0
+    prenumber = 0
+    for i in range(len(rle)):
+        l, n = rle[i], num[i]
+        time = l - prenumber
+        for _ in range(time):
+            sm = N - prelength + pre
+            ans.append(sm % 10)
+            pre = sm // 10
+        prenumber = l
+        prelength += n
+    if pre:
+        ans.append(pre)
+    print("".join(map(str, ans[::-1])))
+
 
     return
 

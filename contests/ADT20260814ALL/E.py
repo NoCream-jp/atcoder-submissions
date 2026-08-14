@@ -33,7 +33,16 @@ from itertools import permutations
 
 def main():
 
+    N, K = i_map()
+    ans = (K * (K + 1)) // 2
+
+    st = set()
+    for a in i_list():
+        if a <= K and a not in st:
+            ans -= a
+            st.add(a)
     
+    print(ans)
 
     return
 

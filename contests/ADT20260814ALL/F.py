@@ -33,7 +33,18 @@ from itertools import permutations
 
 def main():
 
+    N = int(input())
+    A = i_list()
+
+    d = defaultdict(int)
+    for a in A:
+        d[a] += 1
     
+    ans = 0
+    for v in d.values():
+        ans += v // 2
+
+    print(ans)
 
     return
 
