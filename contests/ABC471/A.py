@@ -33,7 +33,12 @@ from itertools import permutations
 
 def main():
 
+    a, b = i_map()
     
+    ans = "Nein"
+    if a+b == 9 or a-b == 9 or a*b == 9 or a == 9*b:
+        ans = "Nine"
+    print(ans)
 
     return
 

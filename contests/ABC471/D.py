@@ -33,6 +33,31 @@ from itertools import permutations
 
 def main():
 
+    """
+    残量がすべて0の場合は
+    tをキーにしてheapに入れる
+    排出の時刻と比較して出す
+
+    しかしwを足さないといけない
+    w-tをキーにして良い
+    """
+
+    Q, V = i_map()
+    
+    hq = []
+    heapq.heapify(hq)
+    for _ in range(Q):
+        query = i_list()
+        if query[0] == 1:
+            t, w = query[1:]
+            heapq.heappush(hq, -(w - t))
+        else:
+            t = query[1]
+            if not hq:
+                print(-1)
+                continue
+            print(min(V, t + -heapq.heappop(hq)))
+        # print(f"{hq=}")
     
 
     return

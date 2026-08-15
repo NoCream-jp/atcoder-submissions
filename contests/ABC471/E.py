@@ -33,6 +33,8 @@ from itertools import permutations
 
 def main():
 
+    N, K = i_map()
+    A = i_list()
     
 
     return

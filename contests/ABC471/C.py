@@ -33,7 +33,65 @@ from itertools import permutations
 
 def main():
 
+    N = int(input())
+    A = i_list()
+    A.sort()
+    sl = SortedList(A)
+    # print(sl)
     
+    now = 0
+    left, right = 0, 0
+    left = bisect.bisect_left(sl, now) - 1
+    right = bisect.bisect_right(sl, now)
+    # print(f"left: {left}, right: {right}")
+
+    # 右端に0があるとき左に進むだけ
+    if N-1 < right:
+        ans = 0
+        for i in range(N)[::-1]:
+            ans += abs(now - A[i])
+            now = A[i]
+        print(ans)
+        return
+    
+    # 左端に0があるときも進むだけ
+    if left == -1:
+        ans = 0
+        for i in range(N):
+            ans += abs(now - A[i])
+            now = A[i]
+        print(ans)
+        return
+    
+    # それ以外はシミュレーション
+    ans = 0
+    now = 0
+    count = 0
+    while count < N:
+        left = sl.bisect_left(now) - 1
+        right = sl.bisect_right(now)
+        if left == -1:
+            nxt = sl[right]
+        elif right == len(sl):
+            nxt = sl[left]
+        elif abs(now - sl[left]) <= abs(now - sl[right]):
+            nxt = sl[left]
+        else:
+            nxt = sl[right]
+        ans += abs(now - nxt)
+        now = nxt
+        sl.remove(nxt)
+        count += 1
+
+    print(ans)
+        
+
+    
+
+
+
+
+
 
     return
 

@@ -33,7 +33,12 @@ from itertools import permutations
 
 def main():
 
+    d = defaultdict(int)
+    for _ in range(int(input())):
+        s = input()
+        d[s.upper()] += 1
     
+    print(max(d.values()))
 
     return
 
