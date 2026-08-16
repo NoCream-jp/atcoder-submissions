@@ -4,367 +4,231 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ <coding with atcoder library for the first time
+                    ████╝ < sorosoro katasete
 """
 ###################################################
-# sys.setrecursionlimit(10 ** 7)
+import sys
+sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
-# MOD = 998244353
+# MOD = 998_244_353
+# MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+# drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
+INF = 10**12
 
-
-def i_map():
-    return map(int, input().split())
-
-
-def i_list():
-    return list(i_map())
-
-
-def c_list():
-    return list(input().split())
-
-
-# Union-Find (Disjoint Set Union)
-from atcoder.dsu import DSU
-
-# Fenwick Tree (Binary Indexed Tree)
-from atcoder.fenwicktree import FenwickTree
-
-# Segment Tree
-from atcoder.segtree import SegTree
-
-# Lazy Segment Tree
-from atcoder.lazysegtree import LazySegTree
-
-# Math (pow_mod, inv_mod, crt, floor_sumなど)
-from atcoder.math import *
-
-# Convolution (FFT)
-from atcoder.convolution import convolution
-
-# Max Flow
-from atcoder.maxflow import MFGraph
-
-# Min Cost Flow
-from atcoder.mincostflow import MCFGraph
-
-# Strongly Connected Components
-from atcoder.scc import SCCGraph
-
-# Two Satisfiability
-from atcoder.twosat import TwoSAT
-
-# String (suffix_array, lcp_array, z_algorithm)
-from atcoder.string import *
 from collections import defaultdict
+from collections import Counter
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
 import math
 import bisect
+from itertools import permutations
 
-from itertools import permutations as p
-
-##################################################
+#########################################################################
+# main
+#########################################################################
 
 
 def main():
+    
     """
-    ・ループを検出してノードにメモしておく(ノードiに帰ってこれるステップ数とそのコスト)
-    ・挙げたノードから1までにループがあるか
+    高々4^10
     """
-    N, M, L, S, T = i_map()
 
-    graph = [[] for _ in range(N)]
-    for _ in range(M):
-        u, v, c = i_map()
-        u -= 1
-        v -= 1
-        graph[u].append((v, c))
+    n, m, l, s, t = i_map()
+    graph = w_graph(n, m)
 
-    # とりあえずサイクル検出
-    start = 0
-    hop, cost = 0, 0
-    stack = [(start, hop, cost, set([start]))]
-    visited = [False for _ in range(N)]
-    loop = []  # これに追加していく．visitedで引っかかったらこれにループの道のりがのこる
-    tmp = []
-    while stack:
-        now, nowhop, nowcost, nowroute = stack.pop()
-        if nowhop == L:
-            continue
-        for nxt, cost in graph[now]:
-            if visited[nxt] == False:
-                stack.append((nxt, nowhop + 1, nowcost + cost, nowroute | {nxt}))
-            else:
-                loop.append(nowroute)
-                continue
-        visited[now] = True
-        print(stack)
-        print()
-    print(loop)
+    ans = [False for _ in range(n)]
+
+    def solve(graph, now_node, now_cost, now_step):
+        if now_step == l:
+            if s <= now_cost <= t:
+                ans[now_node] = True 
+            return
+        for nxt, cost in graph[now_node]:
+            solve(graph, nxt, now_cost + cost, now_step + 1)
+        return
+    
+    solve(graph, 0, 0, 0)
+
+    for i in range(n):
+        if ans[i]:
+            print(i+1, end=" ")
 
     return
 
 
-######################################################
+#########################################################################
+# Classes
+#########################################################################
 
+class PrefixSum2D:
+    def __init__(self, grid):
+        """
+        二次元配列（グリッド）を受け取り、二次元累積和を構築する
+        :param grid: 2次元リスト (H x W)
+        """
+        self.H = len(grid)
+        self.W = len(grid[0]) if self.H > 0 else 0
+        
+        # 1-indexedの累積和テーブル (H+1 x W+1) を0で初期化
+        self.S = [[0] * (self.W + 1) for _ in range(self.H + 1)]
+        
+        # 累積和の構築
+        for i in range(self.H):
+            for j in range(self.W):
+                self.S[i+1][j+1] = (grid[i][j] 
+                                  + self.S[i][j+1] 
+                                  + self.S[i+1][j] 
+                                  - self.S[i][j])
 
-# 素数列挙
-# 素数列挙 O(N**0.5), 空間N
-def get_primes(l, r):
-    if l > r or r < 2:
-        return []
-    l = max(2, l)
-    limit = int(math.isqrt(r))
-    seed_primes = []
-    if limit >= 2:
-        is_prime_small = [True] * (limit + 1)
-        is_prime_small[0] = is_prime_small[1] = False
-        for i in range(2, int(math.isqrt(limit)) + 1):
-            if is_prime_small[i]:
-                is_prime_small[i * i : limit + 1 : i] = [False] * len(
-                    is_prime_small[i * i : limit + 1 : i]
-                )
-        seed_primes = [p for p, is_p in enumerate(is_prime_small) if is_p]
-    n = r - l + 1
-    is_prime_range = [True] * n
-    for p in seed_primes:
-        start = max(p * p, (l + p - 1) // p * p)
-        start_idx = start - l
-        if start_idx < n:
-            length = (n - 1 - start_idx) // p + 1
-            is_prime_range[start_idx:n:p] = [False] * length
-    return [l + i for i, is_p in enumerate(is_prime_range) if is_p]
+    def query(self, r1, c1, r2, c2):
+        """
+        左上 (r1, c1) から 右下 (r2, c2) までの矩形領域の要素の和
+        """
+        # 無効な範囲が指定された場合は0を返す
+        if r1 > r2 or c1 > c2:
+            return 0
+        r1 = max(0, r1)
+        c1 = max(0, c1)
+        r2 = min(self.H - 1, r2)
+        c2 = min(self.W - 1, c2)
 
-
-# 最大公約数
-def getgcd(a, b):
-    while b:
-        a, b = b, a % b
-    return a
-
-
-# 最小公倍数
-def getlcm(a, b):
-    return a // getgcd(a, b) * b
-
-
-# ユークリッド距離
-def getdist(x1, y1, x2, y2):
-    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
-
-
-# ワーシャルフロイドでO(N**3)で最短経路
-# costs = [[] for _ in range(N)] の2重リスト
-def floyd(costs: list, N: int):
-    for k in range(N):
-        for i in range(N):
-            for j in range(N):
-                costs[i][j] = min(costs[i][j], costs[i][k] + costs[k][j])
-    return costs
-
-
-# 時計回りに回転
-def rotate(grid):
-    H, W = len(grid), len(grid[0])
-    tmp = [["" for _ in range(W)] for __ in range(H)]
-    for i in range(H):
-        for j in range(W):
-            tmp[i][j] = grid[H - 1 - j][i]
-    return tmp
-
-
-# Z-Algorithm
-# 文字列の部分列
-def z_algo(S):
-    N = len(S)
-    A = [0] * N
-    i = 1
-    j = 0
-    A[0] = l = len(S)
-    while i < l:
-        while i + j < l and S[j] == S[i + j]:
-            j += 1
-        if not j:
-            i += 1
-            continue
-        A[i] = j
-        k = 1
-        while l - i > k < j - A[k]:
-            A[i + k] = A[k]
-            k += 1
-        i += k
-        j -= k
-    return A
-
-
-# 累積和
-def cum_sum(l):
-    a = [0 for _ in range(len(l) + 1)]
-    for i in range(len(l)):
-        a[i + 1] = a[i] + l[i]
-    return a
-
-
-def LCSof(str1, str2):
-    dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
-    for i, vi in enumerate(str1):
-        for j, vj in enumerate(str2):
-            if vi == vj:
-                dp[i + 1][j + 1] = dp[i][j] + 1
-            else:
-                dp[i + 1][j + 1] = max(dp[i + 1][j], dp[i][j + 1])
-
-    ans = []
-    i = len(str1) - 1
-    j = len(str2) - 1
-    while i >= 0 and j >= 0:
-        if str1[i] == str2[j]:
-            ans.append(str1[i])
-            i -= 1
-            j -= 1
-        elif dp[i + 1][j + 1] == dp[i][j + 1]:
-            i -= 1
-        elif dp[i + 1][j + 1] == dp[i + 1][j]:
-            j -= 1
-    ans.reverse()
-    return dp[len(str1)][len(str2)], ans
-
-
-# 転倒数
-def count_inversions(arr):
-    """
-    与えられた整数配列の転倒数（昇順に並び替えるために必要な隣接スワップの最小回数）を返す。
-    :param arr: List[int]
-    :return: int 転倒数
-    """
-
-    def merge_sort_and_count(a):
-        if len(a) <= 1:
-            return a, 0
-        mid = len(a) // 2
-        left, inv_l = merge_sort_and_count(a[:mid])
-        right, inv_r = merge_sort_and_count(a[mid:])
-        merged = []
-        i = j = inv_count = 0
-        while i < len(left) and j < len(right):
-            if left[i] <= right[j]:
-                merged.append(left[i])
-                i += 1
-            else:
-                merged.append(right[j])
-                inv_count += len(left) - i  # 転倒を数える
-                j += 1
-        merged += left[i:]
-        merged += right[j:]
-        return merged, inv_l + inv_r + inv_count
-
-    _, count = merge_sort_and_count(arr)
-    return count
-
-
-# 素因数列挙
-def prime_factors(n):
-    res = []
-    for i in range(2, int(n**0.5) + 1):
-        while n % i == 0:
-            res.append(i)
-            n //= i
-    if n > 1:
-        res.append(n)
-    return res
-
-
-# [me, comp] -> winner index
-def janken(l):
-    a, b = l
-    d = {"G": 0, "C": 1, "P": 2}
-    n = (d[a] - d[b]) % 3
-    if n == 0:
-        return 2  # あいこ
-    elif n == 1:
-        return 1  # 右
-    else:
-        return 0  # 左
-
-
-# 辞書作るだけ
-# {名前: その数}
-def mkdct(l):
-    d = {}
-    for n in l:
-        if n in d:
-            d[n] += 1
-        else:
-            d[n] = 1
-    return d
-
-
-def lis(seq):
-    LIS = [seq[0]]
-    for i in range(len(seq)):
-        if seq[i] > LIS[-1]:
-            LIS.append(seq[i])
-        else:
-            LIS[bisect.bisect_left(LIS, seq[i])] = seq[i]
-    return LIS, len(LIS)
-
-
-def my_bisect_left(a, x):
-    if x < a[0]:
-        return None
-    if a[-1] < x:
-        return None
-    return bisect.bisect_left(a, x)
-
-
-def my_bisect_right(a, x):
-    if x < a[0]:
-        return None
-    if a[-1] < x:
-        return None
-    return bisect.bisect_right(a, x)
-
+        # 包除原理を用いてO(1)で和を計算
+        return (self.S[r2+1][c2+1]
+              - self.S[r1][c2+1]
+              - self.S[r2+1][c1]
+              + self.S[r1][c1])
 
 # ローリングハッシュクラス
 class RollingHash:
-    def __init__(self, S, b=3491, m=999999937):
-        """任意の基数と法でハッシュを生成する"""
-        n = len(S)
-        self.prefix = prefix = [0] * (n + 1)
-        self.power = power = [1] * (n + 1)
-        self.b = b
-        self.m = m
-        for i in range(n):
-            c = ord(S[i])
-            prefix[i + 1] = (prefix[i] * b + c) % m
-            power[i + 1] = (power[i] * b) % m
+    def __init__(
+        self,
+        S,
+        b1=10_007,
+        m1=1_000_000_007,
+        b2=10_009,
+        m2=1_000_000_009
+    ):
+        self.rh1 = SingleRollingHash(S, b1, m1)
+        self.rh2 = SingleRollingHash(S, b2, m2)
 
-    def get(self, l, r):
-        """S[l, r) のハッシュを求める"""
-        return (self.prefix[r] - self.power[r - l] * self.prefix[l]) % self.m
+    def get(self, left, right):
+        return (
+            self.rh1.get(left, right),
+            self.rh2.get(left, right)
+        )
 
     def concat(self, h1, h2, l2):
-        """S1+S2 のハッシュを、それぞれのハッシュから求める"""
-        return (self.power[l2] * h1 + h2) % self.m
+        return (
+            self.rh1.concat(h1[0], h2[0], l2),
+            self.rh2.concat(h1[1], h2[1], l2)
+        )
 
     def lcp(self, l1, r1, l2, r2):
-        """S[l1, r1) とS[l2, r2) の最大共通接頭辞を求める"""
-        # LCPの最小値 (範囲内)
         low = 0
-        # LCPの最大値 + 1 (範囲外)
-        high = min(r1 - l1, r2 - l2) + 1
+        high = min(r1-l1, r2-l2) + 1
+
         while high - low > 1:
             mid = (high + low) // 2
-            if self.get(l1, l1 + mid) == self.get(l2, l2 + mid):
+            if self.get(l1, l1+mid) == self.get(l2, l2+mid):
                 low = mid
             else:
                 high = mid
+
         return low
 
+# ローリングハッシュクラス（シングルハッシュ版）
+class SingleRollingHash:
+    def __init__(self, S, b, m):
+        n = len(S)
+
+        self.prefix = [0] * (n + 1)
+        self.power = [1] * (n + 1)
+
+        self.b = b
+        self.m = m
+
+        for i, c in enumerate(S):
+            x = ord(c)
+            self.prefix[i+1] = (self.prefix[i] * b + x) % m
+            self.power[i+1] = (self.power[i] * b) % m
+
+    def get(self, left, right):
+        return (
+            self.prefix[right]
+            - self.power[right-left] * self.prefix[left]
+        ) % self.m
+
+    def concat(self, h1, h2, l2):
+        return (self.power[l2] * h1 + h2) % self.m
+
+
+# セグメント木
+class SegmentTree:
+    def __init__(self, n, func, ide_ele, arr=None):  # 要素数, 計算に使う関数, 単位元
+        self.n = n
+        self.func = func
+        self.ide_ele = ide_ele
+        self.num = 1
+        while self.num < self.n:
+            self.num *= 2
+        self.tree = [self.ide_ele] * (2 * self.num)
+        if arr is not None:
+            for i in range(len(arr)):
+                self.tree[self.num + i] = arr[i]
+            for i in range(self.num - 1, 0, -1):  # 上側
+                self.tree[i] = self.func(self.tree[2 * i], self.tree[2 * i + 1])
+
+    def update(self, k, x):  # k番目をxに置き換える
+        k += self.num
+        self.tree[k] = x
+        while 1 < k:  # 下の2つをfuncに入れた結果で親を更新していく(log)
+            k >>= 1
+            self.tree[k] = self.func(self.tree[2 * k], self.tree[2 * k + 1])
+
+    def query(self, left, right):
+        left += self.num
+        right += self.num
+        self.answer = self.ide_ele
+        while left < right:
+            if left % 2 == 1:
+                self.answer = self.func(self.answer, self.tree[left])
+                left += 1
+            if right % 2 == 1:
+                right -= 1
+                self.answer = self.func(self.answer, self.tree[right])
+            left >>= 1
+            right >>= 1
+        return self.answer
+
+# Trie用ノードクラス
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+# トライ木
+class Trie:
+    def __init__(self):
+        self.root = Node()
+    
+    def insert(self, word: str) -> None:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = Node()
+            node = node.children[ch]
+        node.is_end = True
+    
+    def search(self, word: str) -> bool:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.is_end
 
 # Union-Findクラス
 class UnionFind:
@@ -415,6 +279,506 @@ class UnionFind:
     def __str__(self):
         return "\n".join(f"{r}: {m}" for r, m in self.all_group_members().items())
 
+
+#########################################################################
+# Functions
+#########################################################################
+
+def i_map():
+    return map(int, input().split())
+
+
+def i_list():
+    return list(i_map())
+
+
+def c_list():
+    return list(input().split())
+
+
+def u_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+        graph[v].append(u)
+    return graph
+
+
+def d_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+    return graph
+
+def w_graph(node, edge):
+    graph = [[] for _ in range(node)]
+    for _ in range(edge):
+        u, v, w = i_map()
+        u -= 1
+        v -= 1
+        graph[u].append((v, w))
+    return graph
+
+# 切り上げ
+def ceil_div(a: int, b: int) -> int:
+    return -(-a // b)
+
+# 切り捨て
+def floor_div(a: int, b: int) -> int:
+    return a // b
+
+# l~rのうち，nで割り切れるものの個数
+def get_division(left, right, n):
+    return (right // n) - (left // n) + (1 if left % n == 0 else 0)
+
+
+# 素数列挙
+def count_inversions(arr):
+    """
+    与えられた整数配列の転倒数（昇順に並び替えるために必要な隣接スワップの最小回数）を返す。
+    :param arr: List[int]
+    :return: int 転倒数
+    """
+
+    def merge_sort_and_count(a):
+        if len(a) <= 1:
+            return a, 0
+        mid = len(a) // 2
+        left, inv_l = merge_sort_and_count(a[:mid])
+        right, inv_r = merge_sort_and_count(a[mid:])
+        merged = []
+        i = j = inv_count = 0
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                merged.append(left[i])
+                i += 1
+            else:
+                merged.append(right[j])
+                inv_count += len(left) - i  # 転倒を数える
+                j += 1
+        merged += left[i:]
+        merged += right[j:]
+        return merged, inv_l + inv_r + inv_count
+
+    _, count = merge_sort_and_count(arr)
+    return count
+
+
+# 累積和 総和 = (r+1番目) - (l番目)
+def cum_sum(l):
+    a = [0 for _ in range(len(l) + 1)]
+    for i in range(len(l)):
+        a[i + 1] = a[i] + l[i]
+    return a
+
+# 累積xor和
+def cum_xor(l):
+    a = [0 for _ in range(len(l) + 1)]
+    for i in range(len(l)):
+        a[i + 1] = a[i] & l[i]
+    return a
+
+# 辞書ならこっちのほうが早い
+from collections import Counter
+def dictionary_of(lst):
+    return Counter(lst)
+
+# ダイクストラ法でstartからの全てのノードへの最短距離を求める
+# edges[start] = [[nxt, cost], [nxt, cost], ...]
+def dijkstra(edges, num_node, start):
+    node = [float('inf')] * num_node
+    node[start] = 0
+    node_name = []
+    heapq.heappush(node_name, [0, start])
+    while 0 < len(node_name):
+        _, min_point = heapq.heappop(node_name)
+        for factor in edges[min_point]:
+            goal = factor[0]
+            cost  = factor[1]
+            if node[min_point] + cost < node[goal]:
+                node[goal] = node[min_point] + cost
+                heapq.heappush(node_name, [node[min_point] + cost, goal])
+    return node
+
+# ダイクストラ法で最大コストを求める
+def dijkstra_max(edges, num_node, start):
+    node = [-float('inf')] * num_node
+    node[start] = 0
+    node_name = []
+    heapq.heappush(node_name, [0, start])
+    while 0 < len(node_name):
+        _, max_point = heapq.heappop(node_name)
+        for factor in edges[max_point]:
+            goal = factor[0]
+            cost  = factor[1]
+            if node[max_point] + cost > node[goal]:
+                node[goal] = node[max_point] + cost
+                heapq.heappush(node_name, [-(node[max_point] + cost), goal])
+    return node
+
+# オイラーツアーで部分木の要素数を列挙
+def EulerTour(n, X, i0):
+    done = [0] * n
+    Q = [~i0, i0] # 根をスタックに追加
+    ET = []
+    while Q:
+        i = Q.pop()
+        if i >= 0: # 行きがけの処理
+            done[i] = 1
+            ET.append(i)
+            for a in X[i][::-1]:
+                if done[a]: continue
+                Q.append(~a) # 帰りがけの処理をスタックに追加
+                Q.append(a) # 行きがけの処理をスタックに追加
+        
+        else: # 帰りがけの処理
+            ET.append(~i)
+    
+    return ET
+
+# ワーシャルフロイドでO(N**3)で最短経路
+# costs[i] = [cost_i0, cost_i1,...] の2重リスト
+def floyd(costs: list):
+    N = len(costs)
+    for k in range(N):
+        for i in range(N):
+            for j in range(N):
+                if costs[i][k] + costs[k][j] < costs[i][j]:
+                    costs[i][j] = costs[i][k] + costs[k][j]
+    return costs
+
+# 木の直径を求める
+# :param is_weighted: エッジが重みを持つ場合(True)、持たない場合(False)
+def get_tree_diameter(graph, is_weighted=False):
+
+    if not graph:
+        return 0, None, None
+    start_node = next(iter(graph))
+    
+    def bfs(start):
+        dist = {start: 0}
+        queue = deque([start])
+        
+        farthest_node = start
+        max_dist = 0
+        while queue:
+            curr = queue.popleft()
+            for edge in graph[curr]:
+                if is_weighted:
+                    neighbor, weight = edge
+                else:
+                    neighbor = edge
+                    weight = 1
+                # 未訪問のノードのみ処理
+                if neighbor not in dist:
+                    dist[neighbor] = dist[curr] + weight
+                    queue.append(neighbor)
+                    # 最遠点の更新
+                    if dist[neighbor] > max_dist:
+                        max_dist = dist[neighbor]
+                        farthest_node = neighbor
+                        
+        return farthest_node, max_dist
+
+    node_a, _ = bfs(start_node)
+    node_b, diameter = bfs(node_a)
+    
+    return diameter, node_a, node_b
+
+# ユークリッド距離
+def get_dist(x1, y1, x2, y2):
+    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+# 最大公約数
+def get_gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+# 最小公倍数
+def get_lcm(a, b):
+    return a // get_gcd(a, b) * b
+
+# 素数列挙 O(N**0.5), 空間N
+def get_primes(left, right):
+    if left > right or right < 2:
+        return []
+    left = max(2, left)
+    limit = int(math.isqrt(right))
+    seed_primes = []
+    if limit >= 2:
+        is_prime_small = [True] * (limit + 1)
+        is_prime_small[0] = is_prime_small[1] = False
+        for i in range(2, int(math.isqrt(limit)) + 1):
+            if is_prime_small[i]:
+                is_prime_small[i * i : limit + 1 : i] = [False] * len(
+                    is_prime_small[i * i : limit + 1 : i]
+                )
+        seed_primes = [p for p, is_p in enumerate(is_prime_small) if is_p]
+    n = right - left + 1
+    is_prime_range = [True] * n
+    for prm in seed_primes:
+        start = max(prm * prm, (left + prm - 1) // prm * prm)
+        start_idx = start - left
+        if start_idx < n:
+            length = (n - 1 - start_idx) // prm + 1
+            is_prime_range[start_idx:n:prm] = [False] * length
+    return [left + i for i, is_p in enumerate(is_prime_range) if is_p]
+
+# LCS部分文字列一致
+def LCSof(str1, str2):
+    dp = [[0] * (len(str2) + 1) for i in range(len(str1) + 1)]
+    for i, vi in enumerate(str1):
+        for j, vj in enumerate(str2):
+            if vi == vj:
+                dp[i + 1][j + 1] = dp[i][j] + 1
+            else:
+                dp[i + 1][j + 1] = max(dp[i + 1][j], dp[i][j + 1])
+
+    ans = []
+    i = len(str1) - 1
+    j = len(str2) - 1
+    while i >= 0 and j >= 0:
+        if str1[i] == str2[j]:
+            ans.append(str1[i])
+            i -= 1
+            j -= 1
+        elif dp[i + 1][j + 1] == dp[i][j + 1]:
+            i -= 1
+        elif dp[i + 1][j + 1] == dp[i + 1][j]:
+            j -= 1
+    ans.reverse()
+    return dp[len(str1)][len(str2)], ans
+
+def lis(seq):
+    if not seq:
+        return []
+    L = []
+    L_id = []
+    parent = [-1] * len(seq)
+    for i, x in enumerate(seq):
+        pos = bisect.bisect_left(L, x)
+        if pos == len(L):
+            L.append(x)
+            L_id.append(i)
+        else:
+            L[pos] = x
+            L_id[pos] = i
+        if pos > 0:
+            parent[i] = L_id[pos - 1]
+    curr = L_id[-1]
+    res = []
+    while curr != -1:
+        res.append(seq[curr])
+        curr = parent[curr]
+    return res[::-1]
+
+# 辞書作るだけ
+# {名前: その数}
+def make_dictionary(lst):
+    d = {}
+    for n in lst:
+        if n in d:
+            d[n] += 1
+        else:
+            d[n] = 1
+    return d
+
+# 繰り返し二乗法
+def modpow(a, n):
+    ans = 1
+    tmp = a
+    while 1 <= n:
+        if n % 2 == 1:
+            ans *= tmp
+        tmp *= tmp
+        n = n >> 1
+    return ans
+
+
+def my_bisect_left(a, x):
+    if x < a[0]:
+        return None
+    if a[-1] < x:
+        return None
+    return bisect.bisect_left(a, x)
+
+def my_bisect_right(a, x):
+    if x < a[0]:
+        return None
+    if a[-1] < x:
+        return None
+    return bisect.bisect_right(a, x)
+
+# 素因数列挙
+def prime_factors(n):
+    res = []
+    for i in range(2, int(n**0.5) + 1):
+        while n % i == 0:
+            res.append(i)
+            n //= i
+    if n > 1:
+        res.append(n)
+    return res
+
+
+def RLE_for(sequence):
+    if not sequence:
+        return [], []
+
+    #戻り値の初期化
+    comp_seq = list() # 圧縮されたデータのリスト
+    lengths = list() # データの連続する長さのリスト
+
+    # 最初の要素を記録
+    comp_seq.append(sequence[0])
+    temp = sequence[0]
+    length = 1
+
+    # 2番目から最後まで
+    for i in range(1, len(sequence)):
+        if sequence[i] != temp:  # 新しいデータが来たら、これまでのデータとその長さを記録
+            lengths.append(length)
+            comp_seq.append(sequence[i])
+            temp = sequence[i]
+            length = 1
+        else: # 前と同じデータが来たら、lengthをインクリメント
+            length += 1
+
+    # 最後にlengthを追加
+    lengths.append(length)
+
+    return comp_seq, lengths
+
+# 時計回りに回転
+def rotate(grid):
+    H, W = len(grid), len(grid[0])
+    tmp = [["" for _ in range(H)] for __ in range(W)]
+    for i in range(H):
+        for j in range(W):
+            tmp[j][H - 1 - i] = grid[i][j]
+    return tmp
+
+# BFSはappendしたとき
+# visited = [[False for _ in range(W)] for _ in range(H)]
+# visited[starti][startj] = True
+# q = collections.deque([(starti, startj)])
+# while q:
+#     i, j = q.popleft()
+#     for di, dj in drct:
+#         ni, nj = i + di, j + dj
+#         if 0 <= ni < H and 0 <= nj < W and grid[ni][nj] == ".":
+#             if not visited[ni][nj]:
+#                 visited[ni][nj] = True
+#                 q.append((ni, nj))
+#             else:
+#                 print("Yes")
+#                 return
+
+# DFSはpopしたとき
+# for t in range(int(input())):
+#     N, M = i_map()
+#     graph = u_graph(N, M)
+    
+#     stack = [(0, 0)]
+#     stamp = [-1 for _ in range(N)]
+#     while stack:
+#         now, num = stack.pop()
+#         if stamp[now] != -1:
+#             continue
+#         stamp[now] = num
+#         for nxt in graph[now]:
+#             if stamp[nxt] != -1:
+#                 continue
+#             else:
+#                 stack.append((nxt, num + 1))
+#     print(*stamp)
+
+def has_cycle(num_nodes: int, graph: list[list[int]]) -> bool:
+    """
+    有向グラフにサイクルが存在するか判定する関数
+    
+    num_nodes (int): 頂点の数 V
+    graph (list[list[int]]): 隣接リスト形式のグラフ (graph[u] は u からの遷移先リスト)
+        
+    return(bool): サイクルが存在すれば True, なければ False
+    """
+    in_degree = [0] * num_nodes
+    for u in range(num_nodes):
+        for v in graph[u]:
+            in_degree[v] += 1
+    queue = deque([i for i in range(num_nodes) if in_degree[i] == 0])
+    
+    visited_count = 0
+    while queue:
+        u = queue.popleft()
+        visited_count += 1
+        for v in graph[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+    return visited_count < num_nodes
+
+"""
+トポロジカルソートを行い、
+・順序が存在するか
+・それが一意か
+を判定する
+Returns:
+    (is_dag, is_unique, order)
+"""
+def topo_sort_unique(N, graph):
+    indeg = [0] * N
+    for v in range(N):
+        for nxt in graph[v]:
+            indeg[nxt] += 1
+    q = deque()
+    for i in range(N):
+        if indeg[i] == 0:
+            q.append(i)
+    order = []
+    is_unique = True
+    while q:
+        if 1 < len(q):
+            is_unique = False
+        v = q.popleft()
+        order.append(v)
+        for nxt in graph[v]:
+            indeg[nxt] -= 1
+            if indeg[nxt] == 0:
+                q.append(nxt)
+    if len(order) != N:
+        return False, False, []
+    return True, is_unique, order
+
+# Z-Algorithm
+# 文字列の部分列
+def z_algo(S):
+    N = len(S)
+    A = [0] * N
+    i = 1
+    j = 0
+    A[0] = length = len(S)
+    while i < length:
+        while i + j < length and S[j] == S[i + j]:
+            j += 1
+        if not j:
+            i += 1
+            continue
+        A[i] = j
+        k = 1
+        while length - i > k < j - A[k]:
+            A[i + k] = A[k]
+            k += 1
+        i += k
+        j -= k
+    return A
 
 #########################################################################
 
