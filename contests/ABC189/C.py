@@ -33,27 +33,20 @@ from itertools import permutations
 
 def main():
 
-    """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
-    
-    右から右肩下がりスタックでわかる
-    """
-
     N = int(input())
     A = i_list()
 
-    count = [0 for _ in range(N)]
-    s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
-            s.pop()
-        s.append(A[i])
-        print(s)
-        count[s[-1] - 1] += len(s)
-
-    print(count)
-
+    ans = 0
+    for x in A:
+        temp = 0
+        for i in range(N):
+            if x <= A[i]:
+                temp += x
+            else:
+                ans = max(ans, temp)
+                temp = 0
+        ans = max(ans, temp)
+    print(ans)
 
     return
 

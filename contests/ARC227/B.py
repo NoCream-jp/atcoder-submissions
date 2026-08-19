@@ -34,26 +34,48 @@ from itertools import permutations
 def main():
 
     """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
+    3はindex=3にしか置けない
+    ということはなく、index <= 3 なら置ける可能性がある
+    その場合は3より大きい物がそれより左にある可能性がある？
+
+    0が必ず無ければならない
+    0 0 0 0 0 でもOK
+
+    数字x <= インデックス にしか置けない
     
-    右から右肩下がりスタックでわかる
+    左から見る
+    各数字について、それより小さい物の数を管理して、
+    数字x <= インデックスと矛盾しないうちはなるべく大きいものからおいていく
+
     """
 
     N = int(input())
     A = i_list()
 
-    count = [0 for _ in range(N)]
-    s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
-            s.pop()
-        s.append(A[i])
-        print(s)
-        count[s[-1] - 1] += len(s)
+    if A.count(0) == 0:
+        print("No")
+        return
 
-    print(count)
+    A.sort()
+    d = defaultdict(int)
 
+    rle, num = RLE_for(A)
+    cs = cum_sum(num)
+    for i in range(len(rle)):
+        d[rle[i]] = cs[i]
+    print(d)
+
+    ans = [-1 for _ in range(N)]
+    sl = SortedList(A)
+    for i in range(N):
+        nxtidx = sl.bisect_left(i)
+        print(f"{i}を探してnxtidx={nxtidx}がみつかったので")
+        if len(sl) <= nxtidx:
+            continue
+        ans[i] = A[nxtidx]
+        sl.remove(sl[nxtidx])
+        print(f"消した後{ans:}, {sl:}")
+    
 
     return
 

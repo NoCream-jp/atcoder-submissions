@@ -34,26 +34,26 @@ from itertools import permutations
 def main():
 
     """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
-    
-    右から右肩下がりスタックでわかる
+    左からみて累積minの累積和を取る
+    左から、今見ている要素をそこから引いたものを答えに加算する
     """
 
     N = int(input())
     A = i_list()
-
-    count = [0 for _ in range(N)]
-    s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
-            s.pop()
-        s.append(A[i])
-        print(s)
-        count[s[-1] - 1] += len(s)
-
-    print(count)
-
+    cs1 = [0]
+    mn = INF
+    for i in range(N):
+        if A[i] < mn:
+            mn = A[i]
+        cs1.append(cs1[-1] + mn)
+    print(cs1)
+    
+    temp = cs1[-1]
+    ans = temp
+    for i in range(1, N):
+        temp -= A[i]
+        ans += temp
+    print(ans)
 
     return
 

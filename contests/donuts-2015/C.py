@@ -34,26 +34,22 @@ from itertools import permutations
 def main():
 
     """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
-    
-    右から右肩下がりスタックでわかる
+    スタック内に入れていって左から単調減少を作る
     """
 
     N = int(input())
-    A = i_list()
+    H = i_list()
 
-    count = [0 for _ in range(N)]
+    ans = [0]
     s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
+    for n in H:
+        while s and s[-1] <= n:
             s.pop()
-        s.append(A[i])
-        print(s)
-        count[s[-1] - 1] += len(s)
+        s.append(n)
+        ans.append(len(s))
 
-    print(count)
-
+    for i in range(len(ans) - 1):
+        print(ans[i])
 
     return
 

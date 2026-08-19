@@ -34,26 +34,24 @@ from itertools import permutations
 def main():
 
     """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
-    
-    右から右肩下がりスタックでわかる
+    降順スタック使えばトップの値 * スタックの長さ
+    で食べられる数が分かる
     """
 
     N = int(input())
     A = i_list()
 
-    count = [0 for _ in range(N)]
     s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
-            s.pop()
-        s.append(A[i])
+    ans = 0
+    for x in A:
+        if s and x <= s[-1]:
+            while s and x <= s[-1]:
+                s.pop()
+        s.append(x)
         print(s)
-        count[s[-1] - 1] += len(s)
-
-    print(count)
-
+        ans = max(ans, len(s) * s[-1])
+    
+    print(ans)
 
     return
 

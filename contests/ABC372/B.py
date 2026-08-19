@@ -34,26 +34,27 @@ from itertools import permutations
 def main():
 
     """
-    要素iより右を見て、要素iより小さいものがいない所までは
-    要素iが効く
-    
-    右から右肩下がりスタックでわかる
+    右から見て、スタックの値を更新する
+    見ている値がトップにくるかつスタックないが昇順になるように入れ替える
     """
 
     N = int(input())
-    A = i_list()
+    H = i_list()
 
-    count = [0 for _ in range(N)]
+    ans = []
     s = []
-    for i in range(N)[::-1]:
-        while s and A[i] < s[-1]:
-            s.pop()
-        s.append(A[i])
-        print(s)
-        count[s[-1] - 1] += len(s)
+    for n in H[::-1]:
+        ans.append(len(s))
+        if not s:
+            s.append(n)
+        else:
+            while s and s[-1] < n:
+                s.pop()
+            s.append(n)
+        # print(s)
+    ans.append(len(s))
 
-    print(count)
-
+    print(*ans[::-1][1:])
 
     return
 
