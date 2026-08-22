@@ -15,7 +15,7 @@ Here is my coding space
 # MOD = 1_000_000_007
 # drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
-INF = 10**12
+# INF = 10**12
 
 from collections import defaultdict
 from collections import Counter
@@ -33,7 +33,11 @@ from itertools import permutations
 
 def main():
 
-    
+    S = list(input())
+    for i in range(len(S)):
+        if S[i] != "A":
+            S[i] = "."
+    print("".join(S))
 
     return
 

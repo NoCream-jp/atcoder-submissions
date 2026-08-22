@@ -33,7 +33,13 @@ from itertools import permutations
 
 def main():
 
+    """
+    片方の重心
     
+    元の重心から片方引けばできたりせん？
+
+    その片方を求められた時点で解けるので無理
+    """
 
     return
 

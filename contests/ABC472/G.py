@@ -33,7 +33,16 @@ from itertools import permutations
 
 def main():
 
+    """
+    面白そう
+    島のうち、-のほうが多ければ消す
+    上に動けないBFS
+
+    でも2^(900)は無理
     
+    """
+
+    H, W = i_map()
 
     return
 

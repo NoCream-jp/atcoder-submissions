@@ -33,7 +33,26 @@ from itertools import permutations
 
 def main():
 
+    N, M, K = i_map()
+    A = i_list()
+    c = 0
+
     
+    ans = "Yes"
+    ate = [False for _ in range(N)]
+    for i in range(N):
+        if M <= i and ate[i-M] == True:
+            c = max(0, c - A[i - M])
+        if c + A[i] <= K:
+            ans = "Yes"
+            c += A[i]
+            ate[i] = True
+        else:
+            ans = "No"
+        print(ans)
+
+            
+
 
     return
 

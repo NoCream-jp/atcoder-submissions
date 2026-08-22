@@ -33,7 +33,16 @@ from itertools import permutations
 
 def main():
 
-    
+    N = int(input())
+    L = i_list()
+    right = sum(L)
+    left = 0
+    ans = INF
+    for n in L:
+        left += n
+        right -= n
+        ans = min(ans, abs(right - left))
+    print(ans)
 
     return
 

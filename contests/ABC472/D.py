@@ -13,7 +13,7 @@ Here is my coding space
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
@@ -33,7 +33,58 @@ from itertools import permutations
 
 def main():
 
+    """
+    行ごと列ごとのセットで安全かは高速にわかる
+    スタンプすでに押されていたらパスのBFS
+
+    安全な場所だけをキューに入れる
+    危険な道にスタンプしていく
+    """
+
+    H, W, K = i_map()
+    grid = [list(input()) for _ in range(H)]
+
+    visited = [[-1 for _ in range(W)] for _ in range(H)]
+
+    q = deque([])
+    rset, cset = set(), set()
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == ".":
+                pass
+            else:
+                rset.add(i)
+                cset.add(j)
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "." and i not in rset and j not in cset:
+                q.append((i, j, 0))
+                visited[i][j] = 0
     
+    # print(rset, cset)
+    while q:
+        # print(f"{q=}")
+        i, j, step = q.popleft()
+        for di, dj in drct:
+            ni, nj = i + di, j + dj
+            if 0 <= ni < H and 0 <= nj < W and grid[ni][nj] == ".":
+                if visited[ni][nj] == -1:
+                    visited[ni][nj] = step + 1
+                    q.append((ni, nj, step + 1))
+                else:
+                    pass
+        # print()
+
+    # for v in visited:
+    #     print(v)
+
+    ans = 0
+    for v in visited:
+        for j in range(W):
+            if 0 <= v[j] <= K:
+                ans += 1
+    
+    print(ans)
 
     return
 

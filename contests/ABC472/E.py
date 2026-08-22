@@ -33,7 +33,86 @@ from itertools import permutations
 
 def main():
 
-    
+    """
+    数字フラグを増やしていくDFSをしたとき、
+    自分の数字と行先の数字が6,4みたいに偶奇同じなら発見
+    書かれていない/奇数ならそこを踏む
+    どこから始めても数字がシフトするだけで正しそう
+
+    DFS間違い？
+    """
+
+    for _ in range(int(input())):
+        N, M = i_map()
+        graph = u_graph(N, M)
+
+        stack = [(0, 0)]
+        visited = [-1 for _ in range(N)]
+        parent = [-1 for _ in range(N)]
+        find = False
+        ansstart, ansend = -1, -1
+
+        for i in range(N):
+            if visited[i] != -1:
+                continue
+                
+            queue = deque([(i, 0)])
+            visited[i] = 0
+            while queue and not find:
+                now, step = queue.popleft()
+                for nxt in graph[now]:
+                    if visited[nxt] != -1:
+                        if nxt != parent[now] and (visited[now] % 2 == visited[nxt] % 2):
+                            find = True
+                            ansstart = now
+                            ansend = nxt
+                            break
+                    else:
+                        queue.append((nxt, step + 1))
+                        visited[nxt] = step + 1
+                        parent[nxt] = now
+                
+        if find:
+            pathstart = []
+            now = ansstart
+            while now != -1:
+                pathstart.append(now)
+                now = parent[now]
+            pathend = []
+            now = ansend
+            while now != -1:
+                pathend.append(now)
+                now = parent[now]
+
+            st = set(pathstart)
+            flag = -1
+            for x in pathend:
+                if x in st:
+                    flag = x
+                    break
+            
+            anspath = []
+            now = ansstart
+            while now != flag:
+                anspath.append(now)
+                now = parent[now]
+            
+            anspath.append(flag)
+
+            temp = []
+            now = ansend
+            while now != flag:
+                temp.append(now)
+                now = parent[now]
+            
+            anspath += temp[::-1]
+
+            print(len(anspath))
+            for n in anspath:
+                print(n+1, end=" ")
+        else:
+            print(-1)
+
 
     return
 
