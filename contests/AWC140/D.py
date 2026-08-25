@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nervous
+                    ████╝ < work hardly
 """
 ###################################################
 # import sys
@@ -30,9 +30,10 @@ from itertools import permutations
 # main
 #########################################################################
 
-
 def main():
 
+    N, M = i_map()
+    S = i_list()
     
 
     return

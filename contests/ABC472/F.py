@@ -34,12 +34,43 @@ from itertools import permutations
 def main():
 
     """
-    片方の重心
-    
-    元の重心から片方引けばできたりせん？
-
-    その片方を求められた時点で解けるので無理
+    倍の大きさのセグ木を軸ごとに
     """
+
+    N, Q = i_map()
+    xlst, ylst = [], []
+    for _ in range(N):
+        x, y = i_map()
+        xlst.append(x)
+        ylst.append(y)
+    xlst += xlst
+    ylst += ylst
+    print(f"{xlst=}")
+
+    def func(a, b): return a + b
+    xst = SegmentTree(2*N, func, 0, xlst)
+    yst = SegmentTree(2*N, func, 0, ylst)
+
+    xsum, ysum = sum(xlst), sum(ylst)
+    for _ in range(Q):
+        u, v = i_map()
+        u -= 1
+        v -= 1
+        # またがない場合
+        if u < v:
+            length = N - abs(u-v) + 1
+            print(f"{length=}")
+            xans = xst.query(u, u + v) / length
+            yans = yst.query(u, u + v) / length
+            print(xans, yans)
+        # またぐ場合
+        else:
+            length = abs(u - v) + 1
+            print(f"{length=}")
+            xans = xst.query(u, u + length) / length
+            yans = yst.query(u, u + length) / length
+            print(xans, yans)
+
 
     return
 

@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nervous
+                    ████╝ < work hardly
 """
 ###################################################
 # import sys
@@ -33,7 +33,17 @@ from itertools import permutations
 
 def main():
 
+    N = int(input())
+    A = i_list()
+
+    c = A[0]
+    for i in range(1, N):
+        if A[i-1] < A[i]:
+            c += A[i] * 2
+        else:
+            c += A[i]
     
+    print(c)
 
     return
 

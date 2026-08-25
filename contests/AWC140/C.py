@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nervous
+                    ████╝ < work hardly
 """
 ###################################################
 # import sys
@@ -33,7 +33,24 @@ from itertools import permutations
 
 def main():
 
+    """
+    2*Nのdp
+    """
+
+    N, K = i_map()
+    A = i_list()
     
+    dp = [[0 for _ in range(N)] for _ in range(2)]
+    dp[0][0] = 0
+    dp[1][0] = A[0]
+
+    for i in range(1, N):
+        # 取った→取る、取らなかった→取る
+        dp[1][i] = max(dp[1][i-1] + A[i] - K, dp[0][i-1] + A[i])
+        # 取った→取らない、取らなかった→取らない
+        dp[0][i] = max(dp[1][i-1], dp[0][i-1])
+
+    print(max(dp[-1]))
 
     return
 

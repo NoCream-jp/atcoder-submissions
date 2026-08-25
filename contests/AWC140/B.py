@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nervous
+                    ████╝ < work hardly
 """
 ###################################################
 # import sys
@@ -33,7 +33,18 @@ from itertools import permutations
 
 def main():
 
-    
+    N, M = i_map()
+    A = i_list()
+    cs = cum_sum(A)
+    for _ in range(M):
+        l, r, k = i_map()
+        l -= 1
+        r -= 1
+        if cs[r+1] - cs[l] < k:
+            print("Safe")
+        else:
+            print("Dangerous")
+
 
     return
 

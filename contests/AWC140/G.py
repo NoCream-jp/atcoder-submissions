@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nervous
+                    ████╝ < work hardly
 """
 ###################################################
 # import sys
@@ -33,7 +33,12 @@ from itertools import permutations
 
 def main():
 
-    
+    def func(a, b): return a + b
+    arr = [1, 2, 3, 4, 5]
+    st = SegmentTree(5, func, 0, arr)
+    print(arr)
+    print(st.query(0, 2 + 1))
+    print(st.query(3, 4 + 100))
 
     return
 

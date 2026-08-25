@@ -46,7 +46,6 @@ def main():
 
     visited = [[-1 for _ in range(W)] for _ in range(H)]
 
-    q = deque([])
     rset, cset = set(), set()
     for i in range(H):
         for j in range(W):
@@ -55,13 +54,14 @@ def main():
             else:
                 rset.add(i)
                 cset.add(j)
+
+    q = deque([])
     for i in range(H):
         for j in range(W):
             if grid[i][j] == "." and i not in rset and j not in cset:
                 q.append((i, j, 0))
                 visited[i][j] = 0
     
-    # print(rset, cset)
     while q:
         # print(f"{q=}")
         i, j, step = q.popleft()
@@ -71,12 +71,10 @@ def main():
                 if visited[ni][nj] == -1:
                     visited[ni][nj] = step + 1
                     q.append((ni, nj, step + 1))
-                else:
-                    pass
         # print()
 
-    # for v in visited:
-    #     print(v)
+    for v in visited:
+        print(v)
 
     ans = 0
     for v in visited:
