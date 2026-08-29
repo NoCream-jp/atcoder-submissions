@@ -4,11 +4,11 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < aiueo
 """
 ###################################################
-# import sys
-# sys.setrecursionlimit(10 ** 7)
+import sys
+sys.setrecursionlimit(10 ** 7)
 # input = sys.stdin.readline
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
@@ -34,7 +34,16 @@ from itertools import permutations
 def main():
 
     """
+    総当たりならK^10
+    dpみたいにできないか
+
+    N=1ならKを出すしかない
+    N=2なら[K]か、[0, K/2]か[K-a, a//2]かでaがK通りある
+    a
     """
+
+    N, K = i_map()
+    ans = []
     
 
     return

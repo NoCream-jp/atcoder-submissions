@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < aiueo
 """
 ###################################################
 # import sys
@@ -35,6 +35,19 @@ def main():
 
     """
     """
+    N, K = i_map()
+    d = defaultdict(int)
+    A = i_list()
+    for a in A:
+        d[a] += 1
+    
+    mx = max(d.values())
+    
+    ans = 0
+    for n in d:
+        if d[n] == mx or d[n] == mx - 1:
+            ans += 1
+    print(ans)
     
 
     return

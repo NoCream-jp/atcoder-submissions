@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < aiueo
 """
 ###################################################
 # import sys
@@ -35,7 +35,9 @@ def main():
 
     """
     """
-    
+    N = int(input())
+    A = i_list()
+    print(sum(A[N//2 : ]))
 
     return
 

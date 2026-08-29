@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < aiueo
 """
 ###################################################
 # import sys
@@ -34,8 +34,47 @@ from itertools import permutations
 def main():
 
     """
-    """
+    累積和で区間を早く見れるのはわかる
+    差で区間の総和計算するんだから、累積和の要素の余りを見ればいい
+    と思ったけど分割に対応できていない
+
+    どの項を見捨てればよいのかわからない
+    6 10
+    6 8 2 2 6 4
+    [0, 6, 14, 16, 18, 24, 28]
     
+    スコアを決めうって達成可能かは単調にかわるとおもう
+    チェックはスタックで累積和の要素を左から見ていくでできそう
+    単に二分探索せずにスタックと辞書で解けるかも
+
+    余りとれば総当たりせずにできる？
+    スタックでなくとも辞書で解けるかも
+    """
+
+    N, K = i_map()
+    A = i_list()
+    cs = cum_sum(A)
+    # stack = []
+    for i in range(len(cs)):
+        cs[i] = cs[i] % K
+    print("!", cs)
+
+    st = set()
+    st.add(0)
+    ans = 0
+    for i in range(1, N+1):
+        num = cs[i]
+        print(num, st, ans)
+        if num in st:
+            ans += 1
+            st = set()
+            st.add(0)
+        else:
+            st.add(num)
+    print(ans)
+
+
+
 
     return
 

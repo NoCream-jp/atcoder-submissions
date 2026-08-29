@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < aiueo
 """
 ###################################################
 # import sys
@@ -35,7 +35,17 @@ def main():
 
     """
     """
-    
+    N = int(input())
+    d = defaultdict(int)
+    A = i_list()
+    for a in A:
+        d[a] += 1
+
+    a = 0
+    for n in d:
+        if d[n] % 2 == 1:
+            a += n
+    print(a)
 
     return
 
