@@ -35,8 +35,6 @@ def main():
 
     """
     """
-    N = int(input())
-    A = i_list()
     
 
     return

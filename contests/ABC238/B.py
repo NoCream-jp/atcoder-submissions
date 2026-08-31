@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < careless
 """
 ###################################################
 # import sys
@@ -46,7 +46,7 @@ def main():
     ans = 0
     for i in range(N-1):
         ans = max(ans, l[i+1] - l[i])
-    ans = max(ans, 360+A[0] - A[-1])
+    ans = max(ans, 360+l[0] - l[-1])
 
     print(ans)
 
