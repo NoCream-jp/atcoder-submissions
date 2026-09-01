@@ -34,22 +34,30 @@ from itertools import permutations
 def main():
 
     """
+    まとめて扱う、左から多くとりだしたときはまた左から入れなおす
     """
-    N = int(input())
-    A = i_list()
-    i = N-1
-    while 0 < i and A[i-1] < A[i]:
-        i -= 1
-    target = A[i-1]
-    B = A[i:]
 
-    index = bisect.bisect_left(B, target) - 1
-    temp = B[index]
-    B.pop(index)
-    B.append(target)
-    B.sort(reverse=True)
-    ans = A[:i-1] + [temp] + B
-    print(*ans)
+    q = deque()
+    for _ in range(int(input())):
+        query = i_list()
+        if query[0] == 1:
+            x, c = query[1:]
+            q.append((x, c))
+        else:
+            c = query[1]
+            popcount = 0
+            popnum = -1
+            ans = 0
+            while 0 < c:
+                popnum, popcount = q.popleft()
+                if popcount < c:
+                    ans += popnum * popcount
+                else:
+                    ans += popnum * c
+                    q.appendleft((popnum, abs(popcount - c)))
+                c -= popcount
+            print(ans)
+        # print("queue", q)
 
     return
 

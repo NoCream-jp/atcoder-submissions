@@ -34,22 +34,25 @@ from itertools import permutations
 def main():
 
     """
-    """
-    N = int(input())
-    A = i_list()
-    i = N-1
-    while 0 < i and A[i-1] < A[i]:
-        i -= 1
-    target = A[i-1]
-    B = A[i:]
+    でかいほうから、小さいほうから影響がでかいものから消していく
 
-    index = bisect.bisect_left(B, target) - 1
-    temp = B[index]
-    B.pop(index)
-    B.append(target)
-    B.sort(reverse=True)
-    ans = A[:i-1] + [temp] + B
-    print(*ans)
+    違う
+    残る真ん中をスライドさせて考えられる
+    """
+
+    n, k = i_map()
+    A = i_list()
+    A.sort()
+    # print(A)
+    ans = INF
+    for i in range(k+1):
+        temp = ans
+        l = i
+        r = i + (n-k) - 1
+        # print("!", A[l:r+1])
+        temp = A[r] - A[l]
+        ans = min(ans, temp)
+    print(ans)
 
     return
 

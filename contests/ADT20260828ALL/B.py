@@ -35,21 +35,13 @@ def main():
 
     """
     """
-    N = int(input())
-    A = i_list()
-    i = N-1
-    while 0 < i and A[i-1] < A[i]:
-        i -= 1
-    target = A[i-1]
-    B = A[i:]
+    x, y, z = i_map()
+    for d in range(1000000):
+        if x+d == (y+d) * z:
+            print("Yes")
+            return
 
-    index = bisect.bisect_left(B, target) - 1
-    temp = B[index]
-    B.pop(index)
-    B.append(target)
-    B.sort(reverse=True)
-    ans = A[:i-1] + [temp] + B
-    print(*ans)
+    print("No")
 
     return
 

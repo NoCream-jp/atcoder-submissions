@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < nice of me
+                    ████╝ < yes i am
 """
 ###################################################
 # import sys
@@ -36,20 +36,17 @@ def main():
     """
     """
     N = int(input())
-    A = i_list()
-    l = [0]
-
-    for a in A:
-        l.append((l[-1] + a) % 360)
-    l.sort()
-
-    ans = 0
-    for i in range(N-1):
-        ans = max(ans, l[i+1] - l[i])
-    ans = max(ans, 360+A[0] - A[-1])
-
-    print(ans)
-
+    S = input()
+    ans = []
+    i = 0
+    while i < N:
+        if i+1 < N and (S[i], S[i+1]) == ("n", "a"):
+            ans.append("nya")
+            i += 2
+        else:
+            ans.append(S[i])
+            i += 1
+    print("".join(ans))
     return
 
 
