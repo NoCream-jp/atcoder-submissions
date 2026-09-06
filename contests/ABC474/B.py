@@ -35,8 +35,25 @@ def main():
 
     """
     """
-    print(8)
-
+    N = int(input())
+    P = i_list()
+    
+    count = 0
+    ans = "Yes"
+    while P:
+        if 10 <= len(P):
+            temp = P[:10]
+            P = P[10:]
+        else:
+            temp = P
+            P = []
+        for i in range(len(temp)):
+            if 10 * count + 1 <= temp[i] <= 10 * count + 10:
+                pass
+            else:
+                ans = "No"
+        count += 1
+    print(ans)
 
     return
 

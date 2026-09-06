@@ -19,6 +19,7 @@ INF = 10**12
 
 from collections import defaultdict
 from collections import Counter
+from tempfile import tempdir
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -35,8 +36,23 @@ def main():
 
     """
     """
-    print(8)
+    N, Q = i_map()
+    P = i_list()
+    temp = P
 
+    for _ in range(Q):
+        a = int(input())
+        temp.append(a)
+    
+    st = set()
+
+    ans = []
+    for i in range(len(temp))[::-1]:
+        num = temp[i]
+        if num not in st:
+            ans.append(num)
+        st.add(num)
+    print(*ans[::-1])
 
     return
 

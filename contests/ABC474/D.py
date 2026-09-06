@@ -35,8 +35,29 @@ def main():
 
     """
     """
-    print(8)
 
+    N = int(input())
+    A = i_list()
+    B = i_list()
+
+    f = False
+    index = 0
+    for i in range(N):
+        if B[i] < A[i]:
+            f = True
+            index = i
+    
+    if not f:
+        print("No")
+    else:
+        print("Yes")
+        ans = []
+        for i in range(N):
+            if i != index:
+                ans.append(1)
+            else:
+                ans.append(10**18)
+        print(*ans)
 
     return
 

@@ -34,8 +34,45 @@ from itertools import permutations
 def main():
 
     """
+    全商品買う
+    何個買ってもいい
+    →クーポン代が最小のAになる
+    →Bのほうが遥かに安ければクーポン代払ってでも買いたい
+    →全部Aを買うと仮定してから、クーポン代とBを買ったほうが安い場合だけ変更する
+    クーポン代を払ってでも軽減したい奴にだけクーポン代とBを払う
+
+    b-aでソートして、右の奴から乗り換えさせたい。左の奴からAで買いたい。
+    左右で突き合わせるとよい？
     """
-    print(8)
+
+    for _ in range(int(input())):
+        N = int(input())
+        chicket = INF
+        A, B = [], []
+        for _ in range(N):
+            a, b = i_map()
+            A.append(a)
+            B.append(b)
+            chicket = min(chicket, a)
+
+        print(f"{chicket = }")
+        ans = sum(A)
+        count = 0 # 乗り換えたい数 => (N-count)枚はチケット代払わなくてよい
+        for i in range(N):
+            if B[i] + chicket < A[i]:
+                count += 1
+        
+        for i in range(N):
+            if B[i] + chicket < A[i]:
+                if count == 0:
+                    ans -= A[i]
+                    ans += B[i] + chicket
+                else:
+                    ans -= A[i]
+                    ans += B[i]
+                    count -= 1
+
+        print("!", ans)
 
 
     return

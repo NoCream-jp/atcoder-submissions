@@ -35,8 +35,11 @@ def main():
 
     """
     """
-    print(8)
-
+    x = int(input())
+    for i in range(1, 4):
+        if i != x:
+            print(i)
+            break
 
     return
 
