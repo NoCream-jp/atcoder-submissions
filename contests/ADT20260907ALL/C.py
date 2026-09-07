@@ -35,7 +35,25 @@ def main():
 
     """
     """
-    
+    N = int(input())
+    grid = [list(input()) for _ in range(N)]
+
+    ans = 0
+    for i in range(N):
+        for j in range(N):
+            for di in range(-1, 2):
+                for dj in range(-1, 2):
+                    temp = ""
+                    if di == dj == 0:
+                        continue
+                    nowi, nowj = i, j
+                    for _ in range(N):
+                        temp += grid[(nowi + di) % N ][(nowj + dj) % N]
+                        nowi += di
+                        nowj += dj
+                    ans = max(ans, int(temp))
+
+    print(ans)
 
 
     return

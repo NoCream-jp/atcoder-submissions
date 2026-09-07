@@ -34,9 +34,36 @@ from itertools import permutations
 def main():
 
     """
+    UF
+    すべての端が使われていなければ
+    そのグループは環状ではない
     """
-    
+    N, M = i_map()
+    uf = UnionFind(N)
+    used = [{"R":False, "B":False} for _ in range(N)]
+    for _ in range(M):
+        a, b, c, d = list(input().split())
+        a = int(a) - 1
+        c = int(c) - 1
+        uf.union(a, c)
+        used[a][b] = True
+        used[c][d] = True
+    # print(f"{used = }")
+    # print(f"{uf.roots() = }")
+    # print(f"{uf.all_group_members()}")
 
+    g_count = uf.group_count()
+    c_count = 0
+    members = uf.all_group_members()
+    for root in members:
+        f = True
+        for member in members[root]:
+            if used[member] != {'R': True, 'B': True}:
+                f = False
+        if f:
+            c_count += 1
+    
+    print(c_count, g_count - c_count)
 
     return
 

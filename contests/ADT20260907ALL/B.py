@@ -35,8 +35,11 @@ def main():
 
     """
     """
-    
-
+    s = input()
+    for i in range(len(s)):
+        if s[i] == s[i].upper():
+            break
+    print(i+1)
 
     return
 

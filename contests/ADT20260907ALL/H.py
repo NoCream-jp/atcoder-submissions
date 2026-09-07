@@ -34,8 +34,30 @@ from itertools import permutations
 def main():
 
     """
+    完全な状態のグラフなら、全てのノードの次数が…と考えたが
+    辺の数が一定でないのでわかりにくい
+
+    が、次数が多いところからそうでないところに配るという動きは
+    正しそう
+    つながっていない状態であるとき、
+    必ずどこかのノードの次数が1か考えたが、そうではなさそう
+    環状が２つ浮いている可能性もあるから
+
+    UF使って、それぞれの島の中の、
+
     """
-    
+    N, M = i_map()
+    graph = [[] for _ in range(N)]
+
+    uf = UnionFind(N)
+    for _ in range(M):
+        a, b = i_map()
+        a -= 1
+        b -= 1
+        graph[a].append(b)
+        graph[b].append(a)
+        uf.union(a, b)
+    print(uf)
 
 
     return

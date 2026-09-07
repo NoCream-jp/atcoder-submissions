@@ -35,7 +35,31 @@ def main():
 
     """
     """
+    N, M = i_map()
+    l = [i_list() for _ in range(M)]
+    B = i_list()
+
+    d1 = {i:set() for i in range(N)} # 食材：料理
+    d2 = {j: set() for j in range(M)} # 料理：食材
+
+    for n in range(M):
+        length = len(l[n])
+        for j in range(1, length):
+            g = l[n][j] - 1
+            d1[g].add(n)
+            d2[n].add(g)
     
+    # print(d1)
+    ans = 0
+    for g in B:
+        g -= 1
+        for n in d1[g]:
+            d2[n].remove(g)
+            if not d2[n]:
+                ans += 1
+        print(ans)
+
+
 
 
     return
