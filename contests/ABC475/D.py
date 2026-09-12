@@ -19,6 +19,7 @@ INF = 10**12
 
 from collections import defaultdict
 from collections import Counter
+from pickle import TRUE
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -34,8 +35,29 @@ from itertools import permutations
 def main():
 
     """
+    違うなら違わないといけない
     """
+    S = input()
+    # print(l[-10:])
     
+    ans = -1
+    for p in get_primes(2, 10**7 + 1):
+        p = str(p)
+        if len(S) != len(p):
+            continue
+        f = True
+        for i in range(len(S)-1):
+            if not f:
+                break
+            for j in range(i+1, len(S)):
+                if (S[i] == S[j] and p[i] != p[j]) or (p[i] == p[j] and S[i] != S[j]):
+                    f = False
+                    break
+        if f:
+            ans = int(p)
+            break
+
+    print(ans)
 
 
     return

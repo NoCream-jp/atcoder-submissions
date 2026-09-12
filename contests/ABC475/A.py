@@ -35,7 +35,12 @@ def main():
 
     """
     """
-    
+    ans = []
+    for c in input():
+        ans.append(c)
+        ans.append("o")
+    ans.pop()
+    print("".join(ans))
 
 
     return

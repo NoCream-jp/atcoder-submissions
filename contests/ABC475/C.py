@@ -34,10 +34,25 @@ from itertools import permutations
 def main():
 
     """
+    左に何マス行ったら折り返すかを全探索できそう
+    
+    スタートからマスiに到達したら折り返してjまで行く、としたときの答え
     """
     
+    N, S, L = i_map()
+    S -= 1
+    A = i_list()
+    cs = cum_sum(A)
 
-
+    ans = 1
+    for l in range(0, S+1):
+        for r in range(S, N):
+            sm = cs[r] - cs[l]
+            add = min(cs[S] - cs[l], cs[r] - cs[S])
+            cost = sm + add
+            if cost <= L:
+                ans = max(ans, r - l + 1)
+    print(ans)
     return
 
 

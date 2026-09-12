@@ -34,7 +34,17 @@ from itertools import permutations
 def main():
 
     """
+    マスの数の二乗を答えとしておいて、
+    HWの中ですでにできている矩形の数を除く。
+    これは左と上からもらうdpでできそう
     """
+
+    H, W = i_map()
+    grid = [input() for _ in range(H)]
+
+    dp = [[0 for _ in range(W)] for _ in range(H)]
+
+    
     
 
 

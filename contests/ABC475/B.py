@@ -34,8 +34,22 @@ from itertools import permutations
 def main():
 
     """
+    20 -> 1000 - 20 = 980
+    40 -> 1000 - 40 = 960
+    1099 -> 2000 - 1099 = 901
     """
-    
+    N = int(input())
+    A = i_list()
+    ans = {1:0, 10:0, 100:0}
+    for a in A:
+        if a % 1000 == 0:
+            continue
+        diff = 1000 - a % 1000
+        for i in [100, 10, 1]:
+            ans[i] += diff // i
+            diff %= i
+    for i in [1, 10, 100]:
+        print(ans[i], end=" ")
 
 
     return
