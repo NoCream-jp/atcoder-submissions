@@ -35,9 +35,30 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    for _ in range(int(input())):
+        px, py, qx, qy, rx, ry, sx, sy = i_map()
+        # a1 = -(qx - px) / (qy - py)
+        # b1 = (qx - px) / (qy - py) * (px + qx) / 2 + (py + qy) / 2
+        # a2 = -(sx - rx) / (sy - ry)
+        # b2 = (sx - rx) / (sy - ry) * (rx + sx) / 2 + (ry + sy) / 2
 
+        f = True
+        # 絶対誤差起きる
+        # if a1 == a2:
+        #     f = False
+        # if b1 == b2:
+        #     f = False
 
+        if (qx - px) * (sy - ry) == (sx - rx) * (qy - py):
+            f = False
+        if (qx - px) * (px + qx) * (sy - ry) + (py + qy) * (sy - ry) * (qy - py) == (sx - rx) * (rx + sx) * (qy - py) + (ry + sy) * (sy - ry) * (qy - py):
+            f = False
+
+        if f:
+            print("Yes")
+        else:
+            print("No")        
+    
     return
 
 

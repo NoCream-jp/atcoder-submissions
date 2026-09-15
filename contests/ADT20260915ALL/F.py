@@ -35,8 +35,28 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    H, W = i_map()
+    grid = [list(input()) for _ in range(H)]
 
+    uf = UnionFind(H*W)
+
+    white_count = 0
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "#":
+                for di in [-1, 0, 1]:
+                    for dj in [-1, 0, 1]:
+                        ni, nj = i+di, j+dj
+                        if not (0 <= ni < H and 0 <= nj < W):
+                            continue
+                        if grid[ni][nj] == "#":
+                            uf.union(i*W + j, ni*W + nj)
+            else:
+                white_count += 1
+
+    # print(white_count)
+    # print(uf)
+    print(uf.group_count() - white_count)
 
     return
 

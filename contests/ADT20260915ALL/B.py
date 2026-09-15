@@ -35,7 +35,8 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    N = int(input())
+    print( 2 ** N - 2 * N)
 
 
     return

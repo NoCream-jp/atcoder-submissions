@@ -35,7 +35,12 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    for i in range(1, int(input()) + 1):
+        if i % 3 == 0:
+            print("Fizz")
+        else:
+            print(i)
+            
 
 
     return

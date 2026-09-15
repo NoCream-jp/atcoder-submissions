@@ -35,7 +35,19 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    N = int(input())
+
+    l = ["1"*i for i in range(1, 120)]
+
+    st = set()
+    for a in l:
+        for b in l:
+            for c in l:
+                st.add(int(a) + int(b) + int(c))
+    lst = list(st)
+    lst.sort()
+    print(lst[N-1])
+
 
 
     return

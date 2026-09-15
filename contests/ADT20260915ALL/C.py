@@ -13,7 +13,8 @@ Here is my coding space
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+# drct = [(0, -1), (1, 0), (0, 1), (-1, 0)]
+drct = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
@@ -35,7 +36,25 @@ def main():
 
     """
     """
-    print(400 ** 3)
+    H, W, N = i_map()
+    grid = [["." for _ in range(W)] for _ in range(H)]
+
+    i, j = 0, 0
+    drcti = 0
+    for _ in range(N):
+        if grid[i][j] == ".":
+            grid[i][j] = "#"
+            drcti = (drcti + 1) % 4
+        else:
+            grid[i][j] = "."
+            drcti = (drcti - 1) % 4
+        di, dj = drct[drcti]
+        i = (i + di) % H
+        j = (j + dj) % W
+    
+    for r in grid:
+        print("".join(r))
+
 
 
     return
