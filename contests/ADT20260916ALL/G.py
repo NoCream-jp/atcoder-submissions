@@ -13,7 +13,8 @@ Here is my coding space
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+d_drct = {(-1, 0):"v", (0, 1):"<", (1, 0):"^", (0, -1):">"}
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
@@ -30,16 +31,40 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
+    H, W = i_map()
+    grid = [input() for _ in range(H)]
 
+    ans = [["#" for _ in range(W)] for _ in range(H)]
+    q = deque()
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "E":
+                q.append((i, j))
+                ans[i][j] = "E"
+
+
+    while q:
+        i, j = q.popleft()
+        for di, dj in drct:
+            ni, nj = i + di, j + dj
+            if not(0 <= ni < H and 0 <= nj < W and grid[ni][nj] != "#"):
+                continue
+            if ans[ni][nj] not in ["E", "#"] :
+                continue
+            ans[ni][nj] = d_drct[(di, dj)]
+            q.append((ni, nj))
+    
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "E":
+                ans[i][j] = "E"
+    for s in ans:
+        print("".join(s))
 
     return
 

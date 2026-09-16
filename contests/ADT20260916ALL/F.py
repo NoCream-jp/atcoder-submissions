@@ -30,15 +30,23 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
+    N, M = i_map()
+    S = list(input().split())
+    T = list(input().split())
+
+    ti = 0
+    for si in range(N):
+        if S[si] == T[ti]:
+            print("Yes")
+            ti += 1
+        else:
+            print("No")
+
 
 
     return

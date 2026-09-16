@@ -30,15 +30,20 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+
+    ans = 0
+    for i in range(N):
+        for j in range(N):
+            if i == j: continue
+            ans = max(ans, get_dist(l[i][0], l[i][1], l[j][0], l[j][1]))
+    print(ans ** 0.5)
 
 
     return
@@ -476,8 +481,11 @@ def get_tree_diameter(graph, is_weighted=False):
     return diameter, node_a, node_b
 
 # ユークリッド距離
+# def get_dist(x1, y1, x2, y2):
+#     return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
 def get_dist(x1, y1, x2, y2):
-    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+    return ((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
 
 # 最大公約数
 def get_gcd(a, b):

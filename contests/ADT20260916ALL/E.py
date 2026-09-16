@@ -30,17 +30,40 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
+    
+    N, K, M = i_map()
+    l = [i_list() for _ in range(N)]
 
+    need = K
+    d = defaultdict(int)
+    l.sort(key=lambda x:x[-1])
 
+    temp = []
+
+    while need and l and M:
+        c, v = l.pop()
+        if d[c]:
+            temp.append((c, v))
+            continue
+        else:
+            d[c] += v
+            need -= 1
+            M -= 1
+    # print(f"{temp=}")
+    temp += l
+    
+    temp.sort(key=lambda x:x[-1])
+    while need and temp:
+        c, v = temp.pop()
+        d[c] += v
+        need -= 1
+    # print("!", d)
+    print(sum(d.values()))
     return
 
 

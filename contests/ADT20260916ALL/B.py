@@ -30,16 +30,24 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
-
+    N = int(input())
+    taka, ao = 0, 0
+    for _ in range(N):
+        x, y = i_map()
+        taka += x
+        ao += y
+    
+    if taka < ao:
+        print("Aoki")
+    elif ao < taka:
+        print("Takahashi")
+    else:
+        print("Draw")
 
     return
 

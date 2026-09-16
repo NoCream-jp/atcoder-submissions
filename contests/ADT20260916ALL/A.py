@@ -30,15 +30,20 @@ from itertools import permutations
 # main
 #########################################################################
 
-def my_round(number, ndigits=0):
-    p = 10**ndigits
-    return (number * p * 2 + 1) // 2 / p
 
 def main():
 
     """
     """
-    print(round(2050, -3))
+    X, C = i_map()
+    ans = 0
+    while 1000 <= X:
+        if 1000 + C <= X:
+            X -= 1000 + C
+        else:
+            break
+        ans += 1000
+    print(ans)
 
 
     return
