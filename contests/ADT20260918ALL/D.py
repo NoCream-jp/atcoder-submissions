@@ -13,7 +13,7 @@ Here is my coding space
 # alpha = "abcdefghijklmnopqrstuvwxyz"
 # MOD = 998_244_353
 # MOD = 1_000_000_007
-# drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+drct = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 # drct_char = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 INF = 10**12
 
@@ -35,6 +35,27 @@ def main():
     """
     """
     
+    H, W = i_map()
+    grid = [input() for _ in range(H)]
+
+    f = True
+    for i in range(H):
+        for j in range(W):
+            if grid[i][j] == "#":
+                count = 0
+                for di, dj in drct:
+                    if di == dj == 0:
+                        continue
+                    ni, nj = i + di, j + dj
+                    if (0 <= ni < H and 0 <= nj < W)and grid[ni][nj] == "#":
+                        count += 1
+                if count not in {2, 4}:
+                    f = False
+
+    if f:
+        print("Yes")
+    else:
+        print("No")
 
 
     return

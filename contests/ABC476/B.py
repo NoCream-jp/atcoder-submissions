@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < won
+                    ████╝ < what the heck
 """
 ###################################################
 # import sys
@@ -35,7 +35,24 @@ def main():
     """
     """
     
+    N = int(input())
+    S = input()
+    T = input()
 
+    f = True
+    if len(S) != len(T):
+        f = False
+    else:
+        for i in range(len(S)):
+            if T[i] != "*" and T[i] != S[i]:
+                f = False
+                break
+            # print(T[i], S[i], f)
+    
+    if f:
+        print("Yes")
+    else:
+        print("No")
 
     return
 

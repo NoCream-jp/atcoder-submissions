@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < won
+                    ████╝ < what the heck
 """
 ###################################################
 # import sys
@@ -33,12 +33,49 @@ from itertools import permutations
 def main():
 
     """
+    デザートのほうは安い順に買うの確定
+    なら、デザートを安い順に何個買うかを探索したいが単調じゃ無さそう
+
+    B何個買うかを全探索できそう。
+    ソートしておけば買った後の1札の数がわかるので、それでいくら買えるか見る。
+    なぜなら札がどんな状態でも、デザートのほうは買えるから
+
+    当然Bも安い順に買う。kで買えるだけ買った後1で買う
+    now_1, now_kに枚数入れてB_iを買ったとして計算後、Aを見に行く
+    B先頭からi個を買うのにいるKだけの枚数のcsがいる
     """
     
+    N, M, K = i_map()
+    X, Y = i_map()
+    A = i_list()
+    B = i_list()
+
+    A.sort()
+    cs_a = cum_sum(A)
+    B.sort()
+
+    C = [(num + (K - 1)) // K for num in B]
+    cs_b = cum_sum(B)
+    cs_c = cum_sum(C)
+
+    ans = 0
+
+    for bcount in range(0, M + 1):
+        kcount = cs_c[bcount]
+        if Y < kcount:
+            break
+        sumB = cs_b[bcount]
+        now_k = Y - kcount
+        now_1 = X + kcount * K - sumB
+        money = now_1 + now_k * K
+        acount = max(0, bisect.bisect_right(cs_a, money) - 1)
+
+        ans = max(ans, acount + bcount)
+
+    print(ans)
 
 
     return
-
 
 #########################################################################
 # Classes

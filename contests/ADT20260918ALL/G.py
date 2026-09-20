@@ -33,9 +33,16 @@ from itertools import permutations
 def main():
 
     """
+    左昇順に並べ替えて、捨てながら見ていく
+    にぶたんできない
+    
     """
     
+    N = int(input())
+    l = [i_list() for _ in range(N)]
+    l.sort()
 
+    
 
     return
 

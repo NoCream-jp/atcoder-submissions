@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < won
+                    ████╝ < what the heck
 """
 ###################################################
 # import sys
@@ -35,6 +35,19 @@ def main():
     """
     """
     
+    N = int(input())
+    A = i_list()
+
+    l = sorted(A[:3])
+
+    for i in range(2, N):
+        if i == 2:
+            print(l[0])
+        else:
+            l = sorted(l+[A[i]])
+            print(l[1])
+            l = l[1:]
+
 
 
     return

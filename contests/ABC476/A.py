@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < won
+                    ████╝ < what the heck
 """
 ###################################################
 # import sys
@@ -35,8 +35,13 @@ def main():
     """
     """
     
+    S = input()
+    if S[-1] == "e":
+        T = S+"r"
+    else:
+        T = S+"er"
 
-
+    print(T)
     return
 
 

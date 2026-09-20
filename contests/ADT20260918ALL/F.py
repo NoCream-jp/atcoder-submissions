@@ -35,7 +35,23 @@ def main():
     """
     """
     
+    N, X = i_map()
+    l = [[-1, -1]] + [i_list() for _ in range(N)]
 
+    dp = [set() for _ in range(X+1)]
+    dp[0].add(0)
+    for i in range(1, N+1):
+        a, b = l[i]
+        for j in range(X+1):
+            if i-1 in dp[j]:
+                if j + a <= X: dp[j + a].add(i)
+                if j + b <= X: dp[j + b].add(i)
+    # print(dp)
+
+    if N in dp[-1]:
+        print("Yes")
+    else:
+        print("No")
 
     return
 

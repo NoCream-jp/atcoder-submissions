@@ -35,7 +35,11 @@ def main():
     """
     """
     
-
+    a, b, d = i_map()
+    while a <= b:
+        print(a, end=" ")
+        a += d
+    
 
     return
 

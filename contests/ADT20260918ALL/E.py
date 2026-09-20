@@ -33,10 +33,49 @@ from itertools import permutations
 def main():
 
     """
+    最初は左端の二つ。
+    ダメなら→ i - j+1間は見る価値がないのでi++
+        i == jになるようならさらにj++
+    いいなら、i++したいがそのあと触れるiとべつのjも数えなければいけないので
+        i-j間の点の組み合わせの数をO(1)で数えてから
+        j++して続き
+
+    ちなみにxからyまでの組み合わせの総数は、n=(y - x)としてn(n+1)/2
+    j++してからj-i足せばいい
+    
     """
     
+    N = int(input())
 
+    i, j = 1, 2
+    loop = True
+    ans = 0
+    while loop:
+        if j != N:
+            print(f"? {i} {j}")
+            res = input()
+            if res == "Yes":
+                ans += (j - i)
+                j += 1
+            else:
+                i += 1
+                if i == j:
+                    j += 1
 
+        else:
+            print(f"? {i} {j}")
+            res = input()
+            if res == "Yes":
+                ans += (j - i)
+                break
+            else:
+                i += 1
+                if i == j:
+                    break
+        
+        # print("!", ans)
+    print(f"! {ans}")
+    
     return
 
 

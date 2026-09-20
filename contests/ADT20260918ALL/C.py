@@ -35,7 +35,16 @@ def main():
     """
     """
     
+    N, M = i_map()
+    l = [input() for _ in range(N)]
+    st = set([input() for _ in range(M)])
 
+    ans = 0
+    for s in l:
+        if s[-3:] in st:
+            ans += 1
+
+    print(ans)
 
     return
 

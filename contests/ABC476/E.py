@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < won
+                    ████╝ < what the heck
 """
 ###################################################
 # import sys
@@ -19,6 +19,7 @@ INF = 10**12
 
 from collections import defaultdict
 from collections import Counter
+from email.policy import default
 from sortedcontainers import SortedList
 from collections import deque
 import heapq
@@ -33,8 +34,39 @@ from itertools import permutations
 def main():
 
     """
+    segtree
     """
     
+    N, M = i_map()
+    P = i_list()
+
+    indexof = defaultdict(int)
+    for i in range(N):
+        indexof[P[i]] = i
+
+    def mxf(a, b):
+        return max(a, b)
+    def mnf(a, b):
+        return min(a, b)
+    max_st = SegmentTree(N, mxf, -INF, P)
+    min_st = SegmentTree(N, mnf, INF, P)
+    for _ in range(M):
+        L, R = i_map()
+        L -= 1
+        R -= 1
+        mx = max_st.query(L, R+1)
+        mn = min_st.query(L, R+1)
+        indexofmx = indexof[mx]
+        indexofmn = indexof[mn]
+        # print(f"{P=}, {L=}, {R=}, {mn=}, {mx=}")
+        P[indexofmx], P[indexofmn] = P[indexofmn], P[indexofmx]
+        max_st.update(indexofmx, P[indexofmx])
+        max_st.update(indexofmn, P[indexofmn])
+        min_st.update(indexofmx, P[indexofmx])
+        min_st.update(indexofmn, P[indexofmn])
+        indexof[mx] = indexofmn
+        indexof[mn] = indexofmx
+    print(*P)
 
 
     return
