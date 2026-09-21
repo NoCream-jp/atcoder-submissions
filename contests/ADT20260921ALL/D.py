@@ -33,9 +33,24 @@ from itertools import permutations
 def main():
 
     """
+    左シフトだけN回試せばよい
+
+    aiueo
+    a iueo
+    o aiue
     """
     
+    S = list(input())
+    N = len(S)
+    l = []
 
+    for _ in range(N):
+        l.append(S)
+        S = S[1:] + [S[0]]
+    
+    l.sort()
+    print("".join(l[0]))
+    print("".join(l[-1]))        
 
     return
 

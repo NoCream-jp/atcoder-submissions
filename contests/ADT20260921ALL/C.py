@@ -26,6 +26,7 @@ import math
 import bisect
 from itertools import permutations
 
+
 #########################################################################
 # main
 #########################################################################
@@ -33,7 +34,28 @@ from itertools import permutations
 def main():
 
     """
+    全員の姓名どちらかが完全にユニークならオッケー
     """
+
+    N = int(input())
+
+    l = [list(input().split()) for _ in range(N)]
+    ans = "Yes"
+    for i in range(N):
+        s, t = l[i]
+        sf, tf = True, True
+        for j in range(N):
+            if i == j:
+                continue
+            if s in l[j]:
+                sf = False
+            if t in l[j]:
+                tf = False
+        if sf == tf == False:
+            ans = "No"
+            break
+    
+    print(ans)
     
 
 

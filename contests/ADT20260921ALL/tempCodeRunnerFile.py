@@ -33,9 +33,26 @@ from itertools import permutations
 def main():
 
     """
+    RLEみたいに和を求めるかな
     """
     
+    N, K = i_map()
+    A = i_list()
+    d = defaultdict(int)
+    for a in A:
+        d[a] += a
+    
+    l = list(d.values())
+    l.sort()
 
+    ans = sum(A)
+    while K:
+        ans -= l.pop()
+        K -= 1
+    
+    print(ans)
+
+    
 
     return
 
