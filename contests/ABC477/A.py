@@ -35,7 +35,9 @@ def main():
     """
     """
     
-    
+    c = input()
+    l = ["B", "Y", "R", "B", "Y", "R"]
+    print(l[((l.index(c)) + 1) % 3])
 
     return
 

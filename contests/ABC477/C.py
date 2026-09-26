@@ -33,9 +33,37 @@ from itertools import permutations
 def main():
 
     """
+    任意の区間に、Tがあるかを調べる
+    ロリハかと思ったけどNかかるのは変わらない
+    
+    Tのある場所を全部抜き出せばよさそう
     """
     
-    
+    Q = int(input())
+    S, T = input(), input()
+    N = len(S)
+
+    lst = []
+    i = 0
+    while 1:
+        i = S.find(T, i)
+        if i == -1:
+            break
+        lst.append(i)
+        i += 1
+
+    for _ in range(Q):
+        L, R = i_map()
+        L -= 1
+        R -= 1
+
+        left = bisect.bisect_left(lst, L)
+        right = bisect.bisect_right(lst, R - len(T) + 1)
+
+        if left < right :
+            print("Yes")
+        else:
+            print("No")
 
     return
 

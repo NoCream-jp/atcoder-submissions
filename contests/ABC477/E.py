@@ -35,6 +35,9 @@ def main():
     """
     """
     
+    N, Q = i_map()
+    A = i_list()
+    B = i_list()
     
 
     return

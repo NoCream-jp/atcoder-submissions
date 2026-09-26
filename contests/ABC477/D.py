@@ -33,8 +33,57 @@ from itertools import permutations
 def main():
 
     """
+    各マス
+    # 最後にタイルが外れていたタイミングを見て、それより若い色のついた時間を見る
+    # aaaabbbbccみたいにタイルが一度も置かれていないとしたときの色の変化を保存しておいて、
+
+    置かれるタイルは高々Q枚。タイルを置いたタイミングで色塗りは発生しないから、
+    色を塗るときにタイルがある場所を触る。それ以外の色を塗る色とする
+    実装としてはタイルを置いたときにその場所とその時の色を辞書に入れて、取ったときに辞書から外すを繰り返す。
+    最後に最後の色で塗って、辞書内の色で上書きする
+
+    過去に塗り替えて、タイルを外されただけで終わっているマスを見るために最初から配列用意して、塗り替えていく
+
+    マス一つがほしい情報は最後に塗られたタイミングだけ
     """
-    
+
+
+    N, Q = i_map()
+
+    ans = [["a", -1] for _ in range(N)]
+    time, color = -1, "a"
+    nowcolor = "a"
+    d = {}
+    for t in range(Q):
+        query = list(input().split())
+        if query[0] == "1":
+            X = int(query[1]) - 1
+            if X in d and d[X] != "#":
+                ans[X][0] = d[X]
+                ans[X][1] = t
+                d[X] = "#"
+            else:
+                if ans[X][1] < time:
+                    d[X] = color
+                else:
+                    d[X] = ans[X][0]
+        else:
+            C = query[1]
+            nowcolor = C
+            time = t
+            color = C
+
+    l = []
+    for i in range(N):
+        if i in d and d[i] != "#":
+            l.append(d[i])
+        else:
+            if ans[i][1] < time:
+                l.append(color)
+            else:
+                l.append(ans[i][0])
+
+    print("".join(l))
     
 
     return

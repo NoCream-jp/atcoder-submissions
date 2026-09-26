@@ -35,7 +35,24 @@ def main():
     """
     """
     
+    N, D = i_map()
+    X = i_list()
     
+    ans = []
+
+    for i in range(N):
+        f = True
+        for j in range(N):
+            if i == j:
+                continue
+            if not D <= abs(X[i] - X[j]):
+                f = False
+        if f:
+            ans.append(i)
+    
+    print(len(ans))
+    for a in ans:
+        print(a + 1, end=" ")
 
     return
 
