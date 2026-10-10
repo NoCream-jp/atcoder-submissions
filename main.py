@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < sleepy
+                    ████╝ < yolo
 """
 ###################################################
 # import sys
@@ -169,7 +169,7 @@ class SegmentTree:
             k >>= 1
             self.tree[k] = self.func(self.tree[2 * k], self.tree[2 * k + 1])
 
-    def query(self, left, right):
+    def query(self, left, right): # [left, right)の半開区間で指定する
         left += self.num
         right += self.num
         self.answer = self.ide_ele
