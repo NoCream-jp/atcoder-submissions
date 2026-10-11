@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < yolo
+                    ████╝ < Jag a:r smert, eller hur
 """
 ###################################################
 # import sys
