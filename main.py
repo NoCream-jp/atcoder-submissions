@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < Jag a:r smert, eller hur
+                    ████╝ < ha
 """
 ###################################################
 # import sys
@@ -35,7 +35,8 @@ def main():
     """
     """
     
-    
+    n = int(input())
+    print(2**n)
 
     return
 
