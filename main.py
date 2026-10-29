@@ -4,7 +4,7 @@ Here is my coding space
                     ) ) )
                     ( ( (
                     ████╗
-                    ████╝ < ha
+                    ████╝ < I am Iron Man.
 """
 ###################################################
 # import sys
@@ -25,6 +25,7 @@ import heapq
 import math
 import bisect
 from itertools import permutations
+# 直前の提出：https://atcoder.jp/contests/abc446/submissions/80294819
 
 #########################################################################
 # main
@@ -34,9 +35,21 @@ def main():
 
     """
     """
+
+    N = int(input())
+    A = i_list()
+
+    for i in range(N):
+        for j in range(N):
+            if i == j:
+                continue
+            if 0 < A[j]:
+                A[i] += 1
+                A[j] -= 1
+                
     
-    n = int(input())
-    print(2**n)
+    print(A)
+
 
     return
 
