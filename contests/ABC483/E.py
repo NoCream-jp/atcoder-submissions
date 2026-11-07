@@ -33,44 +33,7 @@ from itertools import permutations
 
 def main():
 
-    """
-    i番目の操作について、何をしようとi+1番目以降の操作で訪れる範囲と訪れ方はずれるだけで変わらない。
-    なら、ずれる幅が大きいほうが得なはず
-    それはA[i]の絶対値で決まる？
-    そうじゃなくて、動かさなかった場合の左端からもっとも差のある結果になる左向き（負）か、
-    動かさなかった場合の右端から最も差のある結果になる右向き（正）かになりそう
-    """
-
-    N = int(input())
-    A = i_list()
-    cs = cum_sum(A)
     
-    left, right = 0, 0
-    now = 0
-    minf, maxf = 0, 0
-    for i in range(N):
-        num = A[i] 
-        now = now + num
-        if now < left:
-            minf = i
-        if right < now:
-            maxf = i
-        left = min(left, now)
-        right = max(right, now)
-        
-    
-    print(cs)
-    for i in range(N):
-        num = A[i]
-        if i == 0:
-            last = - 2*num + (cs[N] - cs[0])
-        elif i == N-1:
-            last = cs[N-1] - num
-        else:
-            last = cs[i] - num + (cs[N] - cs[i+1])
-        print(last)
-    
-
 
     return
 

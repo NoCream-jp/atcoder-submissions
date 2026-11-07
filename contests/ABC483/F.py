@@ -34,59 +34,9 @@ from itertools import permutations
 def main():
 
     """
-    iが辞退した時、iを第二志望にしている奴を集計しなおすのは無意味
-    それぞれの投票者一回しか触らなくてよい。
-    (i, a)志望の人は、iが辞退した時について考えるときだけaの得票数を増やすという働きしかしない
-    最初に1辞退前提の全員の答えを出してソートする(セグ木)。その次に、2を辞退させて1を復帰させる。2を第一志望にしてるやつ(リストから)
-    全員について、答えを改変して(セグ木を更新して)出す。
     """
 
-    N, M = i_map()
-
-    # 誰がどれくらい第一志望されたかのリスト（あとでセグ木で答えを取得）
-    temp = [0 for _ in range(N)]
-    # iを第一志望にしてるやつのリスト
-    fanof = [set() for _ in range(N)]
-    # 誰が誰に投票してるかのリスト
-    vote = [[] for _ in range(M)]
-
-    for i in range(M):
-        a, b = i_map()
-        a -= 1
-        b -= 1
-        fanof[a].add(i)
-        vote[i] = [a, b]
-        temp[a] += 1
-
-    def f(a, b):
-        return max(a, b)
-    st = SegmentTree(N,f,(-INF, -INF),[(temp[i], -i) for i in range(N)])
-    dict = defaultdict(int)
-    for k in range(N):
-        st.update(k, (0, -k))
-
-        if k == 0:
-            pass
-        else:
-            tempnum = k - 1
-            st.update(tempnum, (temp[tempnum], -tempnum))
-            # 第二志望
-            for second in dict:
-                st.update(second, (temp[second], -second))
-
-        # k番目に投票してたやつの第二志望を一つ増やす
-        # 一旦差分を辞書に取り出す
-        d = defaultdict(int)
-        for member in fanof[k]:
-            first, second = vote[member]
-            d[second] += 1
-            st.update(second, (temp[second] + d[second], -second))
-
-        # 最大
-        ans = st.query(0, N)
-        print(-ans[1] + 1)
-
-        dict = d
+    
 
     return
 
